@@ -1,0 +1,6 @@
+dockerfiles
+.git
+.travis.yaml
+**/node_modules
+**/target
+client/**/plugins

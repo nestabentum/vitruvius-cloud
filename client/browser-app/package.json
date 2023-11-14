@@ -1,0 +1,97 @@
+{
+  "private": true,
+  "name": "browser-app",
+  "license": "(EPL-2.0 OR MIT)",
+  "version": "0.8.0",
+  "contributors": [
+    {
+      "name": "Eclipse EMF.cloud Project",
+      "email": "emfcloud-dev@eclipse.org",
+      "url": "https://projects.eclipse.org/projects/ecd.emfcloud"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eclipse-emfcloud/coffee-editor.git"
+  },
+  "homepage": "https://www.eclipse.org/emfcloud/",
+  "bugs": "https://github.com/eclipse-emfcloud/coffee-editor/issues",
+  "dependencies": {
+    "@theia/callhierarchy": "^1.34.1",
+    "@theia/console": "^1.34.1",
+    "@theia/core": "^1.34.1",
+    "@theia/debug": "^1.34.1",
+    "@theia/editor": "^1.34.1",
+    "@theia/file-search": "^1.34.1",
+    "@theia/filesystem": "^1.34.1",
+    "@theia/git": "^1.34.1",
+    "@theia/keymaps": "^1.34.1",
+    "@theia/markers": "^1.34.1",
+    "@theia/messages": "^1.34.1",
+    "@theia/mini-browser": "^1.34.1",
+    "@theia/monaco": "^1.34.1",
+    "@theia/navigator": "^1.34.1",
+    "@theia/outline-view": "^1.34.1",
+    "@theia/output": "^1.34.1",
+    "@theia/plugin-dev": "^1.34.1",
+    "@theia/plugin-ext": "^1.34.1",
+    "@theia/plugin-ext-vscode": "^1.34.1",
+    "@theia/plugin-metrics": "^1.34.1",
+    "@theia/preferences": "^1.34.1",
+    "@theia/process": "^1.34.1",
+    "@theia/scm": "^1.34.1",
+    "@theia/scm-extra": "^1.34.1",
+    "@theia/search-in-workspace": "^1.34.1",
+    "@theia/task": "^1.34.1",
+    "@theia/terminal": "^1.34.1",
+    "@theia/typehierarchy": "^1.34.1",
+    "@theia/userstorage": "^1.34.1",
+    "@theia/variable-resolver": "^1.34.1",
+    "@theia/vsx-registry": "^1.34.1",
+    "@theia/workspace": "^1.34.1",
+    "coffee-common": "^0.8.0",
+    "coffee-comparison": "^0.8.0",
+    "coffee-editor-extension": "^0.8.0",
+    "coffee-servers": "^0.8.0",
+    "coffee-java-extension": "^0.8.0",
+    "coffee-workflow-glsp-theia": "^0.8.0"
+  },
+  "devDependencies": {
+    "@theia/cli": "^1.34.1",
+    "cross-env": "^7.0.3"
+  },
+  "scripts": {
+    "prepare": "yarn run download:plugins",
+    "development": "theia build --mode development",
+    "production": "theia build --mode production",
+    "start": "cross-env WF_CONFIG_LSP=localhost:5017 && theia start --port=3000 --root-dir=../workspace/SuperBrewer3000 --plugins=local-dir:./plugins",
+    "start:debug": "cross-env WF_CONFIG_LSP=localhost:5017 && theia start --port=3000 --WF_ANALYZER=5083 --root-dir=../workspace/SuperBrewer3000 --plugins=local-dir:./plugins  --loglevel=debug --debug",
+    "watch": "theia build --watch --mode development",
+    "download:plugins": "theia download:plugins"
+  },
+  "theia": {
+    "target": "browser",
+    "frontend": {
+      "config": {
+        "applicationName": "emf.cloud Coffee Editor",
+        "defaultIconTheme": "theia-file-icons",
+        "preferences": {
+          "security.workspace.trust.startupPrompt": "never",
+          "security.workspace.trust.enabled": false,
+          "files.autoSave": "off",
+          "workbench.colorTheme": "dark"
+        }
+      }
+    }
+  },
+  "theiaPluginsDir": "plugins",
+  "theiaPlugins": {
+    "java-debug": "https://open-vsx.org/api/vscjava/vscode-java-debug/0.47.0/file/vscjava.vscode-java-debug-0.47.0.vsix",
+    "java-lsp": "https://open-vsx.org/api/redhat/java/1.14.0/file/redhat.java-1.14.0.vsix",
+    "vscode-builtin-cpp": "https://open-vsx.org/api/vscode/cpp/1.64.2/file/vscode.cpp-1.64.2.vsix",
+    "vscode-builtin-java": "https://open-vsx.org/api/vscode/java/1.64.2/file/vscode.java-1.64.2.vsix",
+    "vscode-clangd": "https://open-vsx.org/api/llvm-vs-code-extensions/vscode-clangd/0.1.23/file/llvm-vs-code-extensions.vscode-clangd-0.1.23.vsix",
+    "vscode-cmake": "https://open-vsx.org/api/ms-vscode/cmake-tools/1.13.40/file/ms-vscode.cmake-tools-1.13.40.vsix",
+    "cdt-gdb-vscode": "https://open-vsx.org/api/eclipse-cdt/cdt-gdb-vscode/0.0.93/file/eclipse-cdt.cdt-gdb-vscode-0.0.93.vsix"
+  }
+}

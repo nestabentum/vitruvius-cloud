@@ -1,0 +1,10 @@
+machine: "SuperBrewer3000"
+workflow: "BrewingFlow"
+
+probabilities
+low    : 0.1
+medium : 0.5
+high   : 0.75
+
+assertions
+"Check drip tray" => "Brew"
