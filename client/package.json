@@ -51,7 +51,8 @@
       "coffee-java-extension",
       "coffee-servers",
       "coffee-workflow-glsp",
-      "coffee-workflow-glsp-theia"
+      "coffee-workflow-glsp-theia",
+      "vitruvius-cloud"
     ]
   }
 }
