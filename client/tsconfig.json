@@ -6,7 +6,8 @@
   "include": [
     "coffee-common/src",
     "coffee-comparison/src",
-    "coffee-editor-extension/src",
+    "coffee-editor-extension",
+    "families-tree/src",
     "coffee-java-extension/src",
     "coffee-servers/src",
     "coffee-workflow-glsp/src",

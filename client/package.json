@@ -48,6 +48,7 @@
       "coffee-common",
       "coffee-comparison",
       "coffee-editor-extension",
+      "families-tree",
       "coffee-java-extension",
       "coffee-servers",
       "coffee-workflow-glsp",
