@@ -295,6 +295,35 @@ export enum Probability {
     high = 2
 }
 
+const $familiesTypeBase = 'edu.kit.ipd.sdq.metamodels.families#//';
+
+
+export interface Family extends Identifiable {
+    
+}
+
+export namespace Family {
+    export const $type = `${$familiesTypeBase}Family`;
+    export function is(object: unknown): object is Family {
+        return Identifiable.is(object) && $type === object.$type;
+    }
+}
+
+export interface FamilyRegister extends Identifiable {
+    families: Family[];
+}
+export namespace FamilyRegister {
+    export const $type = `${$familiesTypeBase}FamilyRegister`;
+    export function is(object: unknown): object is FamilyRegister {
+        return Identifiable.is(object) && $type === object.$type;
+    }
+}
+
+export namespace FamiliesModel {
+    export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
+        [FamilyRegister.$type, [{ property: 'children', children: [Family.$type] }]]
+    ]);
+}
 export namespace CoffeeModel {
     const components = [ControlUnit.$type, BrewingUnit.$type, DipTray.$type, WaterTank.$type];
     const nodes: string[] = [AutomaticTask.$type, ManualTask.$type, Decision.$type, Merge.$type];

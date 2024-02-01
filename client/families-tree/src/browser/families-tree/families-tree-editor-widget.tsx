@@ -42,6 +42,7 @@ import {
     Decision,
     Dimension,
     Display,
+    FamilyRegister,
     Flow,
     Identifiable,
     JsonPrimitiveType,
@@ -62,7 +63,7 @@ import {
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
-    protected override instanceData: Machine | undefined;
+    protected override instanceData: Machine | undefined | FamilyRegister;
     private delayedRefresh = false;
 
     constructor(
@@ -98,11 +99,11 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             // .get<Machine>(this.getModelID(), Machine.is, 'json-v2') // FIXME - sends format as format=%7B%7D ???
             .get(this.getModelID())
             .then(machineModel => {
-                if (isEqual(this.instanceData, machineModel) || !Machine.is(machineModel)) {
+                if (isEqual(this.instanceData, machineModel)) {
                     return;
                 }
                 this.instanceData = undefined;
-                this.instanceData = machineModel;
+                this.instanceData = machineModel as FamilyRegister;
                 this.treeWidget
                     .setData({ error: false, data: this.instanceData })
                     .then(() => (initialLoad ? this.treeWidget.selectFirst() : this.treeWidget.select(this.getOldSelectedPath())));
@@ -358,7 +359,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     private getModelID(): string {
         const rootUriLength = this.workspaceService.getWorkspaceRootUri(this.options.uri)?.toString().length ?? 0;
-        return this.options.uri.toString().substring(rootUriLength + 1);
+        const id = this.options.uri.toString().substring(rootUriLength + 1);
+        return id;
     }
 
     protected override configureTitle(title: Title<Widget>): void {

@@ -295,6 +295,7 @@ export enum Probability {
     high = 2
 }
 
+
 export namespace CoffeeModel {
     const components = [ControlUnit.$type, BrewingUnit.$type, DipTray.$type, WaterTank.$type];
     const nodes: string[] = [AutomaticTask.$type, ManualTask.$type, Decision.$type, Merge.$type];

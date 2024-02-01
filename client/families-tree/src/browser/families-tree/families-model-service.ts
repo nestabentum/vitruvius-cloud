@@ -14,36 +14,8 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
 import URI from '@theia/core/lib/common/uri';
-import {
-    automaticTaskView,
-    brewingView,
-    coffeeSchema,
-    controlUnitView,
-    decisionView,
-    dipTrayView,
-    flowView,
-    machineView,
-    manualTaskView,
-    mergeView,
-    waterTankView,
-    weightedFlowView,
-    workflowView
-} from './families-schemas';
-import {
-    AutomaticTask,
-    BrewingUnit,
-    CoffeeModel,
-    ControlUnit,
-    Decision,
-    DipTray,
-    Flow,
-    Machine,
-    ManualTask,
-    Merge,
-    WaterTank,
-    WeightedFlow,
-    Workflow
-} from './families-model';
+import { FamiliesModel, FamilyRegister } from './families-model';
+import { familiesSchema, familyRegisterView } from './families-schemas';
 
 @injectable()
 export class FamiliesModelService implements TreeEditor.ModelService {
@@ -55,7 +27,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
 
     getSchemaForNode(node: TreeEditor.Node): JsonSchema7 {
         return {
-            definitions: coffeeSchema.definitions,
+            definitions: familiesSchema.definitions,
             ...this.getSubSchemaForNode(node)
         };
     }
@@ -73,7 +45,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         if (!type) {
             return undefined;
         }
-        return (coffeeSchema.definitions ? Object.entries(coffeeSchema.definitions) : [])
+        return (familiesSchema.definitions ? Object.entries(familiesSchema.definitions) : [])
             .map(entry => entry[1])
             .find((definition: JsonSchema7) => definition.properties && definition.properties.$type.const === type);
     }
@@ -92,30 +64,8 @@ export class FamiliesModelService implements TreeEditor.ModelService {
             return undefined;
         }
         switch (type) {
-            case Machine.$type:
-                return machineView;
-            case ControlUnit.$type:
-                return controlUnitView;
-            case BrewingUnit.$type:
-                return brewingView;
-            case DipTray.$type:
-                return dipTrayView;
-            case WaterTank.$type:
-                return waterTankView;
-            case Workflow.$type:
-                return workflowView;
-            case AutomaticTask.$type:
-                return automaticTaskView;
-            case ManualTask.$type:
-                return manualTaskView;
-            case Decision.$type:
-                return decisionView;
-            case Merge.$type:
-                return mergeView;
-            case Flow.$type:
-                return flowView;
-            case WeightedFlow.$type:
-                return weightedFlowView;
+            case FamilyRegister.$type:
+                return familyRegisterView;
 
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
@@ -124,7 +74,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
-        return CoffeeModel.childrenMapping;
+        return FamiliesModel.childrenMapping;
     }
 
     getNameForType(type: string): string {
