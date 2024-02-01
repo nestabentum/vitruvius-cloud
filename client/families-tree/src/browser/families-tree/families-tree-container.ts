@@ -14,7 +14,6 @@ import { ApplicationShell, OpenerService } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { injectable } from '@theia/core/shared/inversify';
 
-import { Workflow } from './families-model';
 import { FamiliesTreeEditorWidget } from './families-tree-editor-widget';
 
 export namespace CoffeeTreeCommands {
@@ -53,9 +52,6 @@ export class OpenWorkflowDiagramCommandHandler implements CommandHandler {
     }
 
     getSelectedWorkflow(widget: FamiliesTreeEditorWidget): TreeEditor.Node | undefined {
-        if (widget && TreeEditor.Node.hasType(widget.selectedNode, Workflow.$type)) {
-            return widget.selectedNode;
-        }
         return undefined;
     }
 

@@ -11,7 +11,7 @@
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
-import { CoffeeModel, Component, Flow, Identifiable, Machine, WeightedFlow, Workflow } from './families-model';
+import { FamiliesModel, FamilyRegister, Family, Identifiable } from './families-model';
 
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 import { FamiliesTreeLabelProvider } from './families-tree-label-provider-contribution';
@@ -64,37 +64,55 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             parent.children.push(node);
             parent.expanded = true;
         }
-        if (Component.is(element) && element.children) {
-            element.children.forEach((component: any, idx: number) => {
-                this.mapData(component, node, 'children', idx);
+
+        if (FamilyRegister.is(element) && element.families) {
+            element.families.forEach((component: any, idx: number) => {
+                this.mapData(component, node, 'families', idx);
             });
         }
-        if (Machine.is(element)) {
-            element.workflows.forEach((workflow: any, idx: number) => {
-                workflow.$type = Workflow.$type;
-                this.mapData(workflow, node, 'workflows', idx);
-            });
-        }
-        if (Workflow.is(element)) {
-            if (element.nodes) {
-                element.nodes.forEach((workflowNode: any, idx: number) => {
-                    this.mapData(workflowNode, node, 'nodes', idx);
+        if (Family.is(element)) {
+            if (element.daughters) {
+                element.daughters.forEach((component: any, idx: number) => {
+                    this.mapData(component, node, 'daughters', idx);
                 });
             }
-            if (element.flows) {
-                element.flows.forEach((flow: any, idx: number) => {
-                    if (!WeightedFlow.is(flow)) {
-                        flow.$type = Flow.$type;
-                    }
-                    this.mapData(flow, node, 'flows', idx);
+            if (element.sons) {
+                element.sons.forEach((component: any, idx: number) => {
+                    this.mapData(component, node, 'sons', idx);
                 });
             }
         }
+        // if (Component.is(element) && element.children) {
+        //     element.children.forEach((component: any, idx: number) => {
+        //         this.mapData(component, node, 'children', idx);
+        //     });
+        // }
+        // if (Machine.is(element)) {
+        //     element.workflows.forEach((workflow: any, idx: number) => {
+        //         workflow.$type = Workflow.$type;
+        //         this.mapData(workflow, node, 'workflows', idx);
+        //     });
+        // }
+        // if (Workflow.is(element)) {
+        //     if (element.nodes) {
+        //         element.nodes.forEach((workflowNode: any, idx: number) => {
+        //             this.mapData(workflowNode, node, 'nodes', idx);
+        //         });
+        //     }
+        //     if (element.flows) {
+        //         element.flows.forEach((flow: any, idx: number) => {
+        //             if (!WeightedFlow.is(flow)) {
+        //                 flow.$type = Flow.$type;
+        //             }
+        //             this.mapData(flow, node, 'flows', idx);
+        //         });
+        //     }
+        // }
         return node;
     }
 
     hasCreatableChildren(node: TreeEditor.Node): boolean {
-        return node ? CoffeeModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
+        return node ? FamiliesModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
     }
 
     protected emptyNode(): Pick<

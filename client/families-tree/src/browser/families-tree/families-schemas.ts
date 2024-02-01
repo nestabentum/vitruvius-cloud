@@ -9,15 +9,16 @@
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  */
 import { JsonSchema7 } from '@jsonforms/core';
+import { Family, FamilyRegister } from './families-model';
 
 export const familyRegisterView = {
-    type: 'HorizontalLayout',
+    type: 'VerticalLayout',
     elements: [
         { type: 'Label', text: 'Familie' },
         {
-            type: ' Control',
+            type: 'Control',
             label: 'ID',
-            scope: '#/properties/title'
+            scope: '#/properties/$id'
         }
     ]
 };
@@ -28,6 +29,9 @@ export const familiesSchema: JsonSchema7 = {
             title: 'FamilyRegister',
             type: 'object',
             properties: {
+                $type: {
+                    const: FamilyRegister.$type
+                },
                 $id: {
                     type: 'string'
                 }
@@ -36,23 +40,24 @@ export const familiesSchema: JsonSchema7 = {
         family: {
             title: 'Family',
             properties: {
-              typeId: {
-                const: 'MyComponent'
-              },
-              name: {
-                type: 'string',
-                minLength: 3,
-                maxLength: 20
-              },
-              active: {
-                type: 'string',
-                enum: [
-                  'yes',
-                  'no'
-                ]
-              }
+                $type: {
+                    const: Family.$type
+                },
+
+                typeId: {
+                    const: 'MyComponent'
+                },
+                name: {
+                    type: 'string',
+                    minLength: 3,
+                    maxLength: 20
+                },
+                active: {
+                    type: 'string',
+                    enum: ['yes', 'no']
+                }
             },
-            required: [ 'name' ],
+            required: ['name'],
             additionalProperties: false
         }
     },

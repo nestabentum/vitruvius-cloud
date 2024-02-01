@@ -36,34 +36,11 @@ import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import {
-    AutomaticTask,
-    ControlUnit,
-    Decision,
-    Dimension,
-    Display,
-    FamilyRegister,
-    Flow,
-    Identifiable,
-    JsonPrimitiveType,
-    Machine,
-    ManualTask,
-    Merge,
-    Processor,
-    RAM
-} from './families-model';
-import {
-    AddAutomatedTaskCommandContribution,
-    AddDecisionNodeCommandContribution,
-    AddManualTaskCommandContribution,
-    AddMergeNodeCommandContribution,
-    RemoveFlowCommandContribution,
-    RemoveNodeCommandContribution
-} from './model-server-commands';
+import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
-    protected override instanceData: Machine | undefined | FamilyRegister;
+    protected override instanceData: FamilyRegister | undefined;
     private delayedRefresh = false;
 
     constructor(
@@ -170,37 +147,25 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {
         const data = node.jsonforms.data;
-        let patchOrCommand: PatchOrCommand;
-        if (ManualTask.is(data) || AutomaticTask.is(data) || Decision.is(data) || Merge.is(data)) {
-            patchOrCommand = RemoveNodeCommandContribution.create(data.id);
-        } else if (Flow.is(data)) {
-            patchOrCommand = RemoveFlowCommandContribution.create(data.id);
-        } else {
-            patchOrCommand = {
+        // if (ManualTask.is(data) || AutomaticTask.is(data) || Decision.is(data) || Merge.is(data)) {
+        //     patchOrCommand = RemoveNodeCommandContribution.create(data.id);
+        // } else if (Flow.is(data)) {
+        //     patchOrCommand = RemoveFlowCommandContribution.create(data.id);
+        // } else {
+         const   patchOrCommand: PatchOrCommand = {
                 op: 'remove',
                 path: this.getOperationPath(data.id)
             };
-        }
+        // }
         this.modelServerClient.edit(this.getModelID(), patchOrCommand);
     }
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
-        let patchOrCommand: PatchOrCommand;
-        if (type === AutomaticTask.$type) {
-            patchOrCommand = AddAutomatedTaskCommandContribution.create();
-        } else if (type === ManualTask.$type) {
-            patchOrCommand = AddManualTaskCommandContribution.create();
-        } else if (type === Decision.$type) {
-            patchOrCommand = AddDecisionNodeCommandContribution.create();
-        } else if (type === Merge.$type) {
-            patchOrCommand = AddMergeNodeCommandContribution.create();
-        } else {
-            patchOrCommand = {
-                op: 'add',
-                path: this.getOperationPath(node.id, property),
-                value: { $type: type, id: UUID.uuid4() }
-            };
-        }
+        const patchOrCommand: PatchOrCommand = {
+            op: 'add',
+            path: this.getOperationPath(node.id, property),
+            value: { $type: type, id: UUID.uuid4() }
+        };
 
         this.modelServerClient.edit(this.getModelID(), patchOrCommand);
     }
@@ -323,26 +288,26 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             }
         });
         // FIXME special case remove ram
-        if (id === '' && pathSegments[0] === 'ram' && ControlUnit.is(oldData) && oldData.ram) {
-            if (operation === 'remove') {
-                id = oldData.ram[0].id;
-            } else {
-                id = oldData.id;
-            }
-        }
+        // if (id === '' && pathSegments[0] === 'ram' && ControlUnit.is(oldData) && oldData.ram) {
+        //     if (operation === 'remove') {
+        //         id = oldData.ram[0].id;
+        //     } else {
+        //         id = oldData.id;
+        //     }
+        // }
         return id;
     }
 
     protected getAddValue(value: any, feature: string): JsonPrimitiveType {
-        if (feature === 'ram') {
-            return { $type: RAM.$type, id: UUID.uuid4() };
-        } else if (feature === 'processor') {
-            return { $type: Processor.$type, id: UUID.uuid4(), ...value };
-        } else if (feature === 'dimension') {
-            return { $type: Dimension.$type, id: UUID.uuid4(), ...value };
-        } else if (feature === 'display') {
-            return { $type: Display.$type, id: UUID.uuid4(), ...value };
-        }
+        // if (feature === 'ram') {
+        //     return { $type: RAM.$type, id: UUID.uuid4() };
+        // } else if (feature === 'processor') {
+        //     return { $type: Processor.$type, id: UUID.uuid4(), ...value };
+        // } else if (feature === 'dimension') {
+        //     return { $type: Dimension.$type, id: UUID.uuid4(), ...value };
+        // } else if (feature === 'display') {
+        //     return { $type: Display.$type, id: UUID.uuid4(), ...value };
+        // }
         return value;
     }
 
