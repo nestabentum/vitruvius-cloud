@@ -14,26 +14,47 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
 import URI from '@theia/core/lib/common/uri';
-import { FamiliesModel, FamilyRegister } from './families-model';
-import { familiesSchema, familyRegisterView } from './families-schemas';
+import { FamiliesModel, Family, FamilyRegister, Member } from './families-model';
+import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
+import { familyRegisterView, familyView, memberView } from './families-schemas';
 
 @injectable()
 export class FamiliesModelService implements TreeEditor.ModelService {
-    constructor(@inject(ILogger) private readonly logger: ILogger) {}
-
+    private typeSchema: {
+        definitions: { [property: string]: JsonSchema7 };
+    };
+    constructor(
+        @inject(ILogger) private readonly logger: ILogger,
+        @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2
+    ) {
+        this.loadTypeSchema();
+    }
+    loadTypeSchema(): void {
+        this.modelServerClient
+            .getTypeSchema('families.families')
+            .then(data => (this.typeSchema = JSON.parse(data)))
+            .catch((error: any) => this.logger.error(error));
+        return;
+    }
     getDataForNode(node: TreeEditor.Node): void {
         return node.jsonforms.data;
     }
+    getTypeSchema(): {
+        definitions: { [property: string]: JsonSchema7 };
+    } {
+        return this.typeSchema;
+    }
 
-    getSchemaForNode(node: TreeEditor.Node): JsonSchema7 {
+    async getSchemaForNode(node: TreeEditor.Node): Promise<JsonSchema7> {
+        const definitions = await this.getTypeSchema();
         return {
-            definitions: familiesSchema.definitions,
-            ...this.getSubSchemaForNode(node)
+            definitions: definitions.definitions,
+            ...this.getSubSchemaForNode(node, definitions)
         };
     }
 
-    private getSubSchemaForNode(node: TreeEditor.Node): JsonSchema7 | undefined {
-        const schema = this.getSchemaForType(node.jsonforms.type);
+    private getSubSchemaForNode(node: TreeEditor.Node, definitions: { [key: string]: JsonSchema7 }): JsonSchema7 | undefined {
+        const schema = this.getSchemaForType(node.jsonforms.type, definitions);
         if (!schema) {
             // If no schema can be found, let it generate by JsonForms:
             return undefined;
@@ -41,11 +62,11 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         return schema;
     }
 
-    private getSchemaForType(type: string): JsonSchema7 | undefined {
+    private getSchemaForType(type: string, definitions: { [key: string]: JsonSchema7 }): JsonSchema7 | undefined {
         if (!type) {
             return undefined;
         }
-        return (familiesSchema.definitions ? Object.entries(familiesSchema.definitions) : [])
+        return (definitions ? Object.entries(definitions.definitions) : [])
             .map(entry => entry[1])
             .find((definition: JsonSchema7) => definition.properties && definition.properties.$type.const === type);
     }
@@ -66,7 +87,10 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         switch (type) {
             case FamilyRegister.$type:
                 return familyRegisterView;
-
+            case Family.$type:
+                return familyView;
+            case Member.$type:
+                return memberView;
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
                 return undefined;

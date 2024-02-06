@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  */
-import { AnyObject, isString, ModelServerObjectV2 } from '@eclipse-emfcloud/modelserver-client';
+import { AnyObject, isArray, isString, ModelServerObjectV2 } from '@eclipse-emfcloud/modelserver-client';
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 
 export type JsonPrimitiveType = string | boolean | number | object;
@@ -36,8 +36,8 @@ export namespace Identifiable {
 const $familiesTypeBase = 'edu.kit.ipd.sdq.metamodels.families#//';
 
 export interface Family extends Identifiable {
-    daughters?: Member[];
-    sons?: Member[];
+    daughters?: Son[];
+    sons?: Daughter[];
 }
 export interface Member extends Identifiable {
     firstName: string;
@@ -45,15 +45,16 @@ export interface Member extends Identifiable {
 export namespace Member {
     export const $type = `${$familiesTypeBase}Member`;
     export function is(object: unknown): object is Family {
-        return Identifiable.is(object) && $type === object.$type;
+        return Identifiable.is(object) && isString(object, 'firstName');
     }
 }
 export interface Son extends Member {}
+export interface Daughter extends Member {}
 
 export namespace Family {
     export const $type = `${$familiesTypeBase}Family`;
     export function is(object: unknown): object is Family {
-        return Identifiable.is(object) && $type === object.$type;
+        return Identifiable.is(object) && (isArray(object, 'daughters') || isArray(object, 'sons'));
     }
 }
 
@@ -69,7 +70,7 @@ export namespace FamilyRegister {
 
 export namespace FamiliesModel {
     export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
-        [FamilyRegister.$type, [{ property: 'children', children: [Family.$type] }]],
+        [FamilyRegister.$type, [{ property: 'families', children: [Family.$type] }]],
         [
             Family.$type,
             [

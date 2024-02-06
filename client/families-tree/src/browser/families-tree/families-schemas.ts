@@ -8,8 +8,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  */
-import { JsonSchema7 } from '@jsonforms/core';
-import { Family, FamilyRegister } from './families-model';
 
 export const familyRegisterView = {
     type: 'VerticalLayout',
@@ -18,48 +16,31 @@ export const familyRegisterView = {
         {
             type: 'Control',
             label: 'ID',
-            scope: '#/properties/$id'
+            scope: '#/properties/id'
         }
     ]
 };
-export const familiesSchema: JsonSchema7 = {
-    definitions: {
-        familyRegister: {
-            $id: '#familyregister',
-            title: 'FamilyRegister',
-            type: 'object',
-            properties: {
-                $type: {
-                    const: FamilyRegister.$type
-                },
-                $id: {
-                    type: 'string'
-                }
-            }
-        },
-        family: {
-            title: 'Family',
-            properties: {
-                $type: {
-                    const: Family.$type
-                },
 
-                typeId: {
-                    const: 'MyComponent'
-                },
-                name: {
-                    type: 'string',
-                    minLength: 3,
-                    maxLength: 20
-                },
-                active: {
-                    type: 'string',
-                    enum: ['yes', 'no']
-                }
-            },
-            required: ['name'],
-            additionalProperties: false
+export const familyView = {
+    type: 'VerticalLayout',
+    elements: [
+        { type: 'Label', text: 'Familie' },
+        {
+            type: 'Control',
+            label: 'ID',
+            scope: '#/properties/lastName'
         }
-    },
-    $ref: '#/definitions/families'
+    ]
+};
+
+export const memberView = {
+    type: 'VerticalLayout',
+    elements: [
+        { type: 'Label', text: 'Familie' },
+        {
+            type: 'Control',
+            label: 'ID',
+            scope: '#/properties/firstName'
+        }
+    ]
 };

@@ -19,8 +19,6 @@ export class FamiliesMasterTreeWidget extends MasterTreeWidget {
             return;
         }
         const rootNode = this.model.root as TreeEditor.Node;
-        console.log('heya')
-        console.log(rootNode)
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const toSelect = paths.reduceRight((node, path) => node.children.find(value => value.id === path), rootNode) as TreeEditor.Node;

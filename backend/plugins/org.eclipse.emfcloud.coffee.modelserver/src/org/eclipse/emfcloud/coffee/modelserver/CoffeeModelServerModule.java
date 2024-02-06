@@ -26,6 +26,7 @@ import org.eclipse.emfcloud.modelserver.edit.CommandContribution;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelResourceManager;
 import org.eclipse.emfcloud.modelserver.emf.common.ResourceSetFactory;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
+import org.eclipse.emfcloud.modelserver.jsonschema.JsonSchemaConverter;
 import org.eclipse.emfcloud.modelserver.notation.integration.EMSNotationModelServerModule;
 import org.eclipse.emfcloud.modelserver.notation.integration.NotationResource;
 
@@ -40,11 +41,18 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
    protected void configureEPackages(final MultiBinding<EPackageConfiguration> binding) {
       super.configureEPackages(binding);
       binding.add(CoffeePackageConfiguration.class);
+      binding.add(FamiliesPackageConfiguration.class);
    }
 
    @Override
    protected Class<? extends ResourceSetFactory> bindResourceSetFactory() {
       return CoffeeResourceSetFactory.class;
+   }
+
+   @Override
+   protected Class<? extends JsonSchemaConverter> bindJsonSchemaConverter() {
+      return CustomJsonSchemaConverter.class;
+
    }
 
    @Override

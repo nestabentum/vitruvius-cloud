@@ -90,7 +90,20 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
          URI semanticUri = resourceURI.trimFileExtension().appendFileExtension(semanticFileExtension);
          return getCoffeeResourceSet(semanticUri);
       }
+      if ("families".equals(resourceURI.fileExtension())) {
+         return getFamiliesResourceSet(resourceURI);
+      }
       return resourceSets.get(resourceURI);
+   }
+
+   private ResourceSet getFamiliesResourceSet(final URI modelURI) {
+      ResourceSet result = resourceSets.get(modelURI);
+      if (result == null) {
+         result = resourceSetFactory.createResourceSet(modelURI);
+         resourceSets.put(modelURI, result);
+      }
+      return result;
+
    }
 
    @Override

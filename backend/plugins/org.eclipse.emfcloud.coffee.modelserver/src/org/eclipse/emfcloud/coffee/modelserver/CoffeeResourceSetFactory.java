@@ -12,6 +12,7 @@ package org.eclipse.emfcloud.coffee.modelserver;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emfcloud.modelserver.emf.common.DefaultResourceSetFactory;
 import org.eclipse.emfcloud.modelserver.integration.SemanticFileExtension;
 import org.eclipse.emfcloud.modelserver.notation.integration.NotationFileExtension;
@@ -31,6 +32,10 @@ public class CoffeeResourceSetFactory extends DefaultResourceSetFactory {
    @Override
    public ResourceSet createResourceSet(final URI modelURI) {
       ResourceSet result = super.createResourceSet(modelURI);
+      if ("families".equals(modelURI.fileExtension())) {
+         result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("families", new XMIResourceFactoryImpl());
+         return result;
+      }
 
       result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
          semanticFileExtension, CoffeeResource.FACTORY);

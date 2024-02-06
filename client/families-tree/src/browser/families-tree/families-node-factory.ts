@@ -11,7 +11,7 @@
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
-import { FamiliesModel, FamilyRegister, Family, Identifiable } from './families-model';
+import { FamiliesModel, Family, FamilyRegister, Identifiable, Member } from './families-model';
 
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 import { FamiliesTreeLabelProvider } from './families-tree-label-provider-contribution';
@@ -51,7 +51,7 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             editorId: FamiliesTreeEditorConstants.EDITOR_ID,
             name: this.labelProvider.getName(element) ?? '',
             parent: parent,
-            id: element.id,
+            id: element.id || element.$id,
             jsonforms: {
                 type: element.$type || defaultType || '',
                 data: element,
@@ -71,6 +71,8 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             });
         }
         if (Family.is(element)) {
+            node.jsonforms.data.$type = Family.$type;
+            node.jsonforms.type = Family.$type;
             if (element.daughters) {
                 element.daughters.forEach((component: any, idx: number) => {
                     this.mapData(component, node, 'daughters', idx);
@@ -82,32 +84,11 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
                 });
             }
         }
-        // if (Component.is(element) && element.children) {
-        //     element.children.forEach((component: any, idx: number) => {
-        //         this.mapData(component, node, 'children', idx);
-        //     });
-        // }
-        // if (Machine.is(element)) {
-        //     element.workflows.forEach((workflow: any, idx: number) => {
-        //         workflow.$type = Workflow.$type;
-        //         this.mapData(workflow, node, 'workflows', idx);
-        //     });
-        // }
-        // if (Workflow.is(element)) {
-        //     if (element.nodes) {
-        //         element.nodes.forEach((workflowNode: any, idx: number) => {
-        //             this.mapData(workflowNode, node, 'nodes', idx);
-        //         });
-        //     }
-        //     if (element.flows) {
-        //         element.flows.forEach((flow: any, idx: number) => {
-        //             if (!WeightedFlow.is(flow)) {
-        //                 flow.$type = Flow.$type;
-        //             }
-        //             this.mapData(flow, node, 'flows', idx);
-        //         });
-        //     }
-        // }
+        if (Member.is(element)) {
+            node.jsonforms.data.$type = Member.$type;
+
+            node.jsonforms.type = Member.$type;
+        }
         return node;
     }
 
