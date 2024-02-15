@@ -11,7 +11,7 @@ import {
     QuickPickItem
 } from '@theia/core/lib/common';
 import { CommonMenus } from '@theia/core/lib/browser';
-import { ViewTypes, getViewTypes } from '../api/api';
+import { ViewTypes, getView, getViewTypes } from '../api/api';
 
 export const VitruviusCloudCommand: Command = {
     id: 'VitruviusCloud.command',
@@ -41,12 +41,15 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                     .catch(error => {
                         this.logger.error(error);
                     });
+
                 const quickPickItems: QuickPickItem[] = items.map(item => {
                     return { label: item };
                 });
                 const viewTypePicker = this.quickInputService.createQuickPick();
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
-                viewTypePicker.onDidChangeSelection(selection => this.messageService.info(`${selection[0].label}`));
+                viewTypePicker.onDidChangeSelection(async selection => {
+                    await getView(selection[0].label, this.logger);
+                });
                 viewTypePicker.items = quickPickItems;
                 viewTypePicker.show();
             }
