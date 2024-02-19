@@ -19,13 +19,12 @@ import org.eclipse.emfcloud.modelserver.jsonschema.Json;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import edu.kit.ipd.sdq.metamodels.families.FamiliesPackage;
-
 public class CustomJsonSchemaConverter extends DefaultJsonSchemaConverter {
 
    @Override
    public JsonNode from(final EObject eObject) {
-      return createJsonSchemaFromEPackage(FamiliesPackage.eINSTANCE);
+
+      return createJsonSchemaFromEPackage(eObject.eClass().getEPackage());
    }
 
    @Override
