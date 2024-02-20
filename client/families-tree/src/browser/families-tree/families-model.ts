@@ -38,6 +38,8 @@ const $familiesTypeBase = 'edu.kit.ipd.sdq.metamodels.families#//';
 export interface Family extends Identifiable {
     daughters?: Son[];
     sons?: Daughter[];
+    father?: Member;
+    mother?: Member;
 }
 export interface Member extends Identifiable {
     firstName: string;
@@ -54,7 +56,7 @@ export interface Daughter extends Member {}
 export namespace Family {
     export const $type = `${$familiesTypeBase}Family`;
     export function is(object: unknown): object is Family {
-        return Identifiable.is(object) && (isArray(object, 'daughters') || isArray(object, 'sons'));
+        return Identifiable.is(object) && (isString(object, 'lastName') || isArray(object, 'daughters') || isArray(object, 'sons'));
     }
 }
 
@@ -75,7 +77,9 @@ export namespace FamiliesModel {
             Family.$type,
             [
                 { property: 'daughters', children: [Member.$type] },
-                { property: 'sons', children: [Member.$type] }
+                { property: 'sons', children: [Member.$type] },
+                { property: 'father', children: [Member.$type] },
+                { property: 'mother', children: [Member.$type] }
             ]
         ]
     ]);

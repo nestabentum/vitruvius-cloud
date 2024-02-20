@@ -83,6 +83,12 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
                     this.mapData(component, node, 'sons', idx);
                 });
             }
+            if (element.father) {
+                this.mapData(element.father, node, 'father', 0);
+            }
+            if (element.mother) {
+                this.mapData(element.mother, node, 'mother', 0);
+            }
         }
         if (Member.is(element)) {
             node.jsonforms.data.$type = Member.$type;

@@ -12,6 +12,7 @@ import {
 } from '@theia/core/lib/common';
 import { CommonMenus } from '@theia/core/lib/browser';
 import { ViewTypes, getView, getViewTypes } from '../api/api';
+import { ViewSaver } from '../util/viewSaver';
 
 export const VitruviusCloudCommand: Command = {
     id: 'VitruviusCloud.command',
@@ -26,7 +27,8 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
     constructor(
         @inject(MessageService) private readonly messageService: MessageService,
         @inject(QuickInputService) private readonly quickInputService: QuickInputService,
-        @inject(ILogger) private readonly logger: ILogger
+        @inject(ILogger) private readonly logger: ILogger,
+        @inject(ViewSaver) private readonly viewSaver: ViewSaver
     ) {}
 
     registerCommands(registry: CommandRegistry): void {
@@ -48,7 +50,7 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                 const viewTypePicker = this.quickInputService.createQuickPick();
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
                 viewTypePicker.onDidChangeSelection(async selection => {
-                    await getView(selection[0].label, this.logger);
+                    await getView(selection[0].label, this.logger).then(result => this.viewSaver.saveView(result));
                 });
                 viewTypePicker.items = quickPickItems;
                 viewTypePicker.show();

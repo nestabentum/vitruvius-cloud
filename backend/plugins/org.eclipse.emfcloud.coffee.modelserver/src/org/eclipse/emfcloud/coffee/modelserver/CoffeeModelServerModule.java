@@ -20,6 +20,7 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveFlow
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNodeCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.modelserver.common.utils.MapBinding;
 import org.eclipse.emfcloud.modelserver.common.utils.MultiBinding;
 import org.eclipse.emfcloud.modelserver.edit.CommandContribution;
@@ -58,6 +59,9 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
    @Override
    protected void configureCommandCodecs(final MapBinding<String, CommandContribution> binding) {
       super.configureCommandCodecs(binding);
+
+      // Families
+      binding.put(AddFamilyCommandContribution.TYPE, AddFamilyCommandContribution.class);
 
       // Nodes
       binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);

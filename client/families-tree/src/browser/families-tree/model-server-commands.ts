@@ -27,55 +27,10 @@ export namespace AddAutomatedTaskCommandContribution {
     }
 }
 
-export namespace AddManualTaskCommandContribution {
-    export const TYPE = 'addManualTaskContribution';
+export namespace AddFamilyContribution {
+    export const TYPE = 'addFamilyContribution'
 
     export function create(): ModelServerCommand {
-        const addCommand = new ModelServerCommand(TYPE);
-        addCommand.setProperty(CommandUtil.POSITION_X, '0.0');
-        addCommand.setProperty(CommandUtil.POSITION_Y, '0.0');
-        return addCommand;
-    }
-}
-
-export namespace AddDecisionNodeCommandContribution {
-    export const TYPE = 'addDecisionNodeContribution';
-
-    export function create(): ModelServerCommand {
-        const addCommand = new ModelServerCommand(TYPE);
-        addCommand.setProperty(CommandUtil.POSITION_X, '0.0');
-        addCommand.setProperty(CommandUtil.POSITION_Y, '0.0');
-        return addCommand;
-    }
-}
-
-export namespace AddMergeNodeCommandContribution {
-    export const TYPE = 'addMergeNodeContribution';
-
-    export function create(): ModelServerCommand {
-        const addCommand = new ModelServerCommand(TYPE);
-        addCommand.setProperty(CommandUtil.POSITION_X, '0.0');
-        addCommand.setProperty(CommandUtil.POSITION_Y, '0.0');
-        return addCommand;
-    }
-}
-
-export namespace RemoveNodeCommandContribution {
-    export const TYPE = 'removeNode';
-
-    export function create(semanticElementId: string): ModelServerCommand {
-        const removeCommand = new ModelServerCommand(TYPE);
-        removeCommand.setProperty(CommandUtil.SEMANTIC_ELEMENT_ID, semanticElementId);
-        return removeCommand;
-    }
-}
-
-export namespace RemoveFlowCommandContribution {
-    export const TYPE = 'removeFlow';
-
-    export function create(semanticElementId: string): ModelServerCommand {
-        const removeCommand = new ModelServerCommand(TYPE);
-        removeCommand.setProperty(CommandUtil.SEMANTIC_ELEMENT_ID, semanticElementId);
-        return removeCommand;
+        return new ModelServerCommand(TYPE)
     }
 }

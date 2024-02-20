@@ -29,14 +29,14 @@ import {
 import { Title, Widget } from '@theia/core/lib/browser';
 import { ILogger } from '@theia/core/lib/common';
 import URI from '@theia/core/lib/common/uri';
-import { UUID } from '@theia/core/shared/@phosphor/coreutils';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
 import { compare, Operation } from 'fast-json-patch';
 import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
+import { Family, FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
+import { AddFamilyContribution } from './model-server-commands';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
@@ -152,20 +152,25 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // } else if (Flow.is(data)) {
         //     patchOrCommand = RemoveFlowCommandContribution.create(data.id);
         // } else {
-         const   patchOrCommand: PatchOrCommand = {
-                op: 'remove',
-                path: this.getOperationPath(data.id)
-            };
+        const patchOrCommand: PatchOrCommand = {
+            op: 'remove',
+            path: this.getOperationPath(data.id)
+        };
         // }
         this.modelServerClient.edit(this.getModelID(), patchOrCommand);
     }
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
-        const patchOrCommand: PatchOrCommand = {
-            op: 'add',
-            path: this.getOperationPath(node.id, property),
-            value: { $type: type, id: UUID.uuid4() }
-        };
+        let patchOrCommand: PatchOrCommand;
+        if (type === Family.$type) {
+            patchOrCommand = AddFamilyContribution.create();
+        } else {
+            patchOrCommand = {
+                op: 'add',
+                path: this.getOperationPath(node.id, property),
+                value: { $type: type }
+            };
+        }
 
         this.modelServerClient.edit(this.getModelID(), patchOrCommand);
     }

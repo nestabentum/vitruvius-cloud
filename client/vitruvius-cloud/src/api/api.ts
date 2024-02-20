@@ -21,7 +21,7 @@ export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
     return axios.get<ViewTypes>(`${baseUrl}view/types`);
 }
 
-export async function getView(viewType: string, logger: ILogger): Promise<void> {
+export async function getView(viewType: string, logger: ILogger): Promise<string> {
     let ids: string[] = [];
     let selectorID: string = '';
     await axios
@@ -42,9 +42,7 @@ export async function getView(viewType: string, logger: ILogger): Promise<void> 
                 'Selector-UUID': selectorID
             }
         })
-        .then(response => {
-            console.log(response.data)
-        })
+        .then(response => response.data)
         .catch(error => logger.error(error));
 }
 export type ViewTypes = string[];

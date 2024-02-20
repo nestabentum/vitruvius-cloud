@@ -28,6 +28,8 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.edit.command.SetCommandContribution;
 import org.eclipse.emfcloud.modelserver.edit.util.CommandUtil;
 
+import edu.kit.ipd.sdq.metamodels.families.FamilyRegister;
+
 public final class SemanticCommandUtil {
 
    // Hide constructor for utility class
@@ -39,6 +41,19 @@ public final class SemanticCommandUtil {
    }
 
    public static String getCoffeeFileExtension() { return CoffeeResource.FILE_EXTENSION; }
+
+   public static String getFamilyFileExtension() { return "families"; }
+
+   public static FamilyRegister getFamilyModel(final URI modelUri, final EditingDomain domain) {
+      Resource semanticResource = domain.getResourceSet()
+         .getResource(modelUri.trimFileExtension().appendFileExtension(getFamilyFileExtension()), false);
+      EObject semanticRoot = semanticResource.getContents().get(0);
+      if (!(semanticRoot instanceof FamilyRegister)) {
+         return null;
+      }
+      FamilyRegister familyRegister = (FamilyRegister) semanticRoot;
+      return familyRegister;
+   }
 
    public static Workflow getModel(final URI modelUri, final EditingDomain domain) {
       Resource semanticResource = domain.getResourceSet()
