@@ -21,6 +21,7 @@ import {
 } from '@eclipse-emfcloud/theia-tree-editor';
 import { CommandContribution, MenuContribution } from '@theia/core';
 import {
+    BaseWidget,
     LabelProviderContribution,
     NavigatableWidgetOptions,
     OpenHandler,
@@ -39,7 +40,25 @@ import { FamiliesTreeNodeFactory } from './families-tree/families-node-factory';
 import { FamiliesTreeEditorConstants, FamiliesTreeEditorWidget } from './families-tree/families-tree-editor-widget';
 import { FamiliesTreeLabelProvider } from './families-tree/families-tree-label-provider-contribution';
 
-export default new ContainerModule((bind, _unbind, isBound, rebind) => {
+import {
+    ModelServerSubscriptionClient,
+    ModelServerSubscriptionClientV2,
+    ModelServerSubscriptionServiceV2
+} from '@eclipse-emfcloud/modelserver-theia/lib/browser';
+export default new ContainerModule((bind, _unbind, isBound, rebind) => 
+
+{
+
+
+    // Bind ModelServerSubscription services
+    bind(ModelServerSubscriptionClientV2).toSelf().inSingletonScope();
+    bind(ModelServerSubscriptionServiceV2).toService(ModelServerSubscriptionClientV2);
+    if (isBound(ModelServerSubscriptionClient)) {
+        rebind(ModelServerSubscriptionClient).toService(ModelServerSubscriptionClientV2);
+    } else {
+        bind(ModelServerSubscriptionClient).toService(ModelServerSubscriptionClientV2);
+    }
+
     // Bind Theia IDE contributions
     console.log('registering families tree editor');
     bind(LabelProviderContribution).to(FamiliesLabelProviderContribution);

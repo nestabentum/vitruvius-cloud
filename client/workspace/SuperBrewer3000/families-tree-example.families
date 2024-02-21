@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<families:FamilyRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="0">
+  <families lastName="Herbertus" id="5">
+    <sons firstName="Chrisdawdw" id="4"/>
+    <daughters firstName="DariaDAWDAWD" id="3"/>
+    <father firstName="Anton" id="1"/>
+    <mother firstName="Berta" id="2"/>
+  </families>
+  <families lastName="">
+    <sons/>
+    <daughters/>
+    <mother/>
+  </families>
+  <families lastName="tete" id="316afd89-ba9e-4de6-84ca-47f017acf3f7"/>
+</families:FamilyRegister>

@@ -28,7 +28,7 @@
         "${workspaceRoot}/node_modules/@eclipse-emfcloud/*/lib/**/*.js",
         "${workspaceRoot}/browser-app/lib/**/*.js",
         "${workspaceRoot}/browser-app/src-gen/backend/*.js",
-        "${workspaceRoot}/coffee-editor-extension/lib/**/*.js",
+        
         "${workspaceRoot}/families-tree/lib/**/*.js",
         "${workspaceRoot}/coffee-java-extension/lib/**/*.js",
         "${workspaceRoot}/coffee-servers/lib/**/*.js",
@@ -64,7 +64,7 @@
         "${workspaceRoot}/node_modules/@eclipse-emfcloud/*/lib/**/*.js",
         "${workspaceRoot}/browser-app/lib/**/*.js",
         "${workspaceRoot}/browser-app/src-gen/backend/*.js",
-        "${workspaceRoot}/coffee-editor-extension/lib/**/*.js",
+        
         "${workspaceRoot}/families-tree/lib/**/*.js",
         "${workspaceRoot}/coffee-java-extension/lib/**/*.js",
         "${workspaceRoot}/coffee-servers/lib/**/*.js",
@@ -81,7 +81,7 @@
       "request": "launch",
       "url": "http://localhost:3000/",
       "sourceMaps": true,
-      "webRoot": "${workspaceRoot}/browser-app"
+      "webRoot": "${workspaceRoot}/browser-app",
     },
     {
       "type": "extensionHost",

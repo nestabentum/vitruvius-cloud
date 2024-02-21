@@ -51,7 +51,7 @@
     "@theia/workspace": "^1.34.1",
     "coffee-common": "^0.8.0",
     "coffee-comparison": "^0.8.0",
-    "coffee-editor-extension": "^0.8.0",
+    
     "families-tree": "0.8.0",
     "coffee-servers": "^0.8.0",
     "coffee-java-extension": "^0.8.0",

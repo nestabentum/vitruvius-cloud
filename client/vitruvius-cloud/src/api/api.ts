@@ -42,7 +42,11 @@ export async function getView(viewType: string, logger: ILogger): Promise<string
                 'Selector-UUID': selectorID
             }
         })
-        .then(response => response.data)
-        .catch(error => logger.error(error));
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            logger.error(error);
+        });
 }
 export type ViewTypes = string[];

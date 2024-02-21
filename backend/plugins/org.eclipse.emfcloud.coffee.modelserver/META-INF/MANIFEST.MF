@@ -36,7 +36,7 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.26.0,3.0.0)",
  org.slf4j.api;bundle-version="[1.7.30,2.0.0)",
  org.apache.logging.log4j;bundle-version="2.17.1",
  org.aopalliance;bundle-version="[1.0.0,2.0.0)",
- edu.kit.ipd.sdq.metamodels.families;bundle-version="1.8.0"
+ edu.kit.ipd.sdq.metamodels.families;bundle-version="1.0.0.qualifier"
 Export-Package: org.eclipse.emfcloud.coffee.modelserver,
  org.eclipse.emfcloud.coffee.modelserver.commands.compound,
  org.eclipse.emfcloud.coffee.modelserver.commands.contributions,

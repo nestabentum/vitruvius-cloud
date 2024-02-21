@@ -14,9 +14,8 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
 import URI from '@theia/core/lib/common/uri';
-import { FamiliesModel, Family, FamilyRegister, Member } from './families-model';
+import { FamiliesModel } from './families-model';
 import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
-import { familyRegisterView, familyView, memberView } from './families-schemas';
 
 @injectable()
 export class FamiliesModelService implements TreeEditor.ModelService {
@@ -72,29 +71,13 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getUiSchemaForNode(node: TreeEditor.Node): UISchemaElement | undefined {
-        const schema = this.getUiSchemaForType(node.jsonforms.type);
-        if (!schema) {
-            // If no ui schema can be found, let it generate by JsonForms:
-            return undefined;
-        }
-        return schema;
-    }
-
-    private getUiSchemaForType(type: string): UISchemaElement | undefined {
-        if (!type) {
-            return undefined;
-        }
-        switch (type) {
-            case FamilyRegister.$type:
-                return familyRegisterView;
-            case Family.$type:
-                return familyView;
-            case Member.$type:
-                return memberView;
-            default:
-                this.logger.warn("Can't find registered ui schema for type " + type);
-                return undefined;
-        }
+        return undefined
+        // const schema = this.getUiSchemaForType(node.jsonforms.type);
+        // if (!schema) {
+        //     // If no ui schema can be found, let it generate by JsonForms:
+        //     return undefined;
+        // }
+        // return schema;
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
