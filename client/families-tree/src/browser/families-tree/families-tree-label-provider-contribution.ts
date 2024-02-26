@@ -52,7 +52,7 @@ export class FamiliesTreeLabelProvider implements LabelProviderContribution {
         } else if (Family.is(element)) {
             return data.lastName;
         } else if (Member.is(element)) {
-            return data.firstName
+            return data.firstName;
         }
         return this.getNameForType(data.$type);
     }

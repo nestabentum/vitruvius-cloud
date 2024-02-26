@@ -28,9 +28,9 @@ export namespace AddAutomatedTaskCommandContribution {
 }
 
 export namespace AddFamilyContribution {
-    export const TYPE = 'addFamilyContribution'
+    export const TYPE = 'addFamilyContribution';
 
     export function create(): ModelServerCommand {
-        return new ModelServerCommand(TYPE)
+        return new ModelServerCommand(TYPE);
     }
 }

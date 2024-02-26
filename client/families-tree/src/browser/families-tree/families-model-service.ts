@@ -71,7 +71,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getUiSchemaForNode(node: TreeEditor.Node): UISchemaElement | undefined {
-        return undefined
+        return undefined;
         // const schema = this.getUiSchemaForType(node.jsonforms.type);
         // if (!schema) {
         //     // If no ui schema can be found, let it generate by JsonForms:

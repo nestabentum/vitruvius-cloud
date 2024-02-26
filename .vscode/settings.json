@@ -6,7 +6,7 @@
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.tslint": true
+    "source.fixAll.tslint": "explicit"
   },
   "search.exclude": {
     "**/node_modules": true,

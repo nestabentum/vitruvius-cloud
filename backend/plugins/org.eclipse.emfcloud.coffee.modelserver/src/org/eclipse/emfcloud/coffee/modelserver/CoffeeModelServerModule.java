@@ -43,6 +43,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       super.configureEPackages(binding);
       binding.add(CoffeePackageConfiguration.class);
       binding.add(FamiliesPackageConfiguration.class);
+      binding.add(PersonsPackageConfiguration.class);
    }
 
    @Override

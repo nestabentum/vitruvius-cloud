@@ -21,7 +21,6 @@ import {
 } from '@eclipse-emfcloud/theia-tree-editor';
 import { CommandContribution, MenuContribution } from '@theia/core';
 import {
-    BaseWidget,
     LabelProviderContribution,
     NavigatableWidgetOptions,
     OpenHandler,
@@ -45,11 +44,7 @@ import {
     ModelServerSubscriptionClientV2,
     ModelServerSubscriptionServiceV2
 } from '@eclipse-emfcloud/modelserver-theia/lib/browser';
-export default new ContainerModule((bind, _unbind, isBound, rebind) => 
-
-{
-
-
+export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     // Bind ModelServerSubscription services
     bind(ModelServerSubscriptionClientV2).toSelf().inSingletonScope();
     bind(ModelServerSubscriptionServiceV2).toService(ModelServerSubscriptionClientV2);

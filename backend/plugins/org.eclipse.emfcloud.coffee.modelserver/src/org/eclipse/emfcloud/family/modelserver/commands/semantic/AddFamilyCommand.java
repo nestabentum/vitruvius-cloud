@@ -10,8 +10,6 @@
  ********************************************************************************/
 package org.eclipse.emfcloud.family.modelserver.commands.semantic;
 
-import java.util.UUID;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -25,7 +23,7 @@ public class AddFamilyCommand extends FamiliesSemanticElementCommand {
       super(domain, modelUri);
       family = FamiliesFactory.eINSTANCE.createFamily();
       family.setLastName("");
-      family.setId(UUID.randomUUID().toString());
+      // family.setId(UUID.randomUUID().toString());
    }
 
    @Override
