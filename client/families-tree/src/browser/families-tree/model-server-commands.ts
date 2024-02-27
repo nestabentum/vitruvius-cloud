@@ -31,6 +31,6 @@ export namespace AddFamilyContribution {
     export const TYPE = 'addFamilyContribution';
 
     export function create(): ModelServerCommand {
-        return new ModelServerCommand(TYPE);
+        return new ModelServerCommand(TYPE, { viewSerial: 'serial-123-abc' });
     }
 }
