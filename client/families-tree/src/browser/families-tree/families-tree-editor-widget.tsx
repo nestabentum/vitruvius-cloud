@@ -26,7 +26,7 @@ import {
     NavigatableTreeEditorWidget,
     TreeEditor
 } from '@eclipse-emfcloud/theia-tree-editor';
-import { Title, Widget } from '@theia/core/lib/browser';
+import { Title, Widget ,} from '@theia/core/lib/browser';
 import { ILogger } from '@theia/core/lib/common';
 import URI from '@theia/core/lib/common/uri';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
@@ -37,6 +37,7 @@ import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
 import { Family, FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
 import { AddFamilyContribution } from './model-server-commands';
+
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
@@ -58,12 +59,13 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             this.dirty = notification.isDirty;
             this.onDirtyChangedEmitter.fire();
         });
-
         this.subscriptionService.onIncrementalUpdateListenerV2((incrementalUpdate: IncrementalUpdateNotificationV2) =>
             this.updateWidgetData(incrementalUpdate)
         );
 
         this.loadModel();
+
+        //idCacheProvider.getContributions(undefined)[0].get('')
 
         this.modelServerClient.subscribe(this.getModelID());
 
@@ -163,7 +165,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         let patchOrCommand: PatchOrCommand;
         if (type === Family.$type) {
-            patchOrCommand = AddFamilyContribution.create();
+            patchOrCommand = AddFamilyContribution.create(this.getModelID());
         } else {
             patchOrCommand = {
                 op: 'add',

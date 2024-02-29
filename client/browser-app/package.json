@@ -56,7 +56,7 @@
     "coffee-servers": "^0.8.0",
     "coffee-java-extension": "^0.8.0",
     "coffee-workflow-glsp-theia": "^0.8.0",
-    "vitruvius-cloud": "0.0.0"
+    "vitruvius-cloud-extension": "0.0.0"
   },
   "devDependencies": {
     "@theia/cli": "^1.34.1",

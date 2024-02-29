@@ -16,36 +16,26 @@
 import { ILogger } from '@theia/core';
 import axios, { AxiosResponse } from 'axios';
 
-const baseUrl = 'http://localhost:8069/vsum/';
+const vitruvCloudUrl = 'http://localhost:8069/vsum/';
+const vitruvAdapterUrl = 'http://localhost:8070/vsum/';
+
 export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
-    return axios.get<ViewTypes>(`${baseUrl}view/types`);
+    return axios.get<ViewTypes>(`${vitruvCloudUrl}view/types`);
 }
 
 export async function getView(viewType: string, logger: ILogger): Promise<string> {
-    let ids: string[] = [];
-    let selectorID: string = '';
-    await axios
-        .get(`${baseUrl}view/selector`, {
+    return await axios
+        .post(`${vitruvAdapterUrl}view/`, {},{
             headers: {
                 'View-Type': viewType
             }
         })
-        .then(data => {
-            selectorID = data.headers['selector-uuid'];
-            ids = data.data.map((elem: any) => elem._id);
-        })
-        .catch(error => logger.error(error));
-
-    return await axios
-        .post(`${baseUrl}view`, ids, {
-            headers: {
-                'Selector-UUID': selectorID
-            }
-        })
         .then(response => {
-            return response.data;
+            console.log('THISISASUCCESS', response.data.view);
+            return response.data.view;
         })
         .catch(error => {
+            console.log('THISISTHEERROR', error);
             logger.error(error);
         });
 }

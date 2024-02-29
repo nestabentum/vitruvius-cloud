@@ -53,7 +53,7 @@
       "coffee-servers",
       "coffee-workflow-glsp",
       "coffee-workflow-glsp-theia",
-      "vitruvius-cloud"
+      "vitruvius-cloud-extension"
     ]
   }
 }

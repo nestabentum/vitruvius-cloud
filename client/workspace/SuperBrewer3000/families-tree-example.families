@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="ASCII"?>
-<families:FamilyRegister xmi:version="2.0"
+<xmi:XMI xmi:version="2.0"
   xmlns:xmi="http://www.omg.org/XMI"
-  xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="0">
-  <families lastName="Herbertus jiodwjd">
-    <sons firstName="Chrisdawdw"/>
-    <daughters firstName="DariaDAWDAWD"/>
-    <father firstName="Anton"/>
-    <mother firstName="Berta"/>
-  </families>
-  <families lastName="">
-    <sons/>
-    <daughters/>
-    <mother/>
-  </families>
-  <families lastName="tete"/>
-</families:FamilyRegister>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:families="edu.kit.ipd.sdq.metamodels.families">
+  <families:FamilyRegister id="0">
+    <families lastName="Herbertus">
+      <sons firstName="Chris"/>
+      <daughters firstName="Daria"/>
+      <father firstName="Anton" />
+      <mother firstName="Berta"/>
+    </families>
+  </families:FamilyRegister>
+</xmi:XMI>
