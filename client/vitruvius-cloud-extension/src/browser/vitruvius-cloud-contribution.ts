@@ -28,7 +28,7 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
         @inject(MessageService) private readonly messageService: MessageService,
         @inject(QuickInputService) private readonly quickInputService: QuickInputService,
         @inject(ILogger) private readonly logger: ILogger,
-        @inject(ViewSaver) private readonly viewSaver: ViewSaver
+        @inject(ViewSaver) private readonly viewSaver: ViewSaver,
     ) {}
 
     registerCommands(registry: CommandRegistry): void {

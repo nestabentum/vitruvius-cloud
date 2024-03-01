@@ -26,7 +26,7 @@ import {
     NavigatableTreeEditorWidget,
     TreeEditor
 } from '@eclipse-emfcloud/theia-tree-editor';
-import { Title, Widget ,} from '@theia/core/lib/browser';
+import { Title, Widget } from '@theia/core/lib/browser';
 import { ILogger } from '@theia/core/lib/common';
 import URI from '@theia/core/lib/common/uri';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
@@ -37,7 +37,7 @@ import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
 import { Family, FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
 import { AddFamilyContribution } from './model-server-commands';
-
+import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
@@ -51,7 +51,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         @inject(ILogger) override readonly logger: ILogger,
         @inject(NavigatableTreeEditorOptions) protected override readonly options: NavigatableTreeEditorOptions,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
-        @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2
+        @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2,
     ) {
         super(treeWidget, formWidget, workspaceService, logger, FamiliesTreeEditorConstants.WIDGET_ID, options);
 
@@ -62,10 +62,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.subscriptionService.onIncrementalUpdateListenerV2((incrementalUpdate: IncrementalUpdateNotificationV2) =>
             this.updateWidgetData(incrementalUpdate)
         );
-
         this.loadModel();
-
-        //idCacheProvider.getContributions(undefined)[0].get('')
 
         this.modelServerClient.subscribe(this.getModelID());
 
@@ -165,7 +162,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         let patchOrCommand: PatchOrCommand;
         if (type === Family.$type) {
-            patchOrCommand = AddFamilyContribution.create(this.getModelID());
+            patchOrCommand = AddFamilyContribution.create(ViewIdCache.getViewId(this.getModelID()));
         } else {
             patchOrCommand = {
                 op: 'add',
