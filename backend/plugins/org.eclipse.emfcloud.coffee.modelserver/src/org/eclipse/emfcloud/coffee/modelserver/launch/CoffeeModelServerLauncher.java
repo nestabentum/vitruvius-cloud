@@ -11,15 +11,11 @@
 package org.eclipse.emfcloud.coffee.modelserver.launch;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import org.eclipse.emfcloud.coffee.modelserver.CoffeeModelServerModule;
 import org.eclipse.emfcloud.modelserver.emf.launch.CLIBasedModelServerLauncher;
 import org.eclipse.emfcloud.modelserver.emf.launch.CLIParser;
 import org.eclipse.emfcloud.modelserver.emf.launch.ModelServerLauncher;
-
-import tools.vitruv.framework.remote.client.VitruvClient;
-import tools.vitruv.framework.remote.client.VitruvClientFactory;
 
 @SuppressWarnings("UncommentedMain")
 public final class CoffeeModelServerLauncher {
@@ -36,16 +32,6 @@ public final class CoffeeModelServerLauncher {
       final ModelServerLauncher launcher = new CLIBasedModelServerLauncher(createCLIParser(args),
          new CoffeeModelServerModule());
       launcher.run();
-      VitruvClient client = VitruvClientFactory.create("localhost", 8069, Path.of("temp"));
-      var viewType = client.getViewTypes().stream().filter(eleme -> "identity-mapping".equals(eleme.getName()))
-         .findFirst().get();
-      var selector = client.createSelector(viewType);
-      selector.getSelectableElements().forEach(el -> selector.setSelected(el, true));
-
-      var view = selector.createView();
-      var changeRecordingView = view.withChangeRecordingTrait();
-      changeRecordingView.getRootObjects();
-
    }
 
    protected static CLIParser createCLIParser(final String[] args) {

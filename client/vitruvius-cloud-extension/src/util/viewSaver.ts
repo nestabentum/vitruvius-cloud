@@ -25,7 +25,7 @@ export class ViewSaver {
         if (fileURI) {
             const stat = await this.fileService.resolve(fileURI!);
             const statDir = stat.isDirectory ? stat : await this.fileService.resolve(fileURI.parent);
-            const targetURI = stat.resource.resolve('families-tree-example.families');
+            const targetURI = stat.resource.resolve('families.families');
             FileSystemUtils.generateUniqueResourceURI(statDir, targetURI, false);
             this.fileService
                 .createFile(targetURI, contentBuffer)

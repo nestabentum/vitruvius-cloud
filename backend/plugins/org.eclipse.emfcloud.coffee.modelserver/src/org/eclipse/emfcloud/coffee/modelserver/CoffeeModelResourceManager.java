@@ -11,6 +11,11 @@
 package org.eclipse.emfcloud.coffee.modelserver;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +28,7 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emfcloud.jackson.module.EMFModule;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelServerEditingDomain;
 import org.eclipse.emfcloud.modelserver.emf.common.RecordingModelResourceManager;
@@ -33,11 +39,15 @@ import org.eclipse.emfcloud.modelserver.emf.util.JsonPatchHelper;
 import org.eclipse.emfcloud.modelserver.integration.SemanticFileExtension;
 import org.eclipse.emfcloud.modelserver.notation.integration.NotationFileExtension;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import tools.vitruv.change.composite.description.TransactionalChange;
+import tools.vitruv.change.composite.description.VitruviusChange;
 import tools.vitruv.change.composite.description.VitruviusChangeResolver;
+import tools.vitruv.framework.remote.common.serializer.VitruviusChangeSerializer;
 
 public class CoffeeModelResourceManager extends RecordingModelResourceManager {
 
@@ -48,29 +58,9 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    @NotationFileExtension
    protected String notationFileExtension;
 
-   @Override
-   protected CommandExecutionContext executeCommand(final ModelServerEditingDomain domain, final Command serverCommand,
-      final CCommand clientCommand) {
-      ChangeRecorder recorder = new ChangeRecorder(domain.getResourceSet());
-      tools.vitruv.change.composite.recording.ChangeRecorder vitruvRecorder = new tools.vitruv.change.composite.recording.ChangeRecorder(
-         domain.getResourceSet());
-      vitruvRecorder.addToRecording(domain.getResourceSet());
-      vitruvRecorder.beginRecording();
-      CommandExecutionContext context = super.executeCommand(domain, serverCommand, clientCommand);
-      ChangeDescription recording = recorder.endRecording();
-      TransactionalChange<EObject> changes = vitruvRecorder.endRecording();
-      recorder.dispose();
-      var changeResolver = VitruviusChangeResolver.forHierarchicalIds(domain.getResourceSet());
-      try {
-         domain.startTransaction(false, Map.of());
-         var vitruvChanges = changeResolver.assignIds(changes);
-      } catch (InterruptedException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+   private final ObjectMapper objectMapper;
 
-      return new RecordingCommandExecutionContext(context, recording);
-   }
+   private final HttpClient httpClient;
 
    @Inject
    public CoffeeModelResourceManager(final Set<EPackageConfiguration> configurations,
@@ -78,6 +68,83 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
       final ModelWatchersManager watchersManager, final Provider<JsonPatchHelper> jsonPatchHelper) {
 
       super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
+      this.httpClient = HttpClient.newHttpClient();
+      this.objectMapper = new ObjectMapper();
+
+      var module = new EMFModule();
+      module.addSerializer(VitruviusChange.class, new VitruviusChangeSerializer());
+      this.objectMapper.registerModules(module);
+   }
+
+   @Override
+   public ModelServerEditingDomain getEditingDomain(final ResourceSet resourceSet) {
+      var editingDomain = super.getEditingDomain(resourceSet);
+      if (editingDomain == null) {
+         super.createEditingDomain(resourceSet);
+      }
+      return super.getEditingDomain(resourceSet);
+   }
+
+   @Override
+   protected CommandExecutionContext executeCommand(final ModelServerEditingDomain domain, final Command serverCommand,
+      final CCommand clientCommand) {
+      ChangeRecorder recorder = new ChangeRecorder(domain.getResourceSet());
+      tools.vitruv.change.composite.recording.ChangeRecorder vitruvRecorder = null;
+      if (containtsViewSerial(clientCommand)) {
+         vitruvRecorder = startVitruvChangeRecording(domain);
+      }
+      CommandExecutionContext context = super.executeCommand(domain, serverCommand, clientCommand);
+      ChangeDescription recording = recorder.endRecording();
+      if (containtsViewSerial(clientCommand) && vitruvRecorder != null) {
+         propagateVitruvChanges(domain, recorder, vitruvRecorder, clientCommand);
+      }
+
+      return new RecordingCommandExecutionContext(context, recording);
+   }
+
+   private void propagateVitruvChanges(final ModelServerEditingDomain domain, final ChangeRecorder recorder,
+      final tools.vitruv.change.composite.recording.ChangeRecorder vitruvRecorder, final CCommand clientCommand) {
+      TransactionalChange<EObject> changes = vitruvRecorder.endRecording();
+      recorder.dispose();
+      var changeResolver = VitruviusChangeResolver.forHierarchicalIds(domain.getResourceSet());
+      try {
+         domain.startTransaction(false, Map.of());
+         var vitruvChanges = changeResolver.assignIds(changes);
+         var serializedChanges = objectMapper.writeValueAsString(vitruvChanges);
+         var sendChanges = HttpRequest.newBuilder(java.net.URI.create("http://localhost:8070/vsum/view"))
+            .header("View-UUID", extractViewId(clientCommand))
+            .method("PATCH", BodyPublishers.ofString(serializedChanges)).build();
+         var response = httpClient.send(sendChanges, BodyHandlers.ofString());
+         System.out.println(response);
+      } catch (InterruptedException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      } catch (JsonProcessingException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      } catch (IOException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+   }
+
+   private String extractViewId(final CCommand clientCommand) {
+      return clientCommand.getProperties().get("viewSerial");
+   }
+
+   private tools.vitruv.change.composite.recording.ChangeRecorder startVitruvChangeRecording(
+      final ModelServerEditingDomain domain) {
+      tools.vitruv.change.composite.recording.ChangeRecorder vitruvRecorder;
+      vitruvRecorder = new tools.vitruv.change.composite.recording.ChangeRecorder(
+         domain.getResourceSet());
+      vitruvRecorder.addToRecording(domain.getResourceSet());
+      vitruvRecorder.beginRecording();
+      return vitruvRecorder;
+   }
+
+   private boolean containtsViewSerial(final CCommand clientCommand) {
+      return clientCommand.getProperties().containsKey("viewSerial")
+         && clientCommand.getProperties().get("viewSerial") != null;
    }
 
    @Override

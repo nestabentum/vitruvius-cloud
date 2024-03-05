@@ -12,8 +12,7 @@ export class ViewIdCache {
     public static add(modelId: string, viewId: string) {
         this.table.set(modelId, viewId);
     }
-
-    public static getViewId(modelId: string): string  {
-        return this.table.get(modelId)?? '';
+    public static getViewId(modelId: string): string {
+        return this.table.get(modelId) ?? '';
     }
 }

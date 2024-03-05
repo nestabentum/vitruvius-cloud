@@ -36,7 +36,7 @@ export async function getView(viewType: string, logger: ILogger): Promise<string
             }
         )
         .then(response => {
-            ViewIdCache.add('families-tree-example.families', response.data.id);
+            ViewIdCache.add('families.families', response.data.id);
             return response.data.view;
         })
         .catch(error => {
