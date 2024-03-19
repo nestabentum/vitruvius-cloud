@@ -50,7 +50,8 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                 const viewTypePicker = this.quickInputService.createQuickPick();
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
                 viewTypePicker.onDidChangeSelection(async selection => {
-                    await getView(selection[0].label, this.logger).then(result => this.viewSaver.saveView(result));
+                    await getView(selection[0].label, this.logger).then(result => {
+                        this.viewSaver.saveView(result)});
                 });
                 viewTypePicker.items = quickPickItems;
                 viewTypePicker.show();

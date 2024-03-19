@@ -47,12 +47,10 @@ export class FamiliesTreeLabelProvider implements LabelProviderContribution {
     public getName(element: object): string | undefined {
         const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
 
-        if (FamilyRegister.is(element)) {
-            return data.name || this.getNameForType(data.$type);
-        } else if (Family.is(element)) {
-            return data.lastName;
-        } else if (Member.is(element)) {
-            return data.firstName;
+        if (Family.is(data)) {
+            return 'Family ' + data.lastName;
+        } else if (Member.is(data)) {
+            return 'Member ' + data.firstName;
         }
         return this.getNameForType(data.$type);
     }

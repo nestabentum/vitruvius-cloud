@@ -35,9 +35,10 @@ import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import { Family, FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
-import { AddFamilyContribution } from './model-server-commands';
+import { Family, FamilyRegister, Identifiable, JsonPrimitiveType, Member } from './families-model';
+import { AddFamilyContribution, AddFatherContribution } from './model-server-commands';
 import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
+import { Utils } from '../utils';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
@@ -52,6 +53,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         @inject(NavigatableTreeEditorOptions) protected override readonly options: NavigatableTreeEditorOptions,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
         @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2,
+        @inject(Utils) private readonly utils: Utils
     ) {
         super(treeWidget, formWidget, workspaceService, logger, FamiliesTreeEditorConstants.WIDGET_ID, options);
 
@@ -64,7 +66,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         );
         this.loadModel();
 
-        this.modelServerClient.subscribe(this.getModelID());
+        this.modelServerClient.subscribe(this.utils.getModelID());
 
         // see https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload
         window.onbeforeunload = () => this.dispose();
@@ -72,8 +74,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     private loadModel(initialLoad = true): void {
         this.modelServerClient
-            // .get<Machine>(this.getModelID(), Machine.is, 'json-v2') // FIXME - sends format as format=%7B%7D ???
-            .get(this.getModelID())
+            // .get<Machine>(this.utils.getModelID(), Machine.is, 'json-v2') // FIXME - sends format as format=%7B%7D ???
+            .get(this.utils.getModelID())
             .then(machineModel => {
                 if (isEqual(this.instanceData, machineModel)) {
                     return;
@@ -88,7 +90,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             })
             .catch(() => {
                 this.treeWidget.setData({ error: true });
-                this.renderError(`An error occurred when requesting Machine Model '${this.getModelID()}'`);
+                this.renderError(`An error occurred when requesting Machine Model '${this.utils.getModelID()}'`);
                 this.instanceData = undefined;
                 return;
             });
@@ -137,11 +139,11 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     }
 
     protected isCurrentModelUri(uri: URI): boolean {
-        return uri.path.toString() === '/' + this.getModelID();
+        return uri.path.toString() === '/' + this.utils.getModelID();
     }
 
     override save(): void {
-        this.modelServerClient.save(this.getModelID());
+        this.modelServerClient.save(this.utils.getModelID());
     }
 
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {
@@ -156,13 +158,18 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             path: this.getOperationPath(data.id)
         };
         // }
-        this.modelServerClient.edit(this.getModelID(), patchOrCommand);
+        this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
+private getViewSerial = () => ViewIdCache.getViewId(this.utils.getModelID());
+
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
+        console.log('adding a node', node, type, property)
         let patchOrCommand: PatchOrCommand;
         if (type === Family.$type) {
-            patchOrCommand = AddFamilyContribution.create(ViewIdCache.getViewId(this.getModelID()));
+            patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
+        } else if (type === Member.$type) {
+            patchOrCommand = AddFatherContribution.create('Father', this.getViewSerial());
         } else {
             patchOrCommand = {
                 op: 'add',
@@ -171,11 +178,11 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             };
         }
 
-        this.modelServerClient.edit(this.getModelID(), patchOrCommand);
+        this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
     override dispose(): void {
-        this.modelServerClient.unsubscribe(this.getModelID());
+        this.modelServerClient.unsubscribe(this.utils.getModelID());
         super.dispose();
     }
 
@@ -184,13 +191,13 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             const resultDiff = this.getDiffPatch(compare(this.selectedNode.jsonforms.data, jsonFormsData));
             const editPatch = this.createDiffPatch(resultDiff, jsonFormsData, this.selectedNode.jsonforms.data);
             if (editPatch) {
-                this.modelServerClient.edit(this.getModelID(), editPatch);
+                this.modelServerClient.edit(this.utils.getModelID(), editPatch);
             }
         }
     }
 
     protected getOperationPath(changedObjectId: string, feature?: string): string {
-        return `${this.getModelID()}#${changedObjectId}${feature ? '/' + feature : ''}`;
+        return `${this.utils.getModelID()}#${changedObjectId}${feature ? '/' + feature : ''}`;
     }
 
     protected getDiffPatch(compareResult: Operation[]): Operation {
@@ -324,12 +331,6 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             key => key !== '$type' && key !== '$id' && key !== 'id' && key !== 'source' && key !== 'target' && key !== 'components'
         );
         return changeableFeatures.indexOf(featureName) > -1;
-    }
-
-    private getModelID(): string {
-        const rootUriLength = this.workspaceService.getWorkspaceRootUri(this.options.uri)?.toString().length ?? 0;
-        const id = this.options.uri.toString().substring(rootUriLength + 1);
-        return id;
     }
 
     protected override configureTitle(title: Title<Widget>): void {

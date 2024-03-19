@@ -34,3 +34,11 @@ export namespace AddFamilyContribution {
         return new ModelServerCommand(TYPE, { viewSerial });
     }
 }
+
+export namespace AddFatherContribution {
+    export const TYPE = 'addFatherContribution';
+
+    export function create(firstName: string, viewSerial: string): ModelServerCommand {
+        return new ModelServerCommand(TYPE, { firstName, viewSerial });
+    }
+}

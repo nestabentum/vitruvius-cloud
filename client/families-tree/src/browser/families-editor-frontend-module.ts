@@ -44,6 +44,7 @@ import {
     ModelServerSubscriptionClientV2,
     ModelServerSubscriptionServiceV2
 } from '@eclipse-emfcloud/modelserver-theia/lib/browser';
+import { Utils } from './utils';
 export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     // Bind ModelServerSubscription services
     bind(ModelServerSubscriptionClientV2).toSelf().inSingletonScope();
@@ -63,6 +64,7 @@ export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     bind(LabelProviderContribution).to(FamiliesTreeLabelProvider);
 
     // bind to themselves because we use it outside of the editor widget, too.
+    bind(Utils).toSelf()
     bind(FamiliesModelService).toSelf().inSingletonScope();
     bind(FamiliesTreeLabelProvider).toSelf().inSingletonScope();
 

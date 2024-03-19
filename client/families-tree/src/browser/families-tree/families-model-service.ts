@@ -31,7 +31,9 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     loadTypeSchema(): void {
         this.modelServerClient
             .getTypeSchema('families.families')
-            .then(data => (this.typeSchema = JSON.parse(data)))
+            .then(data => {
+                this.typeSchema = JSON.parse(data);
+            })
             .catch((error: any) => this.logger.error(error));
         return;
     }
@@ -44,7 +46,8 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         return this.typeSchema;
     }
 
-    async getSchemaForNode(node: TreeEditor.Node): Promise<JsonSchema7> {
+    async getSchemaForNode(node: TreeEditor.Node): Promise<JsonSchema7 | undefined> {
+        return undefined
         const definitions = await this.getTypeSchema();
         return {
             definitions: definitions.definitions,
