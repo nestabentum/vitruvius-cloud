@@ -35,8 +35,8 @@ import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import { Family, FamilyRegister, Identifiable, JsonPrimitiveType, Member } from './families-model';
-import { AddFamilyContribution, AddFatherContribution } from './model-server-commands';
+import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
+import { AddFatherContribution } from './model-server-commands';
 import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
 import { Utils } from '../utils';
 
@@ -155,20 +155,22 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // } else {
         const patchOrCommand: PatchOrCommand = {
             op: 'remove',
-            path: this.getOperationPath(data.id)
+            path: this.getOperationPath(data.$id)
         };
         // }
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-private getViewSerial = () => ViewIdCache.getViewId(this.utils.getModelID());
+    private getViewSerial = (): string => ViewIdCache.getViewId(this.utils.getModelID());
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
-        console.log('adding a node', node, type, property)
+        console.log('adding a node', node, type, property);
         let patchOrCommand: PatchOrCommand;
-        if (type === Family.$type) {
-            patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
-        } else if (type === Member.$type) {
+        // if (type === Family.$type) {
+        //     patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
+        // } else
+        
+        if (property ==='father') {
             patchOrCommand = AddFatherContribution.create('Father', this.getViewSerial());
         } else {
             patchOrCommand = {

@@ -16,11 +16,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emfcloud.modelserver.emf.common.DefaultResourceSetFactory;
 import org.eclipse.emfcloud.modelserver.integration.SemanticFileExtension;
 import org.eclipse.emfcloud.modelserver.notation.integration.NotationFileExtension;
-import org.eclipse.emfcloud.modelserver.notation.integration.NotationResource;
 
 import com.google.inject.Inject;
 
-public class CoffeeResourceSetFactory extends DefaultResourceSetFactory {
+public class XMIResourceSetFactory extends DefaultResourceSetFactory {
 
    @Inject
    @SemanticFileExtension
@@ -32,16 +31,16 @@ public class CoffeeResourceSetFactory extends DefaultResourceSetFactory {
    @Override
    public ResourceSet createResourceSet(final URI modelURI) {
       ResourceSet result = super.createResourceSet(modelURI);
-      if ("families".equals(modelURI.fileExtension())) {
-         result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("families", new XMIResourceFactoryImpl());
-         return result;
-      }
-
-      result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-         semanticFileExtension, CoffeeResource.FACTORY);
-      result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-         notationFileExtension, NotationResource.FACTORY);
-
+      // if ("families".equals(modelURI.fileExtension())) {
+      result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
       return result;
+      // }
+      //
+      // result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+      // semanticFileExtension, CoffeeResource.FACTORY);
+      // result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+      // notationFileExtension, NotationResource.FACTORY);
+      //
+      // return result;
    }
 }

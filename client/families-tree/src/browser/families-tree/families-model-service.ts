@@ -47,7 +47,6 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     async getSchemaForNode(node: TreeEditor.Node): Promise<JsonSchema7 | undefined> {
-        return undefined
         const definitions = await this.getTypeSchema();
         return {
             definitions: definitions.definitions,

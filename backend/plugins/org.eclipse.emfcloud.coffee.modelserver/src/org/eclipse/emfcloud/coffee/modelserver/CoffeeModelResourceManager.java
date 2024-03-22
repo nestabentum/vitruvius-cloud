@@ -18,6 +18,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.Command;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emfcloud.jackson.module.EMFModule;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelServerEditingDomain;
@@ -50,6 +52,29 @@ import tools.vitruv.change.composite.description.VitruviusChangeResolver;
 import tools.vitruv.framework.remote.common.serializer.VitruviusChangeSerializer;
 
 public class CoffeeModelResourceManager extends RecordingModelResourceManager {
+
+   @Override
+   @SuppressWarnings("checkstyle:IllegalCatch")
+   public Optional<Resource> loadResource(final String modeluri) {
+      try {
+         ResourceSet rset = getResourceSet(modeluri);
+         URI resourceURI = createURI(modeluri);
+         // Note that the resource set may be absent if the resource does not exist
+         Optional<Resource> loadedResource = Optional.ofNullable(rset).map(rs -> rs.getResource(resourceURI, false))
+            .filter(Resource::isLoaded);
+         if (loadedResource.isPresent() || rset == null) {
+            return loadedResource;
+         }
+         // do load the resource and watch for modifications
+         Resource resource = rset.getResource(resourceURI, true);
+         resource.load(Map.of(XMLResource.OPTION_SAVE_TYPE_INFORMATION, true));
+         watchResourceModifications(resource);
+         return Optional.of(resource);
+      } catch (final Exception e) {
+         handleLoadError(modeluri, this.isInitializing, e);
+         return Optional.empty();
+      }
+   }
 
    @Inject
    @SemanticFileExtension
@@ -143,7 +168,7 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    }
 
    private boolean containtsViewSerial(final CCommand clientCommand) {
-      return clientCommand.getProperties().containsKey("viewSerial")
+      return clientCommand != null && clientCommand.getProperties().containsKey("viewSerial")
          && clientCommand.getProperties().get("viewSerial") != null;
    }
 
@@ -187,24 +212,12 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    @Override
    public ResourceSet getResourceSet(final String modeluri) {
       URI resourceURI = createURI(modeluri);
-      if (notationFileExtension.equals(resourceURI.fileExtension())) {
-         URI semanticUri = resourceURI.trimFileExtension().appendFileExtension(semanticFileExtension);
-         return getCoffeeResourceSet(semanticUri);
-      }
-      if ("families".equals(resourceURI.fileExtension())) {
-         return getFamiliesResourceSet(resourceURI);
-      }
-      return resourceSets.get(resourceURI);
-   }
-
-   private ResourceSet getFamiliesResourceSet(final URI modelURI) {
-      ResourceSet result = resourceSets.get(modelURI);
+      ResourceSet result = resourceSets.get(resourceURI);
       if (result == null) {
-         result = resourceSetFactory.createResourceSet(modelURI);
-         resourceSets.put(modelURI, result);
+         result = resourceSetFactory.createResourceSet(resourceURI);
+         resourceSets.put(resourceURI, result);
       }
       return result;
-
    }
 
    @Override

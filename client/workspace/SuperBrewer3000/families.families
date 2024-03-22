@@ -3,6 +3,7 @@
   <families lastName="Herbertus">
     <sons firstName="Chris"/>
     <daughters firstName="Daria"/>
-    <mother firstName="Berta"/>
+    <father firstName="Father"/>
+    <mother/>
   </families>
 </families:FamilyRegister>

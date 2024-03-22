@@ -21,6 +21,7 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNode
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
 import org.eclipse.emfcloud.modelserver.common.utils.MapBinding;
 import org.eclipse.emfcloud.modelserver.common.utils.MultiBinding;
 import org.eclipse.emfcloud.modelserver.edit.CommandContribution;
@@ -48,7 +49,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
    @Override
    protected Class<? extends ResourceSetFactory> bindResourceSetFactory() {
-      return CoffeeResourceSetFactory.class;
+      return XMIResourceSetFactory.class;
    }
 
    @Override
@@ -63,7 +64,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
       // Families
       binding.put(AddFamilyCommandContribution.TYPE, AddFamilyCommandContribution.class);
-
+      binding.put(AddFatherCommandContribution.TYPE, AddFatherCommandContribution.class);
       // Nodes
       binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);
       binding.put(AddAutomatedTaskCommandContribution.TYPE, AddAutomatedTaskCommandContribution.class);

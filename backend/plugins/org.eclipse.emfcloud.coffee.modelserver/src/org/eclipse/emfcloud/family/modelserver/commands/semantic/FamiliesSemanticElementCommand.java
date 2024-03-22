@@ -16,6 +16,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emfcloud.coffee.modelserver.commands.util.SemanticCommandUtil;
 
+import edu.kit.ipd.sdq.metamodels.families.Family;
 import edu.kit.ipd.sdq.metamodels.families.FamilyRegister;
 
 public abstract class FamiliesSemanticElementCommand extends RecordingCommand {
@@ -26,4 +27,7 @@ public abstract class FamiliesSemanticElementCommand extends RecordingCommand {
       this.semanticModel = SemanticCommandUtil.getFamilyModel(modelUri, domain);
    }
 
+   protected Family getFamily(final int index) {
+      return semanticModel.getFamilies().get(index);
+   }
 }

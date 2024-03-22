@@ -55,7 +55,7 @@ public class CoffeeTreeJsonCodec extends DefaultJsonCodec {
       // https://github.com/eclipse-emfcloud/emfjson-jackson/wiki/Customization#custom-id-field
       emfModule.configure(EMFModule.Feature.OPTION_USE_ID, true);
       emfModule.configure(EMFModule.Feature.OPTION_SERIALIZE_DEFAULT_VALUE, true);
-
+      emfModule.configure(EMFModule.Feature.OPTION_SERIALIZE_TYPE, true);
       // FIXME investigate why eClass (type) is not serialized for nested elements
       // e.g. processor child of control unit
 
