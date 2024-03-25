@@ -169,8 +169,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // if (type === Family.$type) {
         //     patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
         // } else
-        
-        if (property ==='father') {
+
+        if (property === 'father') {
             patchOrCommand = AddFatherContribution.create('Father', this.getViewSerial());
         } else {
             patchOrCommand = {

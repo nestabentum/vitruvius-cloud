@@ -15,7 +15,6 @@
 
 import { ILogger } from '@theia/core';
 import axios, { AxiosResponse } from 'axios';
-import { ViewIdCache } from '../ViewIdCache';
 
 const vitruvCloudUrl = 'http://localhost:8069/vsum/';
 const vitruvAdapterUrl = 'http://localhost:8070/vsum/';
@@ -24,7 +23,7 @@ export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
     return axios.get<ViewTypes>(`${vitruvCloudUrl}view/types`);
 }
 
-export async function getView(viewType: string, logger: ILogger): Promise<string> {
+export async function getView(viewType: string, logger: ILogger): Promise<{ fileEnding: string; id: string; view: string }> {
     return await axios
         .post(
             `${vitruvAdapterUrl}view/`,
@@ -36,11 +35,9 @@ export async function getView(viewType: string, logger: ILogger): Promise<string
             }
         )
         .then(response => {
-            ViewIdCache.add('families.families', response.data.id);
-            return response.data.view;
+            return response.data;
         })
         .catch(error => {
-            console.log('THISISTHEERROR', error);
             logger.error(error);
         });
 }

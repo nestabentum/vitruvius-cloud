@@ -64,7 +64,7 @@ export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     bind(LabelProviderContribution).to(FamiliesTreeLabelProvider);
 
     // bind to themselves because we use it outside of the editor widget, too.
-    bind(Utils).toSelf()
+    bind(Utils).toSelf();
     bind(FamiliesModelService).toSelf().inSingletonScope();
     bind(FamiliesTreeLabelProvider).toSelf().inSingletonScope();
 
