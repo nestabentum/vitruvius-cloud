@@ -11,7 +11,7 @@
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
-import { FamiliesModel, Family, FamilyRegister, Identifiable, Member } from './families-model';
+import { FamiliesModel } from './families-model';
 
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 import { FamiliesTreeLabelProvider } from './families-tree-label-provider-contribution';
@@ -31,8 +31,11 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
         return [];
     }
 
+    isObject(element: unknown): boolean {
+        return typeof element === 'object' && element !== undefined;
+    }
     mapData(
-        element: Identifiable,
+        element: { [key: string]: any },
         parent?: TreeEditor.Node,
         property?: string,
         indexOrKey?: number | string,
@@ -51,9 +54,9 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             editorId: FamiliesTreeEditorConstants.EDITOR_ID,
             name: this.labelProvider.getName(element) ?? '',
             parent: parent,
-            id: element.id || element.$id,
+            id: element['id'] || element['$id'],
             jsonforms: {
-                type: element.$type || defaultType || '',
+                type: element['$type'] || defaultType || '',
                 data: element,
                 property: property ?? '',
                 index: typeof indexOrKey === 'number' ? indexOrKey.toFixed(0) : indexOrKey
@@ -64,37 +67,49 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             parent.children.push(node);
             parent.expanded = true;
         }
+        // FIXME, type information from model server necessary
+        Object.keys(element).forEach(elementKey => {
+            const nextElement = element[elementKey];
+            if (Array.isArray(nextElement) && nextElement.some(nextNextElement => this.isObject(nextNextElement))) {
+                nextElement.forEach((nextNextElement, idx) => this.mapData(nextNextElement, node, elementKey, idx));
+                return;
+            }
 
-        if (FamilyRegister.is(element) && element.families) {
-            element.families.forEach((component: any, idx: number) => {
-                this.mapData(component, node, 'families', idx);
-            });
-        }
-        if (Family.is(element)) {
-            node.jsonforms.data.$type = Family.$type;
-            node.jsonforms.type = Family.$type;
-            if (element.daughters) {
-                element.daughters.forEach((component: any, idx: number) => {
-                    this.mapData(component, node, 'daughters', idx);
-                });
+            if (this.isObject(nextElement)) {
+                this.mapData(nextElement, node, elementKey);
             }
-            if (element.sons) {
-                element.sons.forEach((component: any, idx: number) => {
-                    this.mapData(component, node, 'sons', idx);
-                });
-            }
-            if (element.father) {
-                this.mapData(element.father, node, 'father', 0);
-            }
-            if (element.mother) {
-                this.mapData(element.mother, node, 'mother', 0);
-            }
-        }
-        if (Member.is(element)) {
-            node.jsonforms.data.$type = Member.$type;
+        });
 
-            node.jsonforms.type = Member.$type;
-        }
+        // if (FamilyRegister.is(element) && element.families) {
+        //     element.families.forEach((component: any, idx: number) => {
+        //         this.mapData(component, node, 'families', idx);
+        //     });
+        // }
+        // if (Family.is(element)) {
+        //     node.jsonforms.data.$type = Family.$type;
+        //     node.jsonforms.type = Family.$type;
+        //     if (element.daughters) {
+        //         element.daughters.forEach((component: any, idx: number) => {
+        //             this.mapData(component, node, 'daughters', idx);
+        //         });
+        //     }
+        //     if (element.sons) {
+        //         element.sons.forEach((component: any, idx: number) => {
+        //             this.mapData(component, node, 'sons', idx);
+        //         });
+        //     }
+        //     if (element.father) {
+        //         this.mapData(element.father, node, 'father', 0);
+        //     }
+        //     if (element.mother) {
+        //         this.mapData(element.mother, node, 'mother', 0);
+        //     }
+        // }
+        // if (Member.is(element)) {
+        //     node.jsonforms.data.$type = Member.$type;
+
+        //     node.jsonforms.type = Member.$type;
+        // }
         return node;
     }
 
