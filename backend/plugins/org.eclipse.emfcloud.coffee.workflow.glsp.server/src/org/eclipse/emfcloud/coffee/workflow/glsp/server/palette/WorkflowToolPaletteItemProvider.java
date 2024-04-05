@@ -31,7 +31,7 @@ public class WorkflowToolPaletteItemProvider implements ToolPaletteItemProvider 
    @Override
    public List<PaletteItem> getItems(final Map<String, String> args) {
       LOGGER.info("Create palette");
-      return Lists.newArrayList(tasks(), nodes(), edges());
+      return Lists.newArrayList(persons(), tasks(), nodes(), edges());
    }
 
    private PaletteItem tasks() {
@@ -40,6 +40,13 @@ public class WorkflowToolPaletteItemProvider implements ToolPaletteItemProvider 
 
       List<PaletteItem> nodes = Lists.newArrayList(createAutomatedTask, createManualTask);
       return PaletteItem.createPaletteGroup("task-group", "Tasks", nodes, "symbol-property", "a");
+   }
+
+   private PaletteItem persons() {
+      PaletteItem createPerson = node(WorkflowModelTypes.MALE_PERSON, "Male", "fa-solid-mars");
+
+      List<PaletteItem> nodes = Lists.newArrayList(createPerson);
+      return PaletteItem.createPaletteGroup("person-group", "Persons", nodes, "symbol-property", "a");
    }
 
    private PaletteItem nodes() {

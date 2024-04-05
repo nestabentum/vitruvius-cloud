@@ -33,6 +33,12 @@ import {
     WithEditableLabel,
     withEditLabelFeature
 } from '@eclipse-glsp/client';
+export class PersonNode extends RectangularNode implements Nameable {
+
+    get name(): string {
+        return this.id;
+    }
+}
 
 export class TaskNode extends RectangularNode implements Nameable, WithEditableLabel {
     static override readonly DEFAULT_FEATURES = [

@@ -23,6 +23,7 @@ public final class WorkflowModelTypes {
    public static final String MERGE_NODE = "activityNode:merge";
    public static final String MANUAL_TASK = "task:manual";
    public static final String AUTOMATED_TASK = "task:automated";
+   public static final String MALE_PERSON = "person:male";
 
    public static String toNodeType(final String type) {
       switch (type) {

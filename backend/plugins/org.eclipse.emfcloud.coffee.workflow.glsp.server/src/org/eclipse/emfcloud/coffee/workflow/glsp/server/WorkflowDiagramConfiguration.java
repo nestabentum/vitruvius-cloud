@@ -17,6 +17,7 @@ import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelType
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.LABEL_HEADING;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.LABEL_ICON;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.LABEL_TEXT;
+import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.MALE_PERSON;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.MANUAL_TASK;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.MERGE_NODE;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.WEIGHTED_EDGE;
@@ -54,6 +55,7 @@ public class WorkflowDiagramConfiguration extends BaseDiagramConfiguration {
       mappings.put(DECISION_NODE, WfgraphPackage.Literals.ACTIVITY_NODE);
       mappings.put(MANUAL_TASK, WfgraphPackage.Literals.TASK_NODE);
       mappings.put(AUTOMATED_TASK, WfgraphPackage.Literals.TASK_NODE);
+      mappings.put(MALE_PERSON, GraphPackage.Literals.GNODE);
       return mappings;
    }
 

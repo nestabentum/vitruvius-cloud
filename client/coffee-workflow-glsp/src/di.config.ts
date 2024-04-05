@@ -38,7 +38,7 @@ import { DefaultTypes } from '@eclipse-glsp/protocol';
 import { Container, ContainerModule } from 'inversify';
 
 import { directTaskEditor } from './direct-task-editing/di.config';
-import { ActivityNode, CategoryNode, Icon, TaskNode, WeightedEdge } from './model';
+import { ActivityNode, CategoryNode, Icon, PersonNode, TaskNode, WeightedEdge } from './model';
 import { IconView, WorkflowEdgeView } from './workflow-views';
 
 const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -50,6 +50,7 @@ const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind
     const context = { bind, unbind, isBound, rebind };
 
     configureDefaultModelElements(context);
+    configureModelElement(context, 'person:male', PersonNode, RoundedCornerNodeView);
     configureModelElement(context, 'task:automated', TaskNode, RoundedCornerNodeView);
     configureModelElement(context, 'task:manual', TaskNode, RoundedCornerNodeView);
     configureModelElement(context, 'label:heading', SLabel, SLabelView, { enable: [editLabelFeature] });

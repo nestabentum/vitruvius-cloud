@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/glsp/notation">
+  <semanticElement elementId="Register"/>
+    <elements xsi:type="notation:Shape">
+    <semanticElement elementId="Male-Crhis"/>
+    <position x="95.01586914062499" y="536.0"/>
+    <size width="73.671875" height="30.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="Female-Daria"/>
+    <position x="95.39086914062499" y="12.0"/>
+    <size width="72.921875" height="30.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="Male-Anton"/>
+    <position x="64.27368164062499" y="341.0"/>
+    <size width="135.15625" height="30.0"/>
+  </elements>
+</notation:Diagram>

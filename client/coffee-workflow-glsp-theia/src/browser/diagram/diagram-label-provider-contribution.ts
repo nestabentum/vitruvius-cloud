@@ -27,7 +27,7 @@ export class WorkflowDiagramLabelProviderContribution implements LabelProviderCo
             toCheck = UriSelection.getUri(uri);
         }
         if (toCheck instanceof URI) {
-            if (toCheck.path.ext === WorkflowNotationLanguage.fileExtensions[0]) {
+            if (WorkflowNotationLanguage.fileExtensions.some(eleme => toCheck.path.ext === eleme)) {
                 return 1000;
             }
         }

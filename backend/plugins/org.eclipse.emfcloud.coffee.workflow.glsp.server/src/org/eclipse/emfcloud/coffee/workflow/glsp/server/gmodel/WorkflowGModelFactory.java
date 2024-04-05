@@ -16,12 +16,11 @@ import java.util.Optional;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emfcloud.coffee.Flow;
-import org.eclipse.emfcloud.coffee.Machine;
 import org.eclipse.emfcloud.coffee.Node;
 import org.eclipse.emfcloud.coffee.Task;
 import org.eclipse.emfcloud.coffee.WeightedFlow;
-import org.eclipse.emfcloud.coffee.Workflow;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowHighlightStore;
+import org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.util.CoffeeTypeUtil;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.util.WorkflowBuilder.ActivityNodeBuilder;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.util.WorkflowBuilder.TaskNodeBuilder;
@@ -39,6 +38,7 @@ import org.eclipse.glsp.graph.builder.AbstractGNodeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GArguments;
 import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
+import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.glsp.server.emf.model.notation.Diagram;
@@ -46,6 +46,9 @@ import org.eclipse.glsp.server.emf.model.notation.Edge;
 import org.eclipse.glsp.server.emf.model.notation.Shape;
 
 import com.google.inject.Inject;
+
+import edu.kit.ipd.sdq.metamodels.persons.Person;
+import edu.kit.ipd.sdq.metamodels.persons.PersonRegister;
 
 public class WorkflowGModelFactory extends EMSNotationGModelFactory {
 
@@ -58,21 +61,22 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
 
    @Override
    protected void fillRootElement(final EObject semanticModel, final Diagram notationModel, final GModelRoot newRoot) {
-      Workflow workflowModel = Machine.class.cast(semanticModel).getWorkflows().get(0);
+      // Workflow workflowModel = Machine.class.cast(semanticModel).getWorkflows().get(0);
+      PersonRegister register = PersonRegister.class.cast(semanticModel);
       GGraph graph = GGraph.class.cast(newRoot);
 
       if (notationModel.getSemanticElement() != null
          && notationModel.getSemanticElement().getResolvedSemanticElement() != null) {
 
-         graph.setId(idGenerator.getOrCreateId(workflowModel));
-
+         graph.setId(idGenerator.getOrCreateId(register));
+         register.getPersons().stream().map(this::createPersonsNode).forEach(graph.getChildren()::add);
          // Add Nodes
-         workflowModel.getNodes().stream().map(this::createNode)
-            .forEachOrdered(graph.getChildren()::add);
+         // workflowModel.getNodes().stream().map(this::createNode)
+         // .forEachOrdered(graph.getChildren()::add);
 
          // Add Flows
-         workflowModel.getFlows().stream().map(this::createEdge)
-            .forEachOrdered(graph.getChildren()::add);
+         // workflowModel.getFlows().stream().map(this::createEdge)
+         // .forEachOrdered(graph.getChildren()::add);
       }
    }
 
@@ -81,6 +85,17 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
          return this.createTaskNode(Task.class.cast(node));
       }
       return this.createActivityNode(node);
+   }
+
+   protected GNode createPersonsNode(final Person node) {
+      String type = WorkflowModelTypes.MALE_PERSON;
+
+      GNodeBuilder builder = new GNodeBuilder(type);
+
+      builder.addArguments(GArguments.cornerRadius(5));
+      builder.addArgument("name", node.getFullName());
+      applyShapeData(node, builder);
+      return builder.build();
    }
 
    protected TaskNode createTaskNode(final Task task) {
