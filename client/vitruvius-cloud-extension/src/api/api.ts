@@ -23,7 +23,7 @@ export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
     return axios.get<ViewTypes>(`${vitruvCloudUrl}view/types`);
 }
 
-export async function getView(viewType: string, logger: ILogger): Promise<{ fileEnding: string; id: string; view: string }> {
+export async function getView(viewType: string, logger: ILogger): Promise<{ fileEnding: string; id: string; view: string, resourceURI: string }> {
     return await axios
         .post(
             `${vitruvAdapterUrl}view/`,

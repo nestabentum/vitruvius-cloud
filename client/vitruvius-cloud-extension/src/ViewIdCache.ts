@@ -7,12 +7,12 @@ export interface ViewIdCacheContribution {
 export const ViewIdCacheContribution = Symbol('ViewIdCacheContribution');
 @injectable()
 export class ViewIdCache {
-    private static table: Map<string, string> = new Map();
+    private static viewToId: Map<string, { id: string; resourceURI: string }> = new Map();
 
-    public static add(modelId: string, viewId: string) {
-        this.table.set(modelId, viewId);
+    public static add(modelId: string, viewInfo: { id: string; resourceURI: string }) {
+        this.viewToId.set(modelId, viewInfo);
     }
-    public static getViewId(modelId: string): string {
-        return this.table.get(modelId) ?? '';
+    public static getViewInfo(modelId: string): { id: string; resourceURI: string } | undefined {
+        return this.viewToId.get(modelId);
     }
 }

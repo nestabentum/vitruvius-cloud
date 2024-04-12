@@ -16,6 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +31,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emfcloud.jackson.module.EMFModule;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelServerEditingDomain;
 import org.eclipse.emfcloud.modelserver.emf.common.RecordingModelResourceManager;
@@ -42,14 +42,12 @@ import org.eclipse.emfcloud.modelserver.integration.SemanticFileExtension;
 import org.eclipse.emfcloud.modelserver.notation.integration.NotationFileExtension;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import tools.vitruv.change.composite.description.TransactionalChange;
-import tools.vitruv.change.composite.description.VitruviusChange;
 import tools.vitruv.change.composite.description.VitruviusChangeResolver;
-import tools.vitruv.framework.remote.common.serializer.VitruviusChangeSerializer;
+import tools.vitruv.framework.remote.common.util.JsonMapper;
 
 public class CoffeeModelResourceManager extends RecordingModelResourceManager {
 
@@ -83,7 +81,7 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    @NotationFileExtension
    protected String notationFileExtension;
 
-   private final ObjectMapper objectMapper;
+   private final JsonMapper objectMapper;
 
    private final HttpClient httpClient;
 
@@ -94,11 +92,8 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
 
       super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
       this.httpClient = HttpClient.newHttpClient();
-      this.objectMapper = new ObjectMapper();
+      this.objectMapper = new JsonMapper(Path.of("/cloud-vsum"));
 
-      var module = new EMFModule();
-      module.addSerializer(VitruviusChange.class, new VitruviusChangeSerializer());
-      this.objectMapper.registerModules(module);
    }
 
    @Override
@@ -135,7 +130,13 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
       try {
          domain.startTransaction(false, Map.of());
          var vitruvChanges = changeResolver.assignIds(changes);
-         var serializedChanges = objectMapper.writeValueAsString(vitruvChanges);
+         var serializedChanges = objectMapper.serialize(vitruvChanges);
+         String uri = extractViewURI(clientCommand);
+         String uriToReplace = domain.getResourceSet().getResources().stream().findFirst().get().getURI()
+            .toFileString();
+         var targetFileURI = URI.createFileURI(uri).toFileString();
+         serializedChanges = serializedChanges.replace(uriToReplace, targetFileURI);
+
          var sendChanges = HttpRequest.newBuilder(java.net.URI.create("http://localhost:8070/vsum/view"))
             .header("View-UUID", extractViewId(clientCommand))
             .method("PATCH", BodyPublishers.ofString(serializedChanges)).build();
@@ -155,6 +156,10 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
 
    private String extractViewId(final CCommand clientCommand) {
       return clientCommand.getProperties().get("viewSerial");
+   }
+
+   private String extractViewURI(final CCommand clientCommand) {
+      return clientCommand.getProperties().get("uri");
    }
 
    private tools.vitruv.change.composite.recording.ChangeRecorder startVitruvChangeRecording(

@@ -38,7 +38,7 @@ export namespace AddFamilyContribution {
 export namespace AddFatherContribution {
     export const TYPE = 'addFatherContribution';
 
-    export function create(firstName: string, viewSerial: string): ModelServerCommand {
-        return new ModelServerCommand(TYPE, { firstName, viewSerial });
+    export function create(firstName: string, viewInfo: { id: string; resourceURI: string }): ModelServerCommand {
+        return new ModelServerCommand(TYPE, { firstName, viewSerial: viewInfo.id, uri: viewInfo.resourceURI });
     }
 }

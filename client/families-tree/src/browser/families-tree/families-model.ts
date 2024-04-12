@@ -28,7 +28,7 @@ export interface Identifiable extends ModelServerObjectV2, AnyObject {
 export namespace Identifiable {
     export function is(object: unknown): object is Identifiable {
         return (
-            AnyObject.is(object) &&( isString(object, '$id') || isString(object, 'id'))
+            AnyObject.is(object) && (isString(object, '$id') || isString(object, 'id'))
             // && isString(object, 'id')
         );
     }
@@ -40,8 +40,7 @@ export interface Family extends Identifiable {
     sons?: Daughter[];
     father?: Member;
     mother?: Member;
-    lastName: string
-
+    lastName: string;
 }
 export interface Member extends Identifiable {
     firstName: string;
@@ -78,7 +77,7 @@ export namespace FamiliesModel {
         [
             Family.$type,
             [
-                { property: 'daughters', children: [Member.$type] },
+                { property: 'daughters', children: [Family.$type] },
                 { property: 'sons', children: [Member.$type] },
                 { property: 'father', children: [Member.$type] },
                 { property: 'mother', children: [Member.$type] }

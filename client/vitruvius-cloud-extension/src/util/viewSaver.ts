@@ -1,10 +1,10 @@
-import { inject, injectable } from '@theia/core/shared/inversify';
 import { OpenerService, SingleTextInputDialog } from '@theia/core/lib/browser';
-import { WorkspaceService } from '@theia/workspace/lib/browser';
-import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { ILogger } from '@theia/core/lib/common';
 import { BinaryBuffer } from '@theia/core/lib/common/buffer';
+import { inject, injectable } from '@theia/core/shared/inversify';
+import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { FileSystemUtils } from '@theia/filesystem/lib/common';
+import { WorkspaceService } from '@theia/workspace/lib/browser';
 import { ViewIdCache } from '../ViewIdCache';
 
 @injectable()
@@ -19,7 +19,7 @@ export class ViewSaver {
         @inject(WorkspaceService)
         protected readonly workspaceService: WorkspaceService
     ) {}
-    saveView = async (view: { fileEnding: string; view: string; id: string }) => {
+    saveView = async (view: { fileEnding: string; view: string; id: string; resourceURI: string }) => {
         console.log('view', view);
         const contentBuffer = BinaryBuffer.fromString(view.view);
 
@@ -38,7 +38,7 @@ export class ViewSaver {
                     .createFile(finalURI, contentBuffer)
                     .then(_ => this.openerService.getOpener(finalURI))
                     .then(openHandler => {
-                        ViewIdCache.add(finalURI.toString(), view.id);
+                        ViewIdCache.add(finalURI.toString(), { id: view.id, resourceURI: view.resourceURI });
                         openHandler.open(finalURI);
                     });
             }

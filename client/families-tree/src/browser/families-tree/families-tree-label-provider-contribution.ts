@@ -16,7 +16,11 @@ import { injectable } from 'inversify';
 import { Family, FamilyRegister, Member } from './families-model';
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 
-const ICON_CLASSES: Map<string, string> = new Map([[FamilyRegister.$type, 'settings-gear']]);
+const ICON_CLASSES: Map<string, string> = new Map([
+    [FamilyRegister.$type, 'folder-opened'],
+    [Family.$type, 'account'],
+    [Member.$type, 'person']
+]);
 
 /* Icon for unknown types */
 const UNKNOWN_ICON = 'circle-slash';

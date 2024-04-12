@@ -161,7 +161,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-    private getViewSerial = (): string => ViewIdCache.getViewId(this.utils.getModelID());
+    private getViewInfo = (): {id: string, resourceURI: string}  =>
+        ViewIdCache.getViewInfo(this.options.uri.toString())! ;
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         console.log('adding a node', node, type, property);
@@ -171,7 +172,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // } else
 
         if (property === 'father') {
-            patchOrCommand = AddFatherContribution.create('Father', this.getViewSerial());
+            patchOrCommand = AddFatherContribution.create('Father', this.getViewInfo());
         } else {
             patchOrCommand = {
                 op: 'add',
