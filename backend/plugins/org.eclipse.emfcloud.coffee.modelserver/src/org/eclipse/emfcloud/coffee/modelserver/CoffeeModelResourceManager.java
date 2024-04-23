@@ -133,9 +133,10 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
          var serializedChanges = objectMapper.serialize(vitruvChanges);
          String uri = extractViewURI(clientCommand);
          String uriToReplace = domain.getResourceSet().getResources().stream().findFirst().get().getURI()
-            .toFileString();
-         var targetFileURI = URI.createFileURI(uri).toFileString();
-         serializedChanges = serializedChanges.replace(uriToReplace, targetFileURI);
+            .toString();
+         var targetFileURI = URI.createFileURI(uri).toString();
+
+         serializedChanges = serializedChanges.replaceAll("(?i)" + uriToReplace, targetFileURI);
 
          var sendChanges = HttpRequest.newBuilder(java.net.URI.create("http://localhost:8070/vsum/view"))
             .header("View-UUID", extractViewId(clientCommand))

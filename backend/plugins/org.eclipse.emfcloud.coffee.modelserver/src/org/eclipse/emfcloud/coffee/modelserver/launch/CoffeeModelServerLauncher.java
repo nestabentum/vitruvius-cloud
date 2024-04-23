@@ -32,6 +32,24 @@ public final class CoffeeModelServerLauncher {
       final ModelServerLauncher launcher = new CLIBasedModelServerLauncher(createCLIParser(args),
          new CoffeeModelServerModule());
       launcher.run();
+
+      // var server = HttpServer.create(new InetSocketAddress(8070), 0);
+      //
+      // Set<HttpHandler> handlers = Set.of(new HttpHandler() {
+      //
+      // @Override
+      // public void handle(HttpExchange exchange) throws IOException {
+      // exchange.getHttpContext();
+      //
+      // }
+      //
+      // });
+      // handlers.forEach(handler -> {
+      //
+      // server.createContext("/vsum/view", handler);
+      // });
+      //
+      // server.start();
    }
 
    protected static CLIParser createCLIParser(final String[] args) {
