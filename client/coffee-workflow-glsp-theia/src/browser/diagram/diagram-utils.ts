@@ -10,8 +10,8 @@
  */
 import URI from '@theia/core/lib/common/uri';
 
-const coffeeFileExtension = '.persons';
-const notationFileExtension = '.persons-notation';
+const coffeeFileExtension = '.families'; // TODO families
+const notationFileExtension = '.notation'; // TODO families-notation
 
 export function getCoffeeUriString(uriString: string): string {
     if (uriString.endsWith(notationFileExtension)) {

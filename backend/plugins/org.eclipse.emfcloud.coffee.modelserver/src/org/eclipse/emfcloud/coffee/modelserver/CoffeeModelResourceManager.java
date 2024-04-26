@@ -66,7 +66,6 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
          // do load the resource and watch for modifications
          Resource resource = rset.getResource(resourceURI, true);
          resource.load(Map.of(XMLResource.OPTION_SAVE_TYPE_INFORMATION, true));
-         watchResourceModifications(resource);
          return Optional.of(resource);
       } catch (final Exception e) {
          handleLoadError(modeluri, this.isInitializing, e);
@@ -218,6 +217,10 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    @Override
    public ResourceSet getResourceSet(final String modeluri) {
       URI resourceURI = createURI(modeluri);
+      if (notationFileExtension.equals(resourceURI.fileExtension())) {
+         URI semanticUri = resourceURI.trimFileExtension().appendFileExtension(semanticFileExtension);
+         return getCoffeeResourceSet(semanticUri);
+      }
       ResourceSet result = resourceSets.get(resourceURI);
       if (result == null) {
          result = resourceSetFactory.createResourceSet(resourceURI);

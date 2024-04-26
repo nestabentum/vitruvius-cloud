@@ -30,7 +30,6 @@ import org.eclipse.emfcloud.modelserver.emf.common.ResourceSetFactory;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
 import org.eclipse.emfcloud.modelserver.jsonschema.JsonSchemaConverter;
 import org.eclipse.emfcloud.modelserver.notation.integration.EMSNotationModelServerModule;
-import org.eclipse.emfcloud.modelserver.notation.integration.NotationResource;
 
 public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
@@ -81,9 +80,9 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
    }
 
    @Override
-   protected String getSemanticFileExtension() { return CoffeeResource.FILE_EXTENSION; }
+   protected String getSemanticFileExtension() { return "families"; }
 
    @Override
-   protected String getNotationFileExtension() { return NotationResource.FILE_EXTENSION; }
+   protected String getNotationFileExtension() { return "notation"; }
 
 }

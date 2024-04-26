@@ -11,6 +11,7 @@
 package org.eclipse.emfcloud.coffee.workflow.glsp.server.gmodel;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +38,7 @@ import org.eclipse.glsp.graph.builder.AbstractGEdgeBuilder;
 import org.eclipse.glsp.graph.builder.AbstractGNodeBuilder;
 import org.eclipse.glsp.graph.builder.impl.GArguments;
 import org.eclipse.glsp.graph.builder.impl.GEdgeBuilder;
+import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
 import org.eclipse.glsp.graph.builder.impl.GNodeBuilder;
 import org.eclipse.glsp.graph.util.GConstants;
@@ -47,8 +49,9 @@ import org.eclipse.glsp.server.emf.model.notation.Shape;
 
 import com.google.inject.Inject;
 
-import edu.kit.ipd.sdq.metamodels.persons.Person;
-import edu.kit.ipd.sdq.metamodels.persons.PersonRegister;
+import edu.kit.ipd.sdq.metamodels.families.Family;
+import edu.kit.ipd.sdq.metamodels.families.FamilyRegister;
+import edu.kit.ipd.sdq.metamodels.families.Member;
 
 public class WorkflowGModelFactory extends EMSNotationGModelFactory {
 
@@ -62,22 +65,96 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
    @Override
    protected void fillRootElement(final EObject semanticModel, final Diagram notationModel, final GModelRoot newRoot) {
       // Workflow workflowModel = Machine.class.cast(semanticModel).getWorkflows().get(0);
-      PersonRegister register = PersonRegister.class.cast(semanticModel);
+      FamilyRegister register = FamilyRegister.class.cast(semanticModel);
       GGraph graph = GGraph.class.cast(newRoot);
 
-      if (notationModel.getSemanticElement() != null
-         && notationModel.getSemanticElement().getResolvedSemanticElement() != null) {
-
-         graph.setId(idGenerator.getOrCreateId(register));
-         register.getPersons().stream().map(this::createPersonsNode).forEach(graph.getChildren()::add);
-         // Add Nodes
-         // workflowModel.getNodes().stream().map(this::createNode)
-         // .forEachOrdered(graph.getChildren()::add);
-
-         // Add Flows
-         // workflowModel.getFlows().stream().map(this::createEdge)
-         // .forEachOrdered(graph.getChildren()::add);
+      if (notationModel.getSemanticElement() == null
+         || notationModel.getSemanticElement().getResolvedSemanticElement() == null) {
+         return;
       }
+      graph.setId(idGenerator.getOrCreateId(register));
+      register.getFamilies().stream().map(this::createFamilyNode).forEach(graph.getChildren()::add);
+      register.getFamilies().stream().flatMap(fam -> fam.getDaughters().stream())
+         .filter(Objects::nonNull).map(this::createMemberNode).forEach(graph.getChildren()::add);
+      // register.getFamilies().stream().flatMap(fam -> fam.getSons().stream())
+      // .filter(Objects::nonNull).map(this::createMemberNode)
+      // .forEach(graph.getChildren()::add);
+      register.getFamilies().stream().map(Family::getFather).filter(Objects::nonNull).map(this::createMemberNode)
+         .forEach(graph.getChildren()::add);
+      register.getFamilies().stream().map(Family::getMother).filter(Objects::nonNull).map(this::createMemberNode)
+         .forEach(graph.getChildren()::add);
+
+      for (Family family : register.getFamilies()) {
+         for (Member son : family.getSons()) {
+            Member mother = family.getMother();
+            Member father = family.getFather();
+
+            GEdgeBuilder builder = new GEdgeBuilder()
+               .id(father.getId() + "_" + mother.getId())
+               .sourceId(idGenerator.getOrCreateId(mother))
+               .targetId(idGenerator.getOrCreateId(father))
+               .routerKind(GConstants.RouterKind.POLYLINE);
+            applyEdgeData(mother, builder);
+            var edge = builder.build();
+
+            graph.getChildren().add(edge);
+         }
+
+      }
+
+      // for (Family family : register.getFamilies()) {
+      //
+      // Member father = family.getFather();
+      //
+      // GEdgeBuilder builder = new GEdgeBuilder()
+      // .id(father.getId() + "_" + family.getId())
+      // .sourceId(idGenerator.getOrCreateId(family))
+      // .targetId(idGenerator.getOrCreateId(father))
+      // .routerKind(GConstants.RouterKind.POLYLINE);
+      // applyEdgeData(family, builder);
+      // var edge = builder.build();
+      //
+      // graph.getChildren().add(edge);
+      // }
+      // Add Nodes
+      // workflowModel.getNodes().stream().map(this::createNode)
+      // .forEachOrdered(graph.getChildren()::add);
+
+      // Add Flows
+      // workflowModel.getFlows().stream().map(this::createEdge)
+      // .forEachOrdered(graph.getChildren()::add);
+
+   }
+
+   protected GEdge createSonEdge(final Member member, final Family family) {
+
+      GEdgeBuilder builder = new GEdgeBuilder()
+         .id(member.getId() + "_" + family.getId())
+         .sourceId(idGenerator.getOrCreateId(family))
+         .targetId(idGenerator.getOrCreateId(member))
+         .routerKind(GConstants.RouterKind.POLYLINE);
+      applyEdgeData(family, builder);
+      return builder.build();
+   }
+
+   protected GNode createMemberNode(final Member member) {
+      var header = new GLabelBuilder(WorkflowModelTypes.LABEL_HEADING) //
+         .id(member.getId() + "_classname") //
+         .text(member.getFirstName()) //
+         .build();
+
+      String type = WorkflowModelTypes.MALE_PERSON;
+
+      GNodeBuilder builder = new GNodeBuilder(type);
+      builder.id(member.getId());
+      builder.addArguments(GArguments.cornerRadius(5));
+
+      applyShapeData(member, builder);
+      var finalNode = builder.build();
+      finalNode.getChildren().add(header);
+      finalNode.getCssClasses().add("task");
+      return finalNode;
+
    }
 
    protected GNode createNode(final Node node) {
@@ -87,15 +164,24 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       return this.createActivityNode(node);
    }
 
-   protected GNode createPersonsNode(final Person node) {
+   protected GNode createFamilyNode(final Family node) {
+
+      var header = new GLabelBuilder(WorkflowModelTypes.LABEL_HEADING) //
+         .id(node.getId() + "_classname") //
+         .text(node.getLastName()) //
+         .build();
+
       String type = WorkflowModelTypes.MALE_PERSON;
 
       GNodeBuilder builder = new GNodeBuilder(type);
 
       builder.addArguments(GArguments.cornerRadius(5));
-      builder.addArgument("name", node.getFullName());
+
       applyShapeData(node, builder);
-      return builder.build();
+      var finalNode = builder.build();
+      finalNode.getChildren().add(header);
+      finalNode.getCssClasses().add("task");
+      return finalNode;
    }
 
    protected TaskNode createTaskNode(final Task task) {

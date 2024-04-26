@@ -20,9 +20,12 @@ import {
     DeleteElementContextMenuItemProvider,
     DiamondNodeView,
     editLabelFeature,
+    GEdgeView,
     GridSnapper,
     LogLevel,
     overrideViewerOptions,
+    PolylineEdgeView,
+    RectangularNode,
     RectangularNodeView,
     RevealNamedElementActionProvider,
     RoundedCornerNodeView,
@@ -38,7 +41,7 @@ import { DefaultTypes } from '@eclipse-glsp/protocol';
 import { Container, ContainerModule } from 'inversify';
 
 import { directTaskEditor } from './direct-task-editing/di.config';
-import { ActivityNode, CategoryNode, Icon, PersonNode, TaskNode, WeightedEdge } from './model';
+import { ActivityNode, CategoryNode, Icon,  TaskNode, WeightedEdge } from './model';
 import { IconView, WorkflowEdgeView } from './workflow-views';
 
 const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -50,14 +53,14 @@ const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind
     const context = { bind, unbind, isBound, rebind };
 
     configureDefaultModelElements(context);
-    configureModelElement(context, 'person:male', PersonNode, RoundedCornerNodeView);
+    configureModelElement(context, 'person:male', RectangularNode, RoundedCornerNodeView);
     configureModelElement(context, 'task:automated', TaskNode, RoundedCornerNodeView);
     configureModelElement(context, 'task:manual', TaskNode, RoundedCornerNodeView);
     configureModelElement(context, 'label:heading', SLabel, SLabelView, { enable: [editLabelFeature] });
     configureModelElement(context, 'comp:comp', SCompartment, SCompartmentView);
     configureModelElement(context, 'comp:header', SCompartment, SCompartmentView);
     configureModelElement(context, 'label:icon', SLabel, SLabelView);
-    configureModelElement(context, DefaultTypes.EDGE, SEdge, WorkflowEdgeView);
+    configureModelElement(context, DefaultTypes.EDGE, SEdge, GEdgeView);
     configureModelElement(context, 'edge:weighted', WeightedEdge, WorkflowEdgeView);
     configureModelElement(context, 'icon', Icon, IconView);
     configureModelElement(context, 'activityNode:merge', ActivityNode, DiamondNodeView);

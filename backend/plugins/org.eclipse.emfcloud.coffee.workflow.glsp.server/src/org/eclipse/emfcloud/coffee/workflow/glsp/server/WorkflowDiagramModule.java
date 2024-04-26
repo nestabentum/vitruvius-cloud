@@ -53,7 +53,7 @@ import org.eclipse.glsp.server.operations.OperationHandler;
 
 import com.google.inject.Singleton;
 
-import edu.kit.ipd.sdq.metamodels.persons.PersonsPackage;
+import edu.kit.ipd.sdq.metamodels.families.FamiliesPackage;
 
 public class WorkflowDiagramModule extends EMSGLSPNotationDiagramModule {
 
@@ -68,7 +68,7 @@ public class WorkflowDiagramModule extends EMSGLSPNotationDiagramModule {
       // register and initialize all used ePackages
       super.registerEPackages();
       CoffeePackage.eINSTANCE.eClass();
-      PersonsPackage.eINSTANCE.eClass();
+      FamiliesPackage.eINSTANCE.eClass();
    }
 
    @Override
@@ -169,9 +169,9 @@ public class WorkflowDiagramModule extends EMSGLSPNotationDiagramModule {
    public String getDiagramType() { return "workflow-diagram-notation"; }
 
    @Override
-   protected String getSemanticFileExtension() { return "persons"; }
+   protected String getSemanticFileExtension() { return "families"; } // TODO coffee
 
    @Override
-   protected String getNotationFileExtension() { return "persons-notation"; }
+   protected String getNotationFileExtension() { return "notation"; } // TODO families-notation
 
 }

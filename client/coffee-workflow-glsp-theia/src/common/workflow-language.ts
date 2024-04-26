@@ -15,5 +15,5 @@ export const WorkflowNotationLanguage: GLSPDiagramLanguage = {
     label: 'Workflow Notation diagram',
     diagramType: 'workflow-diagram-notation',
     iconClass: 'codicon codicon-type-hierarchy-sub',
-    fileExtensions: ['.notation', '.persons-notation']
+    fileExtensions: ['.notation', '.persons-notation', ]
 };
