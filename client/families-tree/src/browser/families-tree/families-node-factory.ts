@@ -67,49 +67,19 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
             parent.children.push(node);
             parent.expanded = true;
         }
-        // FIXME, type information from model server necessary
-        Object.keys(element).forEach(elementKey => {
-            const nextElement = element[elementKey];
-            if (Array.isArray(nextElement) && nextElement.some(nextNextElement => this.isObject(nextNextElement))) {
-                nextElement.forEach((nextNextElement, idx) => this.mapData(nextNextElement, node, elementKey, idx));
+        // process each property of current element
+        Object.keys(element).forEach(propertyKey => {
+            const nextProperty = element[propertyKey];
+            // if property is array
+            if (Array.isArray(nextProperty) && nextProperty.some(nextNextElement => this.isObject(nextNextElement))) {
+                nextProperty.forEach((nextNextElement, idx) => this.mapData(nextNextElement, node, propertyKey, idx));
                 return;
             }
-
-            if (this.isObject(nextElement)) {
-                this.mapData(nextElement, node, elementKey);
+            // else of property is object
+            if (this.isObject(nextProperty)) {
+                this.mapData(nextProperty, node, propertyKey);
             }
         });
-
-        // if (FamilyRegister.is(element) && element.families) {
-        //     element.families.forEach((component: any, idx: number) => {
-        //         this.mapData(component, node, 'families', idx);
-        //     });
-        // }
-        // if (Family.is(element)) {
-        //     node.jsonforms.data.$type = Family.$type;
-        //     node.jsonforms.type = Family.$type;
-        //     if (element.daughters) {
-        //         element.daughters.forEach((component: any, idx: number) => {
-        //             this.mapData(component, node, 'daughters', idx);
-        //         });
-        //     }
-        //     if (element.sons) {
-        //         element.sons.forEach((component: any, idx: number) => {
-        //             this.mapData(component, node, 'sons', idx);
-        //         });
-        //     }
-        //     if (element.father) {
-        //         this.mapData(element.father, node, 'father', 0);
-        //     }
-        //     if (element.mother) {
-        //         this.mapData(element.mother, node, 'mother', 0);
-        //     }
-        // }
-        // if (Member.is(element)) {
-        //     node.jsonforms.data.$type = Member.$type;
-
-        //     node.jsonforms.type = Member.$type;
-        // }
         return node;
     }
 
