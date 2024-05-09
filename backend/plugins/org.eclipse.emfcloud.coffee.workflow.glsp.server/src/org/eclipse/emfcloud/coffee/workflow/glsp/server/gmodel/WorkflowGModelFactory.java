@@ -51,6 +51,7 @@ import com.google.inject.Inject;
 
 import edu.kit.ipd.sdq.metamodels.families.Family;
 import edu.kit.ipd.sdq.metamodels.families.FamilyRegister;
+import edu.kit.ipd.sdq.metamodels.families.Identifiable;
 import edu.kit.ipd.sdq.metamodels.families.Member;
 
 public class WorkflowGModelFactory extends EMSNotationGModelFactory {
@@ -60,6 +61,17 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
 
    private String getChangeCssClass(final EObject object) {
       return highlightStore.getHighlights().get(EcoreUtil.getURI(object).toString().substring(1));
+   }
+
+   private GEdge createEdge(final Identifiable source, final Identifiable target) {
+      GEdgeBuilder builder = new GEdgeBuilder()
+         .id(source.getId() + "_" + target.getId())
+         .sourceId(idGenerator.getOrCreateId(source))
+         .targetId(idGenerator.getOrCreateId(target))
+         .routerKind(GConstants.RouterKind.POLYLINE);
+      applyEdgeData(source, builder);
+      return builder.build();
+
    }
 
    @Override
@@ -76,28 +88,32 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       register.getFamilies().stream().map(this::createFamilyNode).forEach(graph.getChildren()::add);
       register.getFamilies().stream().flatMap(fam -> fam.getDaughters().stream())
          .filter(Objects::nonNull).map(this::createMemberNode).forEach(graph.getChildren()::add);
-      // register.getFamilies().stream().flatMap(fam -> fam.getSons().stream())
-      // .filter(Objects::nonNull).map(this::createMemberNode)
-      // .forEach(graph.getChildren()::add);
+      register.getFamilies().stream().flatMap(fam -> fam.getSons().stream())
+         .filter(Objects::nonNull).map(this::createMemberNode)
+         .forEach(graph.getChildren()::add);
       register.getFamilies().stream().map(Family::getFather).filter(Objects::nonNull).map(this::createMemberNode)
          .forEach(graph.getChildren()::add);
       register.getFamilies().stream().map(Family::getMother).filter(Objects::nonNull).map(this::createMemberNode)
          .forEach(graph.getChildren()::add);
 
       for (Family family : register.getFamilies()) {
+         Member mother = family.getMother();
+         Member father = family.getFather();
+         graph.getChildren().add(createEdge(family, father));
+         graph.getChildren().add(createEdge(family, mother));
+         // if (father != null && mother != null) {
+         // GNode node = createFamilyRelationNode(family);
+         // graph.getChildren().add(node);
+         // }
+         graph.getChildren().add(createEdge(mother, father));
          for (Member son : family.getSons()) {
-            Member mother = family.getMother();
-            Member father = family.getFather();
+            graph.getChildren().add(createEdge(father, son));
+            graph.getChildren().add(createEdge(mother, son));
 
-            GEdgeBuilder builder = new GEdgeBuilder()
-               .id(father.getId() + "_" + mother.getId())
-               .sourceId(idGenerator.getOrCreateId(mother))
-               .targetId(idGenerator.getOrCreateId(father))
-               .routerKind(GConstants.RouterKind.POLYLINE);
-            applyEdgeData(mother, builder);
-            var edge = builder.build();
-
-            graph.getChildren().add(edge);
+         }
+         for (Member daughters : family.getDaughters()) {
+            graph.getChildren().add(createEdge(father, daughters));
+            graph.getChildren().add(createEdge(mother, daughters));
          }
 
       }
@@ -123,6 +139,26 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       // Add Flows
       // workflowModel.getFlows().stream().map(this::createEdge)
       // .forEachOrdered(graph.getChildren()::add);
+
+   }
+
+   private GNode createFamilyRelationNode(final Family family) {
+      var header = new GLabelBuilder(WorkflowModelTypes.LABEL_HEADING) //
+         .id(family.getId() + "_relation_classname") //
+         .text("family") //
+         .build();
+
+      String type = WorkflowModelTypes.MALE_PERSON;
+
+      GNodeBuilder builder = new GNodeBuilder(type);
+      builder.id(family.getId());
+      builder.addArguments(GArguments.cornerRadius(5));
+
+      applyShapeData(family, builder);
+      var finalNode = builder.build();
+      finalNode.getChildren().add(header);
+      finalNode.getCssClasses().add("task");
+      return finalNode;
 
    }
 
@@ -152,7 +188,9 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       applyShapeData(member, builder);
       var finalNode = builder.build();
       finalNode.getChildren().add(header);
-      finalNode.getCssClasses().add("task");
+      finalNode.getCssClasses().add("parent");
+      finalNode.setLayout(GConstants.Layout.HBOX);
+      finalNode.getLayoutOptions().put("paddingRight", 10);
       return finalNode;
 
    }
@@ -176,7 +214,7 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       GNodeBuilder builder = new GNodeBuilder(type);
 
       builder.addArguments(GArguments.cornerRadius(5));
-
+      builder.id(node.getId());
       applyShapeData(node, builder);
       var finalNode = builder.build();
       finalNode.getChildren().add(header);

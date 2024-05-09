@@ -43,7 +43,7 @@ public class WorkflowToolPaletteItemProvider implements ToolPaletteItemProvider 
    }
 
    private PaletteItem persons() {
-      PaletteItem createPerson = node(WorkflowModelTypes.MALE_PERSON, "Male", "fa-solid-mars");
+      PaletteItem createPerson = node(WorkflowModelTypes.DAUGHTER, "Daughter", "grabber");
 
       List<PaletteItem> nodes = Lists.newArrayList(createPerson);
       return PaletteItem.createPaletteGroup("person-group", "Persons", nodes, "symbol-property", "a");

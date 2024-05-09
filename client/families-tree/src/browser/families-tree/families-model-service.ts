@@ -30,7 +30,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
     loadTypeSchema(): void {
         this.modelServerClient
-            .getTypeSchema('families.families')
+            .getTypeSchema('families.families') // TODO agnostisize
             .then(data => {
                 this.typeSchema = JSON.parse(data);
             })

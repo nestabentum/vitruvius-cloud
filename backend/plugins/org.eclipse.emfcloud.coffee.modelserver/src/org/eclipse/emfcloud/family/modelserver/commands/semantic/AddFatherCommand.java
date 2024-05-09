@@ -11,6 +11,7 @@
 package org.eclipse.emfcloud.family.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import edu.kit.ipd.sdq.metamodels.families.FamiliesFactory;
@@ -30,6 +31,11 @@ public class AddFatherCommand extends FamiliesSemanticElementCommand {
    protected void doExecute() {
       getFamily(0).setFather(father);
 
+   }
+
+   @Override
+   public EObject getCreatedEObject() { // TODO Auto-generated method stub
+      return this.father;
    }
 
 }

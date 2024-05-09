@@ -24,6 +24,7 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveFlow
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNodeCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
 import org.eclipse.emfcloud.jackson.module.EMFModule;
@@ -52,7 +53,6 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
    @Override
    protected void configureCodecs(final MultiBinding<CodecProvider> binding) {
-      // TODO Auto-generated method stub
       binding.add(TreeCodecProvider.class);
    }
 
@@ -127,6 +127,8 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       // Families
       binding.put(AddFamilyCommandContribution.TYPE, AddFamilyCommandContribution.class);
       binding.put(AddFatherCommandContribution.TYPE, AddFatherCommandContribution.class);
+      binding.put(AddDaughterCommandContribution.TYPE, AddDaughterCommandContribution.class);
+
       // Nodes
       binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);
       binding.put(AddAutomatedTaskCommandContribution.TYPE, AddAutomatedTaskCommandContribution.class);

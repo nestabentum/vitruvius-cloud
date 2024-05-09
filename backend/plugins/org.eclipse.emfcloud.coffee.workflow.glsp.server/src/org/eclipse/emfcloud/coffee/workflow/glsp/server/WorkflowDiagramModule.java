@@ -15,6 +15,7 @@ import org.eclipse.emfcloud.coffee.workflow.glsp.server.gmodel.WorkflowGModelFac
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.gmodel.WorkflowSourceModelStorage;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.actions.WorkflowRequestMarkersActionHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateAutomatedTaskHandler;
+import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateDaughterNodeHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateDecisionNodeHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateFlowHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateManualTaskHandler;
@@ -117,6 +118,7 @@ public class WorkflowDiagramModule extends EMSGLSPNotationDiagramModule {
       bindings.add(CreateMergeNodeHandler.class);
       bindings.add(CreateFlowHandler.class);
       bindings.add(CreateWeightedFlowHandler.class);
+      bindings.add(CreateDaughterNodeHandler.class);
 
       // task editing
       bindings.add(EditTaskOperationHandler.class);

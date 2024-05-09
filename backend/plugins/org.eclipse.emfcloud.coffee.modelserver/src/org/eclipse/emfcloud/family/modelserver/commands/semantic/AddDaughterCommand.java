@@ -15,26 +15,27 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import edu.kit.ipd.sdq.metamodels.families.FamiliesFactory;
-import edu.kit.ipd.sdq.metamodels.families.Family;
+import edu.kit.ipd.sdq.metamodels.families.Member;
 
-public class AddFamilyCommand extends FamiliesSemanticElementCommand {
-   private final Family family;
+public class AddDaughterCommand extends FamiliesSemanticElementCommand {
+   private final Member daughter;
 
-   public AddFamilyCommand(final EditingDomain domain, final URI modelUri) {
+   public AddDaughterCommand(final EditingDomain domain, final URI modelUri) {
       super(domain, modelUri);
-      this.family = FamiliesFactory.eINSTANCE.createFamily();
-      this.family.setLastName("");
-      // family.setId(UUID.randomUUID().toString());
+      this.daughter = FamiliesFactory.eINSTANCE.createMember();
+      this.daughter.setFirstName("New Daughter");
    }
 
    @Override
    protected void doExecute() {
-      semanticModel.getFamilies().add(family);
+
+      getFamily(0).getDaughters().add(this.daughter);
+
    }
 
    @Override
-   public EObject getCreatedEObject() { // TODO Auto-generated method stub
-      return this.family;
+   public EObject getCreatedEObject() { 
+      return this.daughter;
    }
 
 }

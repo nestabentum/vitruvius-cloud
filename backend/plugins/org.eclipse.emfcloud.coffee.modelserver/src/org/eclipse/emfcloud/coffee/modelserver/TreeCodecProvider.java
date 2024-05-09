@@ -38,13 +38,10 @@ public class TreeCodecProvider implements CodecProvider {
    }
 
    @Override
-   public Set<String> getAllFormats() { // TODO Auto-generated method stub
-      return supportedFormats.keySet();
-   }
+   public Set<String> getAllFormats() { return supportedFormats.keySet(); }
 
    @Override
    public int getPriority(final String modelUri, final String format) {
-      // TODO Auto-generated method stub
       return getAllFormats().contains(format) ? 1 : NOT_SUPPORTED;
    }
 

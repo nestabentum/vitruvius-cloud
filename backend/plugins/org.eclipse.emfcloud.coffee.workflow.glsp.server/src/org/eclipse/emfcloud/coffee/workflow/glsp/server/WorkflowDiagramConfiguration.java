@@ -12,6 +12,7 @@ package org.eclipse.emfcloud.coffee.workflow.glsp.server;
 
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.AUTOMATED_TASK;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.COMP_HEADER;
+import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.DAUGHTER;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.DECISION_NODE;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.ICON;
 import static org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes.LABEL_HEADING;
@@ -56,6 +57,7 @@ public class WorkflowDiagramConfiguration extends BaseDiagramConfiguration {
       mappings.put(MANUAL_TASK, WfgraphPackage.Literals.TASK_NODE);
       mappings.put(AUTOMATED_TASK, WfgraphPackage.Literals.TASK_NODE);
       mappings.put(MALE_PERSON, GraphPackage.Literals.GNODE);
+      mappings.put(DAUGHTER, GraphPackage.Literals.GNODE);
       return mappings;
    }
 

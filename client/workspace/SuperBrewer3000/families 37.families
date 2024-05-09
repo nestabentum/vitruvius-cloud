@@ -6,6 +6,10 @@
     <mother firstName="Berta"/>
   </families>
   <families>
-    <sons/>
+    <sons id="1"/>
+    <sons id="eg"/>
+    <daughters id="2"/>
+    <daughters id="test" firstName="dadw"/>
+    <daughters id="hee"/>
   </families>
 </families:FamilyRegister>

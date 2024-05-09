@@ -11,6 +11,7 @@
 package org.eclipse.emfcloud.family.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -30,4 +31,6 @@ public abstract class FamiliesSemanticElementCommand extends RecordingCommand {
    protected Family getFamily(final int index) {
       return semanticModel.getFamilies().get(index);
    }
+
+   abstract public EObject getCreatedEObject();
 }

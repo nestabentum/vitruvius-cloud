@@ -36,6 +36,7 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSou
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.util.SemanticCommandUtil;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.validation.WorkflowValidationResultChangeListener;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.modelserver.client.Response;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
@@ -78,6 +79,11 @@ public class WorkflowModelServerAccess extends EMSNotationModelServerAccess {
          LOGGER.error("Creation of ValidationFramework failed!");
          e.printStackTrace();
       }
+   }
+
+   public CompletableFuture<Response<String>> addDaughter(final Optional<GPoint> position) {
+      CCompoundCommand command = AddDaughterCommandContribution.create(position.orElse(GraphUtil.point(0, 0)));
+      return this.edit(command);
    }
 
    public CompletableFuture<Response<String>> addManualTask(final Optional<GPoint> position) {

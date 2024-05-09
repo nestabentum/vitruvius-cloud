@@ -65,6 +65,10 @@
     fill: var(--manual-task-color);
 }
 
+.node.task.male > .sprotty-node {
+    fill: var(--automated-task-color);
+}
+
 .sprotty-edge.weighted.low:not(.selected),
 .sprotty-edge.weighted.low:not(.selected) .arrow {
     stroke: var(--weighted-flow-low-color);

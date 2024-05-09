@@ -59,5 +59,6 @@ Export-Package: org.eclipse.emfcloud.coffee.modelserver,
  org.eclipse.emfcloud.coffee.modelserver.commands.contributions,
  org.eclipse.emfcloud.coffee.modelserver.commands.semantic,
  org.eclipse.emfcloud.coffee.modelserver.commands.util,
- org.eclipse.emfcloud.coffee.modelserver.launch
+ org.eclipse.emfcloud.coffee.modelserver.launch,
+ org.eclipse.emfcloud.family.modelserver.commands.contributions
 Import-Package: javax.inject;version="[1.0.0,2.0.0)"

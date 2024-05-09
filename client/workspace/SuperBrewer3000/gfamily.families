@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
->
-<families:FamilyRegister xmi:version="2.0"  id="family-register">
-  <families xsi:type="families:Family" id="family-hubertus" lastName="Hubertus">
-    <father xsi:type="families:Member" id="father-hubertus" firstName="Father"/>
-    <mother xsi:type="families:Member" id="berta-hubertus" firstName="Berta"/>
-    <sons xsi:type="families:Member" id="son-hubertus" firstName="son"/>
+<families:FamilyRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="family-register">
+  <families id="family-hubertus" lastName="Hubertus">
+    <sons id="son-hubertus" firstName="son"/>
+    <daughters id="daughter-hubertus" firstName="New Daughter"/>
+    <father id="father-hubertus" firstName="Father"/>
+    <mother id="berta-hubertus" firstName="Berta"/>
   </families>
 </families:FamilyRegister>
-</xmi:XMI>

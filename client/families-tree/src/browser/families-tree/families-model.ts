@@ -77,7 +77,7 @@ export namespace FamiliesModel {
         [
             Family.$type,
             [
-                { property: 'daughters', children: [Family.$type] },
+                { property: 'daughters', children: [Member.$type] },
                 { property: 'sons', children: [Member.$type] },
                 { property: 'father', children: [Member.$type] },
                 { property: 'mother', children: [Member.$type] }

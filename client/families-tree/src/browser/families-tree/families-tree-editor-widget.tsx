@@ -149,9 +149,9 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {
         const data = node.jsonforms.data;
         // if (ManualTask.is(data) || AutomaticTask.is(data) || Decision.is(data) || Merge.is(data)) {
-        //     patchOrCommand = RemoveNodeCommandContribution.create(data.id);
+        //     patchOrCommand = RemoveNodeCommandContribution.create(data.$id);
         // } else if (Flow.is(data)) {
-        //     patchOrCommand = RemoveFlowCommandContribution.create(data.id);
+        //     patchOrCommand = RemoveFlowCommandContribution.create(data.$id);
         // } else {
         const patchOrCommand: PatchOrCommand = {
             op: 'remove',
@@ -190,7 +190,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     }
 
     protected async handleFormUpdate(jsonFormsData: any, _node: TreeEditor.Node): Promise<void> {
-        if (jsonFormsData.id === this.selectedNode.jsonforms.data.id && !isEqual(jsonFormsData, this.selectedNode.jsonforms.data)) {
+        if (jsonFormsData.$id === this.selectedNode.jsonforms.data.$id && !isEqual(jsonFormsData, this.selectedNode.jsonforms.data)) {
             const resultDiff = this.getDiffPatch(compare(this.selectedNode.jsonforms.data, jsonFormsData));
             const editPatch = this.createDiffPatch(resultDiff, jsonFormsData, this.selectedNode.jsonforms.data);
             if (editPatch) {
@@ -280,7 +280,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // remove first ('') redundant segment
         let pathSegments = path.split('/').slice(1);
         if (pathSegments.length === 1) {
-            return oldData.id;
+            return oldData.$id;
         }
         if (pathSegments.length > 1) {
             // remove and last segment for array paths (last segment is the feature)
@@ -292,21 +292,21 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             if (!Number.isNaN(Number(segment))) {
                 parentObject = parentObject[Number(segment)] as Identifiable;
                 if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
-                    id = parentObject.id as string;
+                    id = parentObject.$id as string;
                 }
             } else if (typeof segment === 'string') {
                 parentObject = parentObject[segment] as Identifiable;
                 if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
-                    id = parentObject.id as string;
+                    id = parentObject.$id as string;
                 }
             }
         });
         // FIXME special case remove ram
         // if (id === '' && pathSegments[0] === 'ram' && ControlUnit.is(oldData) && oldData.ram) {
         //     if (operation === 'remove') {
-        //         id = oldData.ram[0].id;
+        //         id = oldData.ram[0].$id;
         //     } else {
-        //         id = oldData.id;
+        //         id = oldData.$id;
         //     }
         // }
         return id;

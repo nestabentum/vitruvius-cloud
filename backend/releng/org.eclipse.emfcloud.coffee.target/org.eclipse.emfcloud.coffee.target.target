@@ -83,15 +83,12 @@
     </location>
     		  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		  <repository location="https://vitruv.tools/updatesite/nightly/aggregated"/>
-	    		  <unit id="edu.kit.ipd.sdq.metamodels.addresses.feature.feature.group" version="1.8.0.202309071134"/>
-	    		  <unit id="edu.kit.ipd.sdq.metamodels.families.feature.feature.group" version="1.8.0.202309071134"/>
-	    		  <unit id="tools.vitruv.change.feature.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="tools.vitruv.change.feature.source.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.source.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202404300239"/>
-	    		  <unit id="edu.kit.ipd.sdq.metamodels.persons.feature.feature.group" version="1.8.0.202309071134"/>
+	    		  <unit id="tools.vitruv.change.feature.feature.group" version="3.0.1.202405060242"/>
+	    		  <unit id="tools.vitruv.change.feature.source.feature.group" version="3.0.1.202405060242"/>
+	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.feature.group" version="3.0.1.202405060242"/>
+	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.source.feature.group" version="3.0.1.202405060242"/>
+	    		  <unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202405060242"/>
+	    		  <unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202405060242"/>
     		  </location>
 	  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 		  <repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/nightly/2.3/2.3.0.202404220745/"/>
