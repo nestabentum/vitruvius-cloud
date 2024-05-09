@@ -14,7 +14,7 @@ import { BaseTheiaGLSPConnector } from '@eclipse-glsp/theia-integration/lib/brow
 import { injectable } from 'inversify';
 
 import { WorkflowNotationLanguage } from '../../common/workflow-language';
-import { getCoffeeUriString } from './diagram-utils';
+import { getUriString } from './diagram-utils';
 
 @injectable()
 export class WorkflowTheiaGLSPConnector extends BaseTheiaGLSPConnector {
@@ -49,7 +49,7 @@ export class WorkflowTheiaGLSPConnector extends BaseTheiaGLSPConnector {
 
     override disposeClientSessionArgs(diagramServer: TheiaDiagramServer): Args | undefined {
         return {
-            ['sourceUri']: getCoffeeUriString(diagramServer.sourceUri)
+            ['sourceUri']: getUriString(diagramServer.sourceUri)
         };
     }
 }

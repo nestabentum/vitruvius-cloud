@@ -31,16 +31,7 @@ public class XMIResourceSetFactory extends DefaultResourceSetFactory {
    @Override
    public ResourceSet createResourceSet(final URI modelURI) {
       ResourceSet result = super.createResourceSet(modelURI);
-      // if ("families".equals(modelURI.fileExtension())) {
       result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
       return result;
-      // }
-      //
-      // result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-      // semanticFileExtension, CoffeeResource.FACTORY);
-      // result.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-      // notationFileExtension, NotationResource.FACTORY);
-      //
-      // return result;
    }
 }

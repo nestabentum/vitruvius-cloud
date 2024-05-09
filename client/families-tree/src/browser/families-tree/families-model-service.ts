@@ -24,13 +24,14 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     };
     constructor(
         @inject(ILogger) private readonly logger: ILogger,
-        @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2
+        @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
+
     ) {
         this.loadTypeSchema();
     }
     loadTypeSchema(): void {
         this.modelServerClient
-            .getTypeSchema('families.families') // TODO agnostisize
+            .getTypeSchema('persons.tree') // TODO agnostisize. for some reason utils cannot be injected in this class
             .then(data => {
                 this.typeSchema = JSON.parse(data);
             })
@@ -83,7 +84,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
-        return FamiliesModel.childrenMapping;
+        return FamiliesModel.childrenMapping; // TODO agnostisize by extracting from typeschema
     }
 
     getNameForType(type: string): string {

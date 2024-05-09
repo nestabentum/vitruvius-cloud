@@ -145,7 +145,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
    }
 
    @Override
-   protected String getSemanticFileExtension() { return "families"; }
+   protected String getSemanticFileExtension() { return "tree"; }
 
    @Override
    protected String getNotationFileExtension() { return "notation"; }

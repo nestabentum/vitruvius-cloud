@@ -10,31 +10,31 @@
  */
 import URI from '@theia/core/lib/common/uri';
 
-const coffeeFileExtension = '.families'; // TODO families
+const treeFileExtension = '.tree'; // TODO families
 const notationFileExtension = '.notation'; // TODO families-notation
 
-export function getCoffeeUriString(uriString: string): string {
+export function getUriString(uriString: string): string {
     if (uriString.endsWith(notationFileExtension)) {
-        return uriString.replace(notationFileExtension, coffeeFileExtension);
-    } else if (uriString.endsWith(coffeeFileExtension)) {
+        return uriString.replace(notationFileExtension, treeFileExtension);
+    } else if (uriString.endsWith(treeFileExtension)) {
         return uriString;
     }
-    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${coffeeFileExtension} or ${notationFileExtension}!`);
+    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${treeFileExtension} or ${notationFileExtension}!`);
 }
 
-export function getCoffeeUri(uri: URI): URI {
+export function getUri(uri: URI): URI {
     const uriString = uri.toString();
-    const coffeeString = getCoffeeUriString(uriString);
+    const coffeeString = getUriString(uriString);
     return new URI(coffeeString);
 }
 
 export function getNotationUriString(uriString: string): string {
-    if (uriString.endsWith(coffeeFileExtension)) {
-        return uriString.replace(coffeeFileExtension, notationFileExtension);
+    if (uriString.endsWith(treeFileExtension)) {
+        return uriString.replace(treeFileExtension, notationFileExtension);
     } else if (uriString.endsWith(notationFileExtension)) {
         return uriString;
     }
-    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${coffeeFileExtension} or ${notationFileExtension}!`);
+    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${treeFileExtension} or ${notationFileExtension}!`);
 }
 
 export function getNotationUri(uri: URI): URI {

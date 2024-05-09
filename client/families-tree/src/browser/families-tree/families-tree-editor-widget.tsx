@@ -13,6 +13,7 @@ import {
     DirtyStateNotification,
     IncrementalUpdateNotificationV2,
     isString,
+    ModelServerObjectV2,
     Operations,
     PatchOrCommand
 } from '@eclipse-emfcloud/modelserver-client';
@@ -35,14 +36,14 @@ import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
+import { JsonPrimitiveType } from './families-model';
 import { AddFatherContribution } from './model-server-commands';
 import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
 import { Utils } from '../utils';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
-    protected override instanceData: FamilyRegister | undefined;
+    protected override instanceData: (ModelServerObjectV2 & AnyObject) | undefined;
     private delayedRefresh = false;
 
     constructor(
@@ -81,7 +82,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
                     return;
                 }
                 this.instanceData = undefined;
-                this.instanceData = machineModel as FamilyRegister;
+                this.instanceData = (machineModel as unknown) as (ModelServerObjectV2 & AnyObject);
                 this.treeWidget
                     .setData({ error: false, data: this.instanceData })
                     .then(() => (initialLoad ? this.treeWidget.selectFirst() : this.treeWidget.select(this.getOldSelectedPath())));
@@ -214,8 +215,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     protected createDiffPatch(
         diffPatch: Operation,
-        changedObject: Identifiable,
-        oldObject: Identifiable
+        changedObject: (ModelServerObjectV2 & AnyObject),
+        oldObject: (ModelServerObjectV2 & AnyObject)
     ): Operation | Operation[] | undefined {
         switch (diffPatch.op) {
             case 'replace': {
@@ -273,8 +274,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     protected getOwnerIdByPath(
         path: string,
-        jsonFormsData: Identifiable,
-        oldData: Identifiable,
+        jsonFormsData: (ModelServerObjectV2 & AnyObject),
+        oldData: (ModelServerObjectV2 & AnyObject),
         operation: 'add' | 'remove' | 'replace'
     ): string {
         // remove first ('') redundant segment
@@ -287,15 +288,15 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             pathSegments = pathSegments.slice(0, -1);
         }
         let id = '';
-        let parentObject = oldData; // jsonFormsData?
+        let parentObject : (ModelServerObjectV2 & AnyObject) = oldData; // jsonFormsData?
         pathSegments.forEach(segment => {
             if (!Number.isNaN(Number(segment))) {
-                parentObject = parentObject[Number(segment)] as Identifiable;
+                parentObject = parentObject[Number(segment)] as (ModelServerObjectV2 & AnyObject);
                 if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
                     id = parentObject.$id as string;
                 }
             } else if (typeof segment === 'string') {
-                parentObject = parentObject[segment] as Identifiable;
+                parentObject = parentObject[segment] as (ModelServerObjectV2 & AnyObject);
                 if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
                     id = parentObject.$id as string;
                 }

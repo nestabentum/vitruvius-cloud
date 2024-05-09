@@ -26,7 +26,7 @@ public class FamiliesPackageConfiguration implements EPackageConfiguration {
 
    @Override
    public Collection<String> getFileExtensions() { // TODO Auto-generated method stub
-      return List.of("families");
+      return List.of("tree");
    }
 
    @Override
