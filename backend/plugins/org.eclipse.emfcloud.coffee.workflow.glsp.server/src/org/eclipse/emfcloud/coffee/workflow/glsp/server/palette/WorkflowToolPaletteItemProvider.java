@@ -16,8 +16,6 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.WorkflowModelTypes;
-import org.eclipse.glsp.graph.DefaultTypes;
-import org.eclipse.glsp.server.actions.TriggerEdgeCreationAction;
 import org.eclipse.glsp.server.actions.TriggerNodeCreationAction;
 import org.eclipse.glsp.server.features.toolpalette.PaletteItem;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
@@ -31,45 +29,17 @@ public class WorkflowToolPaletteItemProvider implements ToolPaletteItemProvider 
    @Override
    public List<PaletteItem> getItems(final Map<String, String> args) {
       LOGGER.info("Create palette");
-      return Lists.newArrayList(persons(), tasks(), nodes(), edges());
-   }
-
-   private PaletteItem tasks() {
-      PaletteItem createAutomatedTask = node(WorkflowModelTypes.AUTOMATED_TASK, "Automated Task", "settings-gear");
-      PaletteItem createManualTask = node(WorkflowModelTypes.MANUAL_TASK, "Manual Task", "account");
-
-      List<PaletteItem> nodes = Lists.newArrayList(createAutomatedTask, createManualTask);
-      return PaletteItem.createPaletteGroup("task-group", "Tasks", nodes, "symbol-property", "a");
+      return Lists.newArrayList(persons());
    }
 
    private PaletteItem persons() {
       PaletteItem createPerson = node(WorkflowModelTypes.DAUGHTER, "Daughter", "grabber");
 
       List<PaletteItem> nodes = Lists.newArrayList(createPerson);
-      return PaletteItem.createPaletteGroup("person-group", "Persons", nodes, "symbol-property", "a");
-   }
-
-   private PaletteItem nodes() {
-      PaletteItem createDecisionNode = node(WorkflowModelTypes.DECISION_NODE, "Decision Node", "chevron-up");
-      PaletteItem createMergeNode = node(WorkflowModelTypes.MERGE_NODE, "Merge Node", "chevron-down");
-
-      List<PaletteItem> nodes = Lists.newArrayList(createDecisionNode, createMergeNode);
-      return PaletteItem.createPaletteGroup("node-group", "Nodes", nodes, "symbol-property", "b");
-   }
-
-   private PaletteItem edges() {
-      PaletteItem createFlow = edge(DefaultTypes.EDGE, "Flow", "chrome-minimize");
-      PaletteItem createWeightedFlow = edge(WorkflowModelTypes.WEIGHTED_EDGE, "Weighted Flow", "grabber");
-
-      List<PaletteItem> edges = Lists.newArrayList(createFlow, createWeightedFlow);
-      return PaletteItem.createPaletteGroup("edge-group", "Edges", edges, "symbol-property", "c");
+      return PaletteItem.createPaletteGroup("person-group", "Add Members", nodes, "symbol-property", "a");
    }
 
    private PaletteItem node(final String elementTypeId, final String label, final String icon) {
       return new PaletteItem(elementTypeId, label, new TriggerNodeCreationAction(elementTypeId), icon);
-   }
-
-   private PaletteItem edge(final String elementTypeId, final String label, final String icon) {
-      return new PaletteItem(elementTypeId, label, new TriggerEdgeCreationAction(elementTypeId), icon);
    }
 }

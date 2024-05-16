@@ -10,6 +10,7 @@
  ********************************************************************************/
 package org.eclipse.emfcloud.family.modelserver.commands.semantic;
 
+import org.apache.logging.log4j.core.util.UuidUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -24,6 +25,7 @@ public class AddDaughterCommand extends FamiliesSemanticElementCommand {
       super(domain, modelUri);
       this.daughter = FamiliesFactory.eINSTANCE.createMember();
       this.daughter.setFirstName("New Daughter");
+      this.daughter.setId(UuidUtil.getTimeBasedUuid().toString());
    }
 
    @Override
@@ -34,8 +36,6 @@ public class AddDaughterCommand extends FamiliesSemanticElementCommand {
    }
 
    @Override
-   public EObject getCreatedEObject() { 
-      return this.daughter;
-   }
+   public EObject getCreatedEObject() { return this.daughter; }
 
 }

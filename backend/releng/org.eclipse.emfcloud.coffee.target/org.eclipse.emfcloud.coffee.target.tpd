@@ -60,7 +60,9 @@ location "https://download.eclipse.org/emfcloud/modelserver/p2/integration/0.8.0
 location "https://download.eclipse.org/emfcloud/emfjson-jackson/p2/releases/2.0.0/" {
 	org.eclipse.emfcloud.emfjson-jackson [2.0.0,2.1.0)
 }
-
+location "https://vitruv.tools/updatesite/nightly/aggregated" {
+	tools.vitruv.change.feature.feature.group 3.0.1.202405060242
+}
 location "https://download.eclipse.org/glsp/server/p2/nightly/1.1/1.1.0.202303241144/" {
 	org.eclipse.glsp.graph [1.1.0,2.0.0)
 	org.eclipse.glsp.layout [1.1.0,2.0.0)

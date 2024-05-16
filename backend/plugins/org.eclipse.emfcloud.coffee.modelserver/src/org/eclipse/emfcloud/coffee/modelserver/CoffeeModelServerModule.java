@@ -129,14 +129,14 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       binding.put(AddFatherCommandContribution.TYPE, AddFatherCommandContribution.class);
       binding.put(AddDaughterCommandContribution.TYPE, AddDaughterCommandContribution.class);
 
-      // Nodes
+      // Nodes - TODO delete theses coffee editor remains
       binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);
       binding.put(AddAutomatedTaskCommandContribution.TYPE, AddAutomatedTaskCommandContribution.class);
       binding.put(AddDecisionNodeCommandContribution.TYPE, AddDecisionNodeCommandContribution.class);
       binding.put(AddMergeNodeCommandContribution.TYPE, AddMergeNodeCommandContribution.class);
       binding.put(RemoveNodeCommandContribution.TYPE, RemoveNodeCommandContribution.class);
 
-      // Flows (Edges)
+      // Flows (Edges) - TODO delete theses coffee editor remains
       binding.put(AddFlowCommandContribution.TYPE, AddFlowCommandContribution.class);
       binding.put(AddWeightedFlowCommandContribution.TYPE, AddWeightedFlowCommandContribution.class);
       binding.put(RemoveFlowCommandContribution.TYPE, RemoveFlowCommandContribution.class);

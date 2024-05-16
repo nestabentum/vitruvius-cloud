@@ -14,22 +14,11 @@ import org.eclipse.emfcloud.coffee.CoffeePackage;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.gmodel.WorkflowGModelFactory;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.gmodel.WorkflowSourceModelStorage;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.actions.WorkflowRequestMarkersActionHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateAutomatedTaskHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateDaughterNodeHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateDecisionNodeHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateFlowHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateManualTaskHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateMergeNodeHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.create.CreateWeightedFlowHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.operations.WorkflowApplyLabelEditOperationHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.operations.WorkflowDeleteOperationHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.handler.operations.WorkflowReconnectFlowHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.layout.WorkflowLayoutEngine;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.palette.WorkflowToolPaletteItemProvider;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.provider.WorkflowCommandPaletteActionProvider;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.provider.WorkflowContextMenuItemProvider;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.taskedit.ApplyTaskEditOperationHandler;
-import org.eclipse.emfcloud.coffee.workflow.glsp.server.taskedit.EditTaskOperationHandler;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.taskedit.TaskEditContextActionProvider;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.taskedit.TaskEditValidator;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.validation.WorkflowLabelEditValidator;
@@ -49,7 +38,6 @@ import org.eclipse.glsp.server.features.directediting.LabelEditValidator;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
 import org.eclipse.glsp.server.features.validation.RequestMarkersHandler;
 import org.eclipse.glsp.server.layout.LayoutEngine;
-import org.eclipse.glsp.server.operations.CutOperationHandler;
 import org.eclipse.glsp.server.operations.OperationHandler;
 
 import com.google.inject.Singleton;
@@ -104,25 +92,25 @@ public class WorkflowDiagramModule extends EMSGLSPNotationDiagramModule {
       super.configureOperationHandlers(bindings);
 
       // model server-aware operation handlers
-      bindings.add(WorkflowApplyLabelEditOperationHandler.class);
-      bindings.add(WorkflowDeleteOperationHandler.class);
-      bindings.add(WorkflowReconnectFlowHandler.class);
+      // bindings.add(WorkflowApplyLabelEditOperationHandler.class);
+      // bindings.add(WorkflowDeleteOperationHandler.class);
+      // bindings.add(WorkflowReconnectFlowHandler.class);
 
       // unsupported operation handlers
-      bindings.remove(CutOperationHandler.class);
+      // bindings.remove(CutOperationHandler.class);
 
       // custom workflow operation handlers
-      bindings.add(CreateAutomatedTaskHandler.class);
-      bindings.add(CreateManualTaskHandler.class);
-      bindings.add(CreateDecisionNodeHandler.class);
-      bindings.add(CreateMergeNodeHandler.class);
-      bindings.add(CreateFlowHandler.class);
-      bindings.add(CreateWeightedFlowHandler.class);
+      // bindings.add(CreateAutomatedTaskHandler.class);
+      // bindings.add(CreateManualTaskHandler.class);
+      // bindings.add(CreateDecisionNodeHandler.class);
+      // bindings.add(CreateMergeNodeHandler.class);
+      // bindings.add(CreateFlowHandler.class);
+      // bindings.add(CreateWeightedFlowHandler.class);
       bindings.add(CreateDaughterNodeHandler.class);
-
-      // task editing
-      bindings.add(EditTaskOperationHandler.class);
-      bindings.add(ApplyTaskEditOperationHandler.class);
+      //
+      //// task editing
+      // bindings.add(EditTaskOperationHandler.class);
+      // bindings.add(ApplyTaskEditOperationHandler.class);
    }
 
    @Override
