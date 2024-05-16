@@ -26,7 +26,7 @@ import {
     NavigatableTreeEditorWidget,
     TreeEditor
 } from '@eclipse-emfcloud/theia-tree-editor';
-import { Title, Widget } from '@theia/core/lib/browser';
+import { LocalStorageService, Title, Widget } from '@theia/core/lib/browser';
 import { ILogger } from '@theia/core/lib/common';
 import URI from '@theia/core/lib/common/uri';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
@@ -37,7 +37,6 @@ import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
 import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
 import { AddFatherContribution } from './model-server-commands';
-import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
 import { Utils } from '../utils';
 import axios from 'axios';
 
@@ -54,7 +53,9 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         @inject(NavigatableTreeEditorOptions) protected override readonly options: NavigatableTreeEditorOptions,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
         @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2,
-        @inject(Utils) private readonly utils: Utils
+        @inject(Utils) private readonly utils: Utils,
+        @inject(LocalStorageService)
+        private readonly localStorageSrevice: LocalStorageService
     ) {
         super(treeWidget, formWidget, workspaceService, logger, FamiliesTreeEditorConstants.WIDGET_ID, options);
 
@@ -173,7 +174,8 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-    private getViewInfo = (): { id: string; resourceURI: string } => ViewIdCache.getViewInfo(this.options.uri.toString())!;
+    private getViewInfo = async (): Promise<{ id: string; resourceURI: string }> =>
+        await this.localStorageSrevice.getData(this.options.uri.toString(), { id: '', resourceURI: '' })?? {id: '', resourceURI: ''};
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         console.log('adding a node', node, type, property);
@@ -182,8 +184,10 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         //     patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
         // } else
 
+
         if (property === 'father') {
-            patchOrCommand = AddFatherContribution.create('Father', this.getViewInfo());
+        const viewSerial = await this.getViewInfo();
+            patchOrCommand = AddFatherContribution.create('Father', viewSerial);
         } else {
             patchOrCommand = {
                 op: 'add',
