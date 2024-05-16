@@ -51,6 +51,30 @@ import tools.vitruv.framework.remote.common.util.JsonMapper;
 
 public class CoffeeModelResourceManager extends RecordingModelResourceManager {
 
+   @Inject
+   @SemanticFileExtension
+   protected String semanticFileExtension;
+   @Inject
+   @NotationFileExtension
+   protected String notationFileExtension;
+
+   private final JsonMapper objectMapper;
+
+   private final HttpClient httpClient;
+   private final static String viewSerialKey = "viewSerial";
+   private final static String viewUriKey = "uri";
+
+   @Inject
+   public CoffeeModelResourceManager(final Set<EPackageConfiguration> configurations,
+      final AdapterFactory adapterFactory, final ServerConfiguration serverConfiguration,
+      final ModelWatchersManager watchersManager, final Provider<JsonPatchHelper> jsonPatchHelper) {
+
+      super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
+      this.httpClient = HttpClient.newHttpClient();
+      this.objectMapper = new JsonMapper(Path.of("/cloud-vsum"));
+
+   }
+
    @Override
    @SuppressWarnings("checkstyle:IllegalCatch")
    public Optional<Resource> loadResource(final String modeluri) {
@@ -71,28 +95,6 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
          handleLoadError(modeluri, this.isInitializing, e);
          return Optional.empty();
       }
-   }
-
-   @Inject
-   @SemanticFileExtension
-   protected String semanticFileExtension;
-   @Inject
-   @NotationFileExtension
-   protected String notationFileExtension;
-
-   private final JsonMapper objectMapper;
-
-   private final HttpClient httpClient;
-
-   @Inject
-   public CoffeeModelResourceManager(final Set<EPackageConfiguration> configurations,
-      final AdapterFactory adapterFactory, final ServerConfiguration serverConfiguration,
-      final ModelWatchersManager watchersManager, final Provider<JsonPatchHelper> jsonPatchHelper) {
-
-      super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
-      this.httpClient = HttpClient.newHttpClient();
-      this.objectMapper = new JsonMapper(Path.of("/cloud-vsum"));
-
    }
 
    @Override
@@ -155,11 +157,11 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    }
 
    private String extractViewId(final CCommand clientCommand) {
-      return clientCommand.getProperties().get("viewSerial");
+      return clientCommand.getProperties().get(viewSerialKey);
    }
 
    private String extractViewURI(final CCommand clientCommand) {
-      return clientCommand.getProperties().get("uri");
+      return clientCommand.getProperties().get(viewUriKey);
    }
 
    private tools.vitruv.change.composite.recording.ChangeRecorder startVitruvChangeRecording(
@@ -173,8 +175,8 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    }
 
    private boolean containtsViewSerial(final CCommand clientCommand) {
-      return clientCommand != null && clientCommand.getProperties().containsKey("viewSerial")
-         && clientCommand.getProperties().get("viewSerial") != null;
+      return clientCommand != null && clientCommand.getProperties().containsKey(viewSerialKey)
+         && clientCommand.getProperties().get(viewSerialKey) != null;
    }
 
    @Override

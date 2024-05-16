@@ -13,17 +13,17 @@ package org.eclipse.emfcloud.family.modelserver.commands.contributions;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.CompoundCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.compound.AddDaughterCompoundCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
+import org.eclipse.emfcloud.modelserver.edit.command.BasicCommandContribution;
 import org.eclipse.emfcloud.modelserver.glsp.notation.commands.contribution.NotationCommandContribution;
 import org.eclipse.emfcloud.modelserver.glsp.notation.commands.util.NotationCommandUtil;
 import org.eclipse.glsp.graph.GPoint;
 
-public class AddDaughterCommandContribution extends CompoundCommandContribution {
+public class AddDaughterCommandContribution extends BasicCommandContribution<Command> {
    public static final String TYPE = "addDaughterContribution";
 
    public static CCompoundCommand create(final GPoint position) {

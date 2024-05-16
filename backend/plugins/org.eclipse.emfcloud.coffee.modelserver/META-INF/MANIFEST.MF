@@ -55,9 +55,6 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.26.0,3.0.0)",
  edu.kit.ipd.sdq.metamodels.persons;bundle-version="1.9.0.qualifier",
  edu.kit.ipd.sdq.metamodels.families;bundle-version="1.9.0"
 Export-Package: org.eclipse.emfcloud.coffee.modelserver,
- org.eclipse.emfcloud.coffee.modelserver.commands.compound,
- org.eclipse.emfcloud.coffee.modelserver.commands.contributions,
- org.eclipse.emfcloud.coffee.modelserver.commands.semantic,
  org.eclipse.emfcloud.coffee.modelserver.commands.util,
  org.eclipse.emfcloud.coffee.modelserver.launch,
  org.eclipse.emfcloud.family.modelserver.commands.contributions

@@ -22,23 +22,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emfcloud.coffee.Flow;
-import org.eclipse.emfcloud.coffee.Node;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddAutomatedTaskCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddDecisionNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddManualTaskCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddMergeNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddWeightedFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.util.SemanticCommandUtil;
 import org.eclipse.emfcloud.coffee.workflow.glsp.server.validation.WorkflowValidationResultChangeListener;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.modelserver.client.Response;
-import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.emf.common.DefaultModelURIConverter;
 import org.eclipse.emfcloud.modelserver.emf.common.EMFFacetConstraints;
@@ -86,74 +72,10 @@ public class WorkflowModelServerAccess extends EMSNotationModelServerAccess {
       return this.edit(command);
    }
 
-   public CompletableFuture<Response<String>> addManualTask(final Optional<GPoint> position) {
-      CCompoundCommand command = AddManualTaskCommandContribution.create(position.orElse(GraphUtil.point(0, 0)));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> addAutomatedTask(final Optional<GPoint> position) {
-      CCompoundCommand command = AddAutomatedTaskCommandContribution.create(position.orElse(GraphUtil.point(0, 0)));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> addDecisionNode(final Optional<GPoint> position) {
-      CCompoundCommand command = AddDecisionNodeCommandContribution.create(position.orElse(GraphUtil.point(0, 0)));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> addMergeNode(final Optional<GPoint> position) {
-      CCompoundCommand command = AddMergeNodeCommandContribution.create(position.orElse(GraphUtil.point(0, 0)));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> addFlow(final String sourceId, final String targetId) {
-      CCompoundCommand command = AddFlowCommandContribution.create(sourceId, targetId);
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> addWeightedFlow(final String sourceId, final String targetId) {
-      CCompoundCommand command = AddWeightedFlowCommandContribution.create(sourceId, targetId);
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> removeFlow(final Flow flow) {
-      CCompoundCommand command = RemoveFlowCommandContribution.create(idGenerator.getOrCreateId(flow));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> removeNode(final Node node) {
-      CCompoundCommand command = RemoveNodeCommandContribution.create(idGenerator.getOrCreateId(node));
-      return this.edit(command);
-   }
-
    protected String getOwnerRefUri(final EObject element) {
       String absoluteFilePath = baseSourceUri.appendFileExtension(this.semanticFileExtension).toString();
       return DefaultModelURIConverter.parseURI(absoluteFilePath).appendFragment(idGenerator.getOrCreateId(element))
          .toString();
-   }
-
-   public CompletableFuture<Response<String>> setTaskName(final Node nodeToRename, final String newName) {
-      CCommand setCommand = SemanticCommandUtil.createSetTaskNameCommand(nodeToRename, getOwnerRefUri(nodeToRename),
-         newName);
-      return this.edit(setCommand);
-   }
-
-   public CompletableFuture<Response<String>> setTaskDuration(final Node node, final int newDuration) {
-      CCommand setCommand = SemanticCommandUtil.createSetTaskDurationCommand(node, getOwnerRefUri(node),
-         newDuration);
-      return this.edit(setCommand);
-   }
-
-   public CompletableFuture<Response<String>> reconnectFlowSource(final Flow flow, final Node newSource) {
-      CCommand command = SetFlowSourceCommandContribution.create(idGenerator.getOrCreateId(flow),
-         idGenerator.getOrCreateId(newSource));
-      return this.edit(command);
-   }
-
-   public CompletableFuture<Response<String>> reconnectFlowTarget(final Flow flow, final Node newTarget) {
-      CCommand command = SetFlowTargetCommandContribution.create(idGenerator.getOrCreateId(flow),
-         idGenerator.getOrCreateId(newTarget));
-      return this.edit(command);
    }
 
    @Override

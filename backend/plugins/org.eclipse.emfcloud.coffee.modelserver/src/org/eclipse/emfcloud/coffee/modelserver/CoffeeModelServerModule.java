@@ -14,16 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddAutomatedTaskCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddDecisionNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddManualTaskCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddMergeNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddWeightedFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveFlowCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNodeCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
-import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
@@ -129,19 +119,6 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       binding.put(AddFatherCommandContribution.TYPE, AddFatherCommandContribution.class);
       binding.put(AddDaughterCommandContribution.TYPE, AddDaughterCommandContribution.class);
 
-      // Nodes - TODO delete theses coffee editor remains
-      binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);
-      binding.put(AddAutomatedTaskCommandContribution.TYPE, AddAutomatedTaskCommandContribution.class);
-      binding.put(AddDecisionNodeCommandContribution.TYPE, AddDecisionNodeCommandContribution.class);
-      binding.put(AddMergeNodeCommandContribution.TYPE, AddMergeNodeCommandContribution.class);
-      binding.put(RemoveNodeCommandContribution.TYPE, RemoveNodeCommandContribution.class);
-
-      // Flows (Edges) - TODO delete theses coffee editor remains
-      binding.put(AddFlowCommandContribution.TYPE, AddFlowCommandContribution.class);
-      binding.put(AddWeightedFlowCommandContribution.TYPE, AddWeightedFlowCommandContribution.class);
-      binding.put(RemoveFlowCommandContribution.TYPE, RemoveFlowCommandContribution.class);
-      binding.put(SetFlowSourceCommandContribution.TYPE, SetFlowSourceCommandContribution.class);
-      binding.put(SetFlowTargetCommandContribution.TYPE, SetFlowTargetCommandContribution.class);
    }
 
    @Override
