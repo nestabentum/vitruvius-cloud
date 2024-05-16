@@ -18,30 +18,23 @@ import {
     ConsoleLogger,
     createDiagramContainer,
     DeleteElementContextMenuItemProvider,
-    DiamondNodeView,
     editLabelFeature,
     GEdgeView,
     GridSnapper,
     LogLevel,
     overrideViewerOptions,
     RectangularNode,
-    RectangularNodeView,
     RevealNamedElementActionProvider,
     RoundedCornerNodeView,
-    SCompartment,
-    SCompartmentView,
     SEdge,
     SLabel,
     SLabelView,
-    StructureCompartmentView,
     TYPES
 } from '@eclipse-glsp/client';
 import { DefaultTypes } from '@eclipse-glsp/protocol';
 import { Container, ContainerModule } from 'inversify';
 
 import { directTaskEditor } from './direct-task-editing/di.config';
-import { ActivityNode, CategoryNode, Icon, TaskNode, WeightedEdge } from './model';
-import { IconView, WorkflowEdgeView } from './workflow-views';
 
 const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
     rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
@@ -54,22 +47,11 @@ const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind
     configureDefaultModelElements(context);
     configureModelElement(context, 'person:male', RectangularNode, RoundedCornerNodeView);
     configureModelElement(context, 'daughter', RectangularNode, RoundedCornerNodeView);
-    configureModelElement(context, 'task:automated', TaskNode, RoundedCornerNodeView);
-    configureModelElement(context, 'task:manual', TaskNode, RoundedCornerNodeView);
-    configureModelElement(context, 'label:heading', SLabel, SLabelView, { enable: [editLabelFeature] });
-    configureModelElement(context, 'comp:comp', SCompartment, SCompartmentView);
-    configureModelElement(context, 'comp:header', SCompartment, SCompartmentView);
-    configureModelElement(context, 'label:icon', SLabel, SLabelView);
-    configureModelElement(context, DefaultTypes.EDGE, SEdge, GEdgeView);
-    configureModelElement(context, 'edge:weighted', WeightedEdge, WorkflowEdgeView);
-    configureModelElement(context, 'icon', Icon, IconView);
-    configureModelElement(context, 'activityNode:merge', ActivityNode, DiamondNodeView);
-    configureModelElement(context, 'activityNode:decision', ActivityNode, DiamondNodeView);
-    configureModelElement(context, 'activityNode:fork', ActivityNode, RectangularNodeView);
-    configureModelElement(context, 'activityNode:join', ActivityNode, RectangularNodeView);
 
-    configureModelElement(context, 'category', CategoryNode, RoundedCornerNodeView);
-    configureModelElement(context, 'struct', SCompartment, StructureCompartmentView);
+    configureModelElement(context, 'label:heading', SLabel, SLabelView, { enable: [editLabelFeature] });
+
+    configureModelElement(context, DefaultTypes.EDGE, SEdge, GEdgeView);
+;
 });
 
 export default function createContainer(widgetId: string): Container {

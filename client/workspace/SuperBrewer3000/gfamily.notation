@@ -3,7 +3,8 @@
   <semanticElement elementId="family-register"/>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="family-hubertus"/>
-    <position x="75.0" y="200.0"/>
+    <position x="80.0" y="100.0"/>
+    <size width="85.21875" height="29.0"/>
   </elements>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="chris-hubertus"/>
@@ -12,21 +13,34 @@
   </elements>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="berta-hubertus"/>
-    <position x="150.0" y="350.0"/>
-    <size width="50.0"/>
+    <position x="220.0" y="350.0"/>
+    <size width="48.67578125" height="26.0"/>
   </elements>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="father-hubertus"/>
-    <position y="350.0"/>
-    <size width="50.0"/>
+    <position x="-30.0" y="350.0"/>
+    <size width="56.7998046875" height="26.0"/>
   </elements>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="son-hubertus"/>
-    <position x="-30.0" y="460.0"/>
+    <position x="-100.0" y="460.0"/>
     <size width="37.7861328125" height="26.0"/>
   </elements>
   <elements xsi:type="notation:Shape">
     <semanticElement elementId="daughter-hubertus"/>
-    <position x="150.0" y="450.0"/>
+    <position x="120.0" y="480.0"/>
+    <size width="105.8271484375" height="26.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement/>
+    <position x="-90.0" y="330.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="a5832931-0ec4-11ef-a444-3003c8d9e9ab"/>
+    <position x="600.0" y="100.0"/>
+  </elements>
+  <elements xsi:type="notation:Shape">
+    <semanticElement elementId="493fdbd2-0ec6-11ef-a444-3003c8d9e9ab"/>
+    <position x="530.0" y="270.0"/>
   </elements>
 </notation:Diagram>

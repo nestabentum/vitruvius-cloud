@@ -30,7 +30,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
     loadTypeSchema(): void {
         this.modelServerClient
-            .getTypeSchema('families.families') // TODO agnostisize
+            .getTypeSchema('families.families') // TODO find out why util component cannot be injected here and agnostisize
             .then(data => {
                 this.typeSchema = JSON.parse(data);
             })

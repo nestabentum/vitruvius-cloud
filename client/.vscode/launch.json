@@ -83,21 +83,5 @@
       "sourceMaps": true,
       "webRoot": "${workspaceRoot}/browser-app"
     },
-    {
-      "type": "extensionHost",
-      "request": "launch",
-      "name": "Launch LSP Extension",
-      "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceRoot}/coffee-workflow-analyzer-editor"],
-      "outFiles": ["${workspaceRoot}/coffee-workflow-analyzer-editor/out/**/*.js"],
-      "sourceMaps": true
-    },
-    {
-      "type": "msedge",
-      "request": "launch",
-      "name": "Launch my cool app",
-      "url": "http://localhost:3000",
-      "sourceMaps": true
-    }
   ]
 }
