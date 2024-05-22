@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.eclipse.emfcloud.coffee.modelserver;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddAutomatedTaskCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddDecisionNodeCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddFlowCommandContribution;
@@ -24,10 +20,11 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveFlow
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNodeCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
+import org.eclipse.emfcloud.coffee.modelserver.routing.VitruvRouting;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
-import org.eclipse.emfcloud.jackson.module.EMFModule;
+import org.eclipse.emfcloud.modelserver.common.Routing;
 import org.eclipse.emfcloud.modelserver.common.utils.MapBinding;
 import org.eclipse.emfcloud.modelserver.common.utils.MultiBinding;
 import org.eclipse.emfcloud.modelserver.edit.CommandContribution;
@@ -37,9 +34,6 @@ import org.eclipse.emfcloud.modelserver.emf.common.codecs.CodecProvider;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
 import org.eclipse.emfcloud.modelserver.jsonschema.JsonSchemaConverter;
 import org.eclipse.emfcloud.modelserver.notation.integration.EMSNotationModelServerModule;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.json.JavalinJackson;
@@ -77,7 +71,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
    @Override
    protected Javalin provideJavalin() {
-      var jsonMapper = createMapper();
+
       return Javalin.create(config -> {
          config.enableCorsForAllOrigins();
          config.requestLogger((ctx, ms) -> {
@@ -98,26 +92,10 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       });
    }
 
-   private Object createMapper() {
-      final ObjectMapper mapper = new ObjectMapper();
-      // same as emf
-      final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-      dateFormat.setTimeZone(TimeZone.getDefault());
-
-      mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-      mapper.setDateFormat(dateFormat);
-      mapper.setTimeZone(TimeZone.getDefault());
-
-      EMFModule emfModule = new EMFModule();
-      // Write XMI ids in property "@id". For customization see
-      // https://github.com/eclipse-emfcloud/emfjson-jackson/wiki/Customization#custom-id-field
-      emfModule.configure(EMFModule.Feature.OPTION_USE_ID, true);
-      emfModule.configure(EMFModule.Feature.OPTION_SERIALIZE_DEFAULT_VALUE, true);
-      emfModule.configure(EMFModule.Feature.OPTION_SERIALIZE_TYPE, true);
-      emfModule.configure(EMFModule.Feature.OPTION_MINIMIZE_TYPE_INFO, false);
-
-      mapper.registerModule(emfModule);
-      return mapper;
+   @Override
+   protected void configureRoutings(final MultiBinding<Routing> binding) {
+      super.configureRoutings(binding);
+      binding.add(VitruvRouting.class);
    }
 
    @Override
