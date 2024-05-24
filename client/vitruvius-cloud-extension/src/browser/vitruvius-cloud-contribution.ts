@@ -28,7 +28,7 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
         @inject(MessageService) private readonly messageService: MessageService,
         @inject(QuickInputService) private readonly quickInputService: QuickInputService,
         @inject(ILogger) private readonly logger: ILogger,
-        @inject(ViewSaver) private readonly viewSaver: ViewSaver,
+        @inject(ViewSaver) private readonly viewSaver: ViewSaver
     ) {}
 
     registerCommands(registry: CommandRegistry): void {
@@ -51,7 +51,8 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
                 viewTypePicker.onDidChangeSelection(async selection => {
                     await getView(selection[0].label, this.logger).then(result => {
-                        this.viewSaver.saveView(result)});
+                        this.viewSaver.saveView(result);
+                    });
                 });
                 viewTypePicker.items = quickPickItems;
                 viewTypePicker.show();

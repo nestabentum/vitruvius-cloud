@@ -39,11 +39,13 @@ import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-mode
 import { AddFatherContribution } from './model-server-commands';
 import { ViewIdCache } from 'vitruvius-cloud-extension/lib/ViewIdCache';
 import { Utils } from '../utils';
+import axios from 'axios';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     protected override instanceData: FamilyRegister | undefined;
     private delayedRefresh = false;
+    private restClient = axios.create({ baseURL: 'http://localhost:8081/api/v2/' });
 
     constructor(
         @inject(FamiliesMasterTreeWidget) override readonly treeWidget: FamiliesMasterTreeWidget,
@@ -144,6 +146,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
 
     override save(): void {
         this.modelServerClient.save(this.utils.getModelID());
+        this.restClient.get('save-me', { params: { modeluri: this.utils.getModelID().toString() } });
     }
 
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {
@@ -161,8 +164,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-    private getViewInfo = (): {id: string, resourceURI: string}  =>
-        ViewIdCache.getViewInfo(this.options.uri.toString())! ;
+    private getViewInfo = (): { id: string; resourceURI: string } => ViewIdCache.getViewInfo(this.options.uri.toString())!;
 
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         console.log('adding a node', node, type, property);

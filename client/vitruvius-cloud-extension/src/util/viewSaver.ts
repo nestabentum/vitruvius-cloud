@@ -6,9 +6,12 @@ import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { FileSystemUtils } from '@theia/filesystem/lib/common';
 import { WorkspaceService } from '@theia/workspace/lib/browser';
 import { ViewIdCache } from '../ViewIdCache';
+import axios from 'axios';
 
 @injectable()
 export class ViewSaver {
+    private restClient = axios.create({ baseURL: 'http://localhost:8081/api/v2/' });
+
     constructor(
         @inject(OpenerService)
         protected readonly openerService: OpenerService,
@@ -41,7 +44,12 @@ export class ViewSaver {
                         ViewIdCache.add(finalURI.toString(), { id: view.id, resourceURI: view.resourceURI });
                         openHandler.open(finalURI);
                     });
-            }
+            const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0
+            const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1)
+        this.restClient.get('register-view', { params: { modeluri: uriEncodedFileName, originalResourceURI : view.resourceURI, viewURI: view.id } });
+
+                }
+            
         }
     };
 }

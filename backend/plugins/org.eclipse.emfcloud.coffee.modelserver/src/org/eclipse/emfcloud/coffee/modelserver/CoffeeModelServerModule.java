@@ -21,6 +21,7 @@ import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.RemoveNode
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowSourceCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.SetFlowTargetCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.routing.VitruvRouting;
+import org.eclipse.emfcloud.coffee.modelserver.vitruvius.ChangeRecorderCache;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
@@ -48,6 +49,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
    @Override
    protected void configureCodecs(final MultiBinding<CodecProvider> binding) {
       binding.add(TreeCodecProvider.class);
+
    }
 
    @Override
@@ -56,6 +58,7 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       binding.add(CoffeePackageConfiguration.class);
       binding.add(FamiliesPackageConfiguration.class);
       binding.add(PersonsPackageConfiguration.class);
+      bind(ChangeRecorderCache.class).asEagerSingleton();
    }
 
    @Override
