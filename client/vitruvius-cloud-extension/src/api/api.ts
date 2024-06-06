@@ -16,15 +16,15 @@
 import { ILogger } from '@theia/core';
 import axios, { AxiosResponse } from 'axios';
 
-const vitruvCloudUrl = 'http://localhost:8069/vsum/';
+const vitruvServerUrl = 'http://localhost:8069/vsum/';
 const vitruvAdapterUrl = 'http://localhost:8070/vsum/';
 
 export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
-    return axios.get<ViewTypes>(`${vitruvCloudUrl}view/types`);
+    return axios.get<ViewTypes>(`${vitruvServerUrl}view/types`);
 }
 
-export async function getView(viewType: string, logger: ILogger): Promise<{ fileEnding: string; id: string; view: string, resourceURI: string }> {
-    return await axios
+export function getView(viewType: string, logger: ILogger): Promise<{ fileEnding: string; id: string; view: string, resourceURI: string }> {
+    return axios
         .post(
             `${vitruvAdapterUrl}view/`,
             {},

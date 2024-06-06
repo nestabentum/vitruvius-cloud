@@ -1,105 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl --><target name="Coffee Editor Targetplatform" sequenceNumber="1686579710">
-  <locations>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="ch.qos.logback.slf4j" version="1.2.3.v20221112-0806"/>
-      <unit id="com.google.gson" version="2.9.1.v20220915-1632"/>
-      <unit id="com.google.inject" version="5.0.1.v20221112-0806"/>
-      <unit id="com.google.guava" version="30.1.0.v20221112-0806"/>
-      <unit id="net.bytebuddy.byte-buddy" version="1.12.18.v20221114-2102"/>
-      <unit id="net.bytebuddy.byte-buddy-agent" version="1.12.18.v20221114-2102"/>
-      <unit id="org.aopalliance" version="1.0.0.v20220404-1927"/>
-      <unit id="org.apache.commons.lang" version="2.6.0.v20220406-2305"/>
-      <unit id="org.apache.commons.io" version="2.8.0.v20210415-0900"/>
-      <unit id="org.apache.log4j" version="1.2.19.v20220208-1728"/>
-      <unit id="com.fasterxml.jackson.core.jackson-annotations" version="2.13.2.v20220426-1653"/>
-      <unit id="com.fasterxml.jackson.core.jackson-core" version="2.13.2.v20220426-1653"/>
-      <unit id="com.fasterxml.jackson.core.jackson-databind" version="2.13.2.v20220426-1653"/>
-      <unit id="org.junit.jupiter.api" version="5.9.1.v20221103-2317"/>
-      <unit id="org.junit.jupiter.engine" version="5.9.1.v20221103-2317"/>
-      <unit id="org.junit.platform.commons" version="1.9.1.v20221103-2317"/>
-      <unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
-      <unit id="jakarta.servlet" version="5.0.0.v20221112-0806"/>
-      <repository id="orbit-release" location="https://download.eclipse.org/tools/orbit/downloads/drops/R20221123021534/repository/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.mockito" version="0.0.0"/>
-      <unit id="javax.servlet" version="3.1.0.v201410161800"/>
-      <repository location="http://download.eclipse.org/tools/orbit/R-builds/R20220302172233/repository"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.xpand" version="0.0.0"/>
-      <unit id="org.eclipse.xtend" version="0.0.0"/>
-      <unit id="org.eclipse.xtend.typesystem.emf" version="0.0.0"/>
-      <unit id="org.eclipse.core.runtime.feature.feature.group" version="1.3.100.v20221116-1440"/>
-      <unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.emf.edit" version="2.17.0.v20220201-1551"/>
-      <unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
-      <unit id="org.eclipse.emf.transaction.feature.group" version="1.13.0.202208110935"/>
-      <unit id="org.eclipse.xtext.sdk.feature.group" version="2.29.0.v20221121-1054"/>
-      <unit id="org.eclipse.lsp4j" version="0.19.0.v20221118-0359"/>
-      <repository location="http://download.eclipse.org/releases/2022-12"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.emfcloud.modelserver.feature.feature.group" version="0.8.0.I20230217"/>
-      <repository location="https://download.eclipse.org/emfcloud/modelserver/p2/integration/0.8.0.I20230217/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.glsp.graph" version="1.1.0.202303241144"/>
-      <unit id="org.eclipse.glsp.layout" version="1.1.0.202303241144"/>
-      <unit id="org.eclipse.glsp.server" version="1.1.0.202303241144"/>
-      <unit id="org.eclipse.glsp.server.emf" version="1.1.0.202303241144"/>
-      <repository location="https://download.eclipse.org/glsp/server/p2/nightly/1.1/1.1.0.202303241144/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.elk.alg.layered" version="0.8.1"/>
-      <unit id="org.eclipse.elk.core" version="0.8.1"/>
-      <unit id="org.eclipse.elk.graph" version="0.8.1"/>
-      <unit id="org.eclipse.elk.graph.text" version="0.8.1"/>
-      <repository location="https://download.eclipse.org/elk/updates/releases/0.8.1/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.jetty.server" version="0.0.0"/>
-      <unit id="org.eclipse.jetty.websocket.server" version="0.0.0"/>
-      <repository location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.44.v20210927/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.emfcloud.validation.framework" version="0.2.0.202203171240"/>
-      <repository location="https://download.eclipse.org/emfcloud/model-validation/p2/nightly/0.2/0.2.0.202203171240/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.emfcloud.modelserver.glsp.integration" version="0.7.0.202304120811"/>
-      <unit id="org.eclipse.emfcloud.modelserver.glsp.notation.commands" version="0.7.0.202304120811"/>
-      <repository location="https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202304120811/"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="2.14.0.v20221117-1134"/>
-      <repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.14.0/"/>
-    </location>
-    		  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		  <repository location="https://vitruv.tools/updatesite/nightly/aggregated"/>
-	    		  <unit id="tools.vitruv.change.feature.feature.group" version="3.0.1.202405060242"/>
-	    		  <unit id="tools.vitruv.change.feature.source.feature.group" version="3.0.1.202405060242"/>
-	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.feature.group" version="3.0.1.202405060242"/>
-	    		  <unit id="tools.vitruv.testutils.changevisualization.feature.source.feature.group" version="3.0.1.202405060242"/>
-	    		  <unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202405060242"/>
-	    		  <unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202405060242"/>
-    		  </location>
-	  <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-		  <repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/nightly/2.3/2.3.0.202404220745/"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-annotations" version="2.12.6"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-annotations.source" version="2.12.6"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-core" version="2.12.6"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-core.source" version="2.12.6"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-databind" version="2.12.6"/>
-		  <unit id="com.fasterxml.jackson.core.jackson-databind.source" version="2.12.6"/>
-		  <unit id="org.eclipse.emfcloud.emfjson-jackson" version="2.3.0.20240422074517"/>
-		  <unit id="org.eclipse.emfcloud.emfjson-jackson.source" version="2.3.0.20240422074517"/>
-	  </location>
-  </locations>
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="ch.qos.logback.slf4j" version="1.2.3.v20221112-0806"/>
+			<unit id="com.google.gson" version="2.9.1.v20220915-1632"/>
+			<unit id="com.google.inject" version="5.0.1.v20221112-0806"/>
+			<unit id="com.google.guava" version="30.1.0.v20221112-0806"/>
+			<unit id="net.bytebuddy.byte-buddy" version="1.12.18.v20221114-2102"/>
+			<unit id="net.bytebuddy.byte-buddy-agent" version="1.12.18.v20221114-2102"/>
+			<unit id="org.aopalliance" version="1.0.0.v20220404-1927"/>
+			<unit id="org.apache.commons.lang" version="2.6.0.v20220406-2305"/>
+			<unit id="org.apache.commons.io" version="2.8.0.v20210415-0900"/>
+			<unit id="org.apache.log4j" version="1.2.19.v20220208-1728"/>
+			<unit id="com.fasterxml.jackson.core.jackson-annotations" version="2.13.2.v20220426-1653"/>
+			<unit id="com.fasterxml.jackson.core.jackson-core" version="2.13.2.v20220426-1653"/>
+			<unit id="com.fasterxml.jackson.core.jackson-databind" version="2.13.2.v20220426-1653"/>
+			<unit id="org.junit.jupiter.api" version="5.9.1.v20221103-2317"/>
+			<unit id="org.junit.jupiter.engine" version="5.9.1.v20221103-2317"/>
+			<unit id="org.junit.platform.commons" version="1.9.1.v20221103-2317"/>
+			<unit id="org.hamcrest" version="2.2.0.v20210711-0821"/>
+			<unit id="jakarta.servlet" version="5.0.0.v20221112-0806"/>
+			<repository id="orbit-release" location="https://download.eclipse.org/tools/orbit/downloads/drops/R20221123021534/repository/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.mockito" version="0.0.0"/>
+			<unit id="javax.servlet" version="3.1.0.v201410161800"/>
+			<repository location="http://download.eclipse.org/tools/orbit/R-builds/R20220302172233/repository"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.jdt.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.platform.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.pde.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.xpand" version="0.0.0"/>
+			<unit id="org.eclipse.xtend" version="0.0.0"/>
+			<unit id="org.eclipse.xtend.typesystem.emf" version="0.0.0"/>
+			<unit id="org.eclipse.core.runtime.feature.feature.group" version="1.3.100.v20221116-1440"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.emf.edit" version="2.17.0.v20220201-1551"/>
+			<unit id="org.eclipse.emf.sdk.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.emf.transaction.feature.group" version="1.13.0.202208110935"/>
+			<unit id="org.eclipse.xtext.sdk.feature.group" version="2.29.0.v20221121-1054"/>
+			<unit id="org.eclipse.lsp4j" version="0.19.0.v20221118-0359"/>
+			<repository location="http://download.eclipse.org/releases/2022-12"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.emfcloud.modelserver.feature.feature.group" version="0.8.0.I20230217"/>
+			<repository location="https://download.eclipse.org/emfcloud/modelserver/p2/integration/0.8.0.I20230217/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.glsp.graph" version="1.1.0.202303241144"/>
+			<unit id="org.eclipse.glsp.layout" version="1.1.0.202303241144"/>
+			<unit id="org.eclipse.glsp.server" version="1.1.0.202303241144"/>
+			<unit id="org.eclipse.glsp.server.emf" version="1.1.0.202303241144"/>
+			<repository location="https://download.eclipse.org/glsp/server/p2/nightly/1.1/1.1.0.202303241144/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.elk.alg.layered" version="0.8.1"/>
+			<unit id="org.eclipse.elk.core" version="0.8.1"/>
+			<unit id="org.eclipse.elk.graph" version="0.8.1"/>
+			<unit id="org.eclipse.elk.graph.text" version="0.8.1"/>
+			<repository location="https://download.eclipse.org/elk/updates/releases/0.8.1/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.jetty.server" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.websocket.server" version="0.0.0"/>
+			<repository location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.44.v20210927/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.emfcloud.validation.framework" version="0.2.0.202203171240"/>
+			<repository location="https://download.eclipse.org/emfcloud/model-validation/p2/nightly/0.2/0.2.0.202203171240/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.emfcloud.modelserver.glsp.integration" version="0.7.0.202304120811"/>
+			<unit id="org.eclipse.emfcloud.modelserver.glsp.notation.commands" version="0.7.0.202304120811"/>
+			<repository location="https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202304120811/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<unit id="org.eclipse.emf.mwe2.launcher.feature.group" version="2.14.0.v20221117-1134"/>
+			<repository location="https://download.eclipse.org/modeling/emft/mwe/updates/releases/2.14.0/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/emfcloud/emfjson-jackson/p2/nightly/2.3/2.3.0.202404220745/"/>
+			<unit id="com.fasterxml.jackson.core.jackson-annotations" version="2.12.6"/>
+			<unit id="com.fasterxml.jackson.core.jackson-annotations.source" version="2.12.6"/>
+			<unit id="com.fasterxml.jackson.core.jackson-core" version="2.12.6"/>
+			<unit id="com.fasterxml.jackson.core.jackson-core.source" version="2.12.6"/>
+			<unit id="com.fasterxml.jackson.core.jackson-databind" version="2.12.6"/>
+			<unit id="com.fasterxml.jackson.core.jackson-databind.source" version="2.12.6"/>
+			<unit id="org.eclipse.emfcloud.emfjson-jackson" version="2.3.0.20240422074517"/>
+			<unit id="org.eclipse.emfcloud.emfjson-jackson.source" version="2.3.0.20240422074517"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://kit-sdq.github.io/updatesite/release/xannotations"/>
+			<unit id="edu.kit.ipd.sdq.activextendannotations.feature.feature.group" version="1.6.0"/>
+			<unit id="edu.kit.ipd.sdq.activextendannotations.feature.source.feature.group" version="1.6.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/modeling/emf/compare/updates/releases/3.3/R202401051648"/>
+			<unit id="org.eclipse.emf.compare.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.ide.ui.e4.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.ide.ui.e4.source.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.rcp.ui.source.feature.group" version="3.3.24.202401051648"/>
+			<unit id="org.eclipse.emf.compare.source.feature.group" version="3.3.24.202401051648"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://kit-sdq.github.io/updatesite/release/commons"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.eclipse.feature.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.eclipse.feature.source.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.emf.feature.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.emf.feature.source.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.java.feature.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.java.feature.source.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.mdsdprofiles.feature.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.mdsdprofiles.feature.source.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.pcm.feature.feature.group" version="2.3.0.202304271319"/>
+			<unit id="edu.kit.ipd.sdq.commons.util.pcm.feature.source.feature.group" version="2.3.0.202304271319"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://vitruv.tools/updatesite/nightly/aggregated"/>
+			<unit id="tools.vitruv.change.feature.source.feature.group" version="3.0.1.202406060244"/>
+			<unit id="tools.vitruv.testutils.changevisualization.feature.feature.group" version="3.0.1.202406060244"/>
+			<unit id="tools.vitruv.testutils.changevisualization.feature.source.feature.group" version="3.0.1.202406060244"/>
+			<unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202406060244"/>
+			<unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202406060244"/>
+		</location>
+	</locations>
 </target>

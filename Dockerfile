@@ -26,6 +26,7 @@ WORKDIR /coffee-editor/backend/releng/org.eclipse.emfcloud.coffee.parent/
 RUN mvn clean verify
 
 
+
 # Build frontend
 FROM build AS frontend
 
@@ -55,6 +56,8 @@ RUN yarn autoclean --init && \
 FROM node:16-bullseye-slim as production
 ENV DEBIAN_FRONTEND noninteractive
 
+COPY ./cloud-vsum /cloud-vsum
+
 # Theia dependencies/Java
 RUN apt-get update &&\
     apt-get -y install --no-install-recommends \
@@ -74,10 +77,6 @@ RUN useradd -ms /bin/bash theia
 # Copy frontend from build-stage
 WORKDIR /coffee-editor
 COPY --chown=theia:theia --from=frontend /coffee-editor/client ./client
-
-# Copy model to production stage (for model comparison)
-COPY --from=backend /coffee-editor/backend/plugins/org.eclipse.emfcloud.coffee.model/target/org.eclipse.emfcloud.coffee.model-0.8.0-SNAPSHOT.jar \
-    /coffee-editor/backend/plugins/org.eclipse.emfcloud.coffee.model/target/org.eclipse.emfcloud.coffee.model-0.8.0-SNAPSHOT.jar
 
 # Copy favicon
 RUN cp ./client/favicon.ico ./client/browser-app/lib

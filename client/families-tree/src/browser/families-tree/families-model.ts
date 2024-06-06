@@ -37,7 +37,7 @@ const $familiesTypeBase = 'edu.kit.ipd.sdq.metamodels.families#//';
 
 export interface Family extends Identifiable {
     daughters?: Son[];
-    sons?: Daughter[];
+    sons?: Daughter[]; // use member type
     father?: Member;
     mother?: Member;
     lastName: string;

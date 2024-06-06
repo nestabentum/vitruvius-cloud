@@ -86,12 +86,18 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<includeAllDependencies>
+						true
+					</includeAllDependencies>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+				
 					<target>
 						<artifact>
 							<groupId>org.eclipse.emfcloud.coffee</groupId>
@@ -321,7 +327,6 @@
 	<modules>
 		<module>../org.eclipse.emfcloud.coffee.target</module>
 		<module>../../plugins/org.eclipse.emfcloud.coffee.workflow</module>
-		<module>../../plugins/org.eclipse.emfcloud.coffee.common</module>
 		<module>../../plugins/org.eclipse.emfcloud.coffee.modelserver</module>
 		<module>../../plugins/org.eclipse.emfcloud.coffee.workflow.glsp.server</module>
 		<module>../../plugins/org.eclipse.emfcloud.coffee.model</module>
@@ -348,6 +353,31 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>Vitruv Change</id>
+			<layout>p2</layout>
+			<url>https://vitruv-tools.github.io/updatesite/nightly/change</url>
+		</repository>
+		<repository>
+			<id>Vitruv Remote</id>
+			<layout>p2</layout>
+			<url>file:${project.basedir}/../../dependencies/remote</url>
+		</repository>
+		<repository>
+			<id>Metamodels</id>
+			<layout>p2</layout>
+			<url>file:${project.basedir}/../../dependencies/metamodels</url>
+		</repository>
+		<repository>
+			<id>Edapt</id>
+			<layout>p2</layout>
+			<url>https://download.eclipse.org/edapt/update-site/</url>
+		</repository>
+			<repository>
+			<id>Ecore Tools</id>
+			<layout>p2</layout>
+			<url>https://download.eclipse.org/modeling/emf/emf/builds/release/2.35.0/</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

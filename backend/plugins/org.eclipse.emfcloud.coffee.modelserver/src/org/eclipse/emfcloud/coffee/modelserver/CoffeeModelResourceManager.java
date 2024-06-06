@@ -11,7 +11,6 @@
 package org.eclipse.emfcloud.coffee.modelserver;
 
 import java.io.File;
-import java.net.http.HttpClient;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
@@ -44,12 +43,6 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
    @NotationFileExtension
    protected String notationFileExtension;
 
-   private final ChangeRecorderCache changeRecorderCache;
-
-   private final HttpClient httpClient;
-   private final static String viewSerialKey = "viewSerial";
-   private final static String viewUriKey = "uri";
-
    @Inject
    public CoffeeModelResourceManager(final Set<EPackageConfiguration> configurations,
       final AdapterFactory adapterFactory, final ServerConfiguration serverConfiguration,
@@ -57,8 +50,6 @@ public class CoffeeModelResourceManager extends RecordingModelResourceManager {
       final ChangeRecorderCache changeRecorderCache) {
 
       super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
-      this.changeRecorderCache = changeRecorderCache;
-      this.httpClient = HttpClient.newHttpClient();
 
    }
 

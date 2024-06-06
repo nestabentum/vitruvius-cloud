@@ -33,7 +33,7 @@ export class ViewSaver {
             const targetURI = stat.resource.resolve(`${view.fileEnding}.${view.fileEnding}`);
             const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(statDir, targetURI, false);
 
-            const dialog = new SingleTextInputDialog({ title: 'Set File Name', initialValue: preliminaryFileUri.path.base });
+            const dialog = new SingleTextInputDialog({ title: 'Set File Name', initialValue: preliminaryFileUri.path.base }); 
             const fileName = await dialog.open();
             if (fileName) {
                 const finalURI = stat.resource.resolve(fileName);
@@ -44,12 +44,19 @@ export class ViewSaver {
                         ViewIdCache.add(finalURI.toString(), { id: view.id, resourceURI: view.resourceURI });
                         openHandler.open(finalURI);
                     });
-            const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0
-            const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1)
-        this.restClient.get('register-view', { params: { modeluri: uriEncodedFileName, originalResourceURI : view.resourceURI, viewURI: view.id } });
-
-                }
-            
+                const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0;
+                const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1);
+                this.restClient
+                    .get('register-view', {
+                        params: { modeluri: uriEncodedFileName, originalResourceURI: view.resourceURI, viewURI: view.id }
+                    })
+                    .then(data => {
+                        console.log('registration-success', data);
+                    })
+                    .catch(error => {
+                        console.log('registration-error', error);
+                    });
+            }
         }
     };
 }

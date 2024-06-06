@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ASCII"?>
+<correspondence:Correspondences xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:correspondence="http://vitruv.tools/metamodels/change/correspondence/1.0" xmlns:correspondence_1="http://vitruv.tools/metamodels/dsls/reactions/runtime/correspondence/1.0">
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#/"/>
+    <rightEObjects href="../model/families1.families#0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0/@sons.0"/>
+    <rightEObjects href="../model/persons.persons#//@persons.0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#//@persons.0"/>
+    <rightEObjects href="../model/families1.families#//@families.0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#s"/>
+    <rightEObjects href="../model/persons.persons#//@persons.1"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#//@persons.1"/>
+    <rightEObjects href="../model/families1.families#//@families.0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#hii"/>
+    <rightEObjects href="../model/persons.persons#//@persons.2"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0"/>
+    <rightEObjects href="../model/persons.persons#//@persons.2"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0/@mother"/>
+    <rightEObjects href="../model/persons.persons#//@persons.3"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0"/>
+    <rightEObjects href="../model/persons.persons#//@persons.3"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0/@sons.1"/>
+    <rightEObjects href="../model/persons.persons#//@persons.4"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#//@persons.4"/>
+    <rightEObjects href="../model/families1.families#//@families.0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0/@sons.2"/>
+    <rightEObjects href="../model/persons.persons#//@persons.5"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#//@persons.5"/>
+    <rightEObjects href="../model/families1.families#//@families.0"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/families1.families#//@families.0/@sons.3"/>
+    <rightEObjects href="../model/persons.persons#//@persons.6"/>
+  </correspondences>
+  <correspondences xsi:type="correspondence_1:ReactionsCorrespondence" tag="">
+    <leftEObjects href="../model/persons.persons#//@persons.6"/>
+    <rightEObjects href="../model/families1.families#//@families.0"/>
+  </correspondences>
+</correspondence:Correspondences>

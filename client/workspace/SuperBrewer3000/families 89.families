@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<families:FamilyRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="">
+  <families id="rwar" lastName="Herbertus">
+    <sons firstName="Chris 2"/>
+    <sons firstName="Sohnlein"/>
+    <sons firstName="Sohnlein"/>
+    <sons firstName="leck mich doch"/>
+    <sons/>
+    <daughters id="s" firstName="h&#xe4;"/>
+    <father id="hii" firstName="who"/>
+    <mother firstName="wat"/>
+  </families>
+  <families id="waeded" lastName="hmmmmm"/>
+  <families/>
+</families:FamilyRegister>

@@ -67,6 +67,7 @@ public class VitruvRouting implements Routing {
 
    @Override
    public void bindRoutes() {
+
       javalin.routes(() -> path("api/v2", () -> {
          get("save-me", this::saveVitruvView);
          get("register-view", this::registerView);
@@ -75,6 +76,7 @@ public class VitruvRouting implements Routing {
    }
 
    private void registerView(final Context ctxt) {
+      System.out.println("REGISTERING VIEW");
       uriConverter.withResolvedModelURI(ctxt, uri -> registerView(uri, ctxt));
 
    }
@@ -100,6 +102,7 @@ public class VitruvRouting implements Routing {
    }
 
    private void saveVitruvView(final Context ctxt) {
+      System.out.println("SAVING VIEW");
       uriConverter.withResolvedModelURI(ctxt, uri -> processSaving(uri));
 
    }

@@ -23,8 +23,12 @@ export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     // Model Server
     console.log('starting');
     if (isBound(LaunchOptions)) {
+        console.log('rebinding model server', WorkflowModelServerLaunchOptions);
+
         rebind(LaunchOptions).to(WorkflowModelServerLaunchOptions).inSingletonScope();
     } else {
+        console.log('binding model server', WorkflowModelServerLaunchOptions);
+
         bind(LaunchOptions).to(WorkflowModelServerLaunchOptions).inSingletonScope();
     }
 

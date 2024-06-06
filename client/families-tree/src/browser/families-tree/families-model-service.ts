@@ -21,7 +21,7 @@ import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
 export class FamiliesModelService implements TreeEditor.ModelService {
     private typeSchema: {
         definitions: { [property: string]: JsonSchema7 };
-    };
+    } ; // use ts pick
     constructor(
         @inject(ILogger) private readonly logger: ILogger,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2
@@ -55,7 +55,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     private getSubSchemaForNode(node: TreeEditor.Node, definitions: { [key: string]: JsonSchema7 }): JsonSchema7 | undefined {
-        const schema = this.getSchemaForType(node.jsonforms.type, definitions);
+        const schema = this.getSchemaForType(node.jsonforms.type, definitions); // collapse this method
         if (!schema) {
             // If no schema can be found, let it generate by JsonForms:
             return undefined;
@@ -73,7 +73,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getUiSchemaForNode(node: TreeEditor.Node): UISchemaElement | undefined {
-        return undefined;
+        return undefined; // explain
         // const schema = this.getUiSchemaForType(node.jsonforms.type);
         // if (!schema) {
         //     // If no ui schema can be found, let it generate by JsonForms:

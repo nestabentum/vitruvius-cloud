@@ -1,0 +1,17 @@
+services:
+  vitruvius-cloud:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - ADAPTER_HOST=vitruvius-cloud-vitruvius-adapter-1
+  vitruvius-server-launch:
+    image: "nestabentum/vitruvius-cloud-server-launch:latest"
+    ports:
+      - "8069:8069"
+  vitruvius-adapter:
+    image: "nestabentum/vitruvius-cloud-adapter:latest"
+    ports:
+      - "8070:8070"
+    environment:
+      - SERVER_HOST=vitruvius-cloud-vitruvius-server-launch-1

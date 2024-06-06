@@ -51,7 +51,6 @@ const workflowDiagramModule = new ContainerModule((bind, unbind, isBound, rebind
     configureModelElement(context, 'label:heading', SLabel, SLabelView, { enable: [editLabelFeature] });
 
     configureModelElement(context, DefaultTypes.EDGE, SEdge, GEdgeView);
-;
 });
 
 export default function createContainer(widgetId: string): Container {
