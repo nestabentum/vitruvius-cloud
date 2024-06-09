@@ -10,7 +10,7 @@ import axios from 'axios';
 
 @injectable()
 export class ViewSaver {
-    private restClient = axios.create({ baseURL: 'http://localhost:8081/api/v2/' });
+    
 
     constructor(
         @inject(OpenerService)
@@ -46,8 +46,8 @@ export class ViewSaver {
                     });
                 const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0;
                 const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1);
-                this.restClient
-                    .get('register-view', {
+                axios
+                    .get('http://localhost:8081/api/v2/register-view', {
                         params: { modeluri: uriEncodedFileName, originalResourceURI: view.resourceURI, viewURI: view.id }
                     })
                     .then(data => {

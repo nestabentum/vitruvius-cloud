@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RollbackException;
+import org.eclipse.emfcloud.coffee.modelserver.annotations.AdapterUrl;
 import org.eclipse.emfcloud.coffee.modelserver.vitruvius.ChangeRecorderCache;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.common.Routing;
@@ -52,6 +53,9 @@ public class VitruvRouting implements Routing {
    private final JsonMapper objectMapper;
    private final ModelResourceManager modelResourceManager;
 
+   @AdapterUrl
+   private String adapterUrl;
+
    @Inject
    @SuppressWarnings("checkstyle:ParameterNumber")
    public VitruvRouting(final Javalin javalin,
@@ -77,6 +81,7 @@ public class VitruvRouting implements Routing {
 
    private void registerView(final Context ctxt) {
       System.out.println("REGISTERING VIEW");
+      System.out.println("MODELURI " + ctxt.queryParamMap().get("modeluri").get(0));
       uriConverter.withResolvedModelURI(ctxt, uri -> registerView(uri, ctxt));
 
    }
@@ -103,6 +108,7 @@ public class VitruvRouting implements Routing {
 
    private void saveVitruvView(final Context ctxt) {
       System.out.println("SAVING VIEW");
+      System.out.println("MODELURI " + ctxt.queryParamMap().get("modeluri").get(0));
       uriConverter.withResolvedModelURI(ctxt, uri -> processSaving(uri));
 
    }
@@ -133,7 +139,8 @@ public class VitruvRouting implements Routing {
 
          serializedChanges = serializedChanges.replaceAll("(?i)" + uriToReplace, targetFileURI);
 
-         var sendChanges = HttpRequest.newBuilder(java.net.URI.create("http://localhost:8070/vsum/view"))
+         var sendChanges = HttpRequest
+            .newBuilder(java.net.URI.create("http://vitruvius-cloud-vitruvius-adapter-1:8070/vsum/view"))
             .header("View-UUID", changeRecorderCache.getViewUri(URI.createURI(uri)))
             .method("PATCH", BodyPublishers.ofString(serializedChanges)).build();
          var response = httpClient.send(sendChanges, BodyHandlers.ofString());

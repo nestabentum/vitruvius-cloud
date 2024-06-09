@@ -26,4 +26,5 @@ export class WorkflowModelServerLaunchOptions implements LaunchOptions {
     hostname = 'localhost';
     jarPath = JAR_FILE_PATH;
     additionalArgs = [`-l=${LOG_FILE_PATH}`];
+    // vmArgs = [ '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=0.0.0.0:8000'];
 }

@@ -123,11 +123,8 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="https://vitruv.tools/updatesite/nightly/aggregated"/>
-			<unit id="tools.vitruv.change.feature.source.feature.group" version="3.0.1.202406060244"/>
-			<unit id="tools.vitruv.testutils.changevisualization.feature.feature.group" version="3.0.1.202406060244"/>
-			<unit id="tools.vitruv.testutils.changevisualization.feature.source.feature.group" version="3.0.1.202406060244"/>
-			<unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202406060244"/>
-			<unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202406060244"/>
+			<unit id="tools.vitruv.testutils.feature.feature.group" version="3.0.1.202406090247"/>
+			<unit id="tools.vitruv.testutils.feature.source.feature.group" version="3.0.1.202406090247"/>
 		</location>
 	</locations>
 </target>

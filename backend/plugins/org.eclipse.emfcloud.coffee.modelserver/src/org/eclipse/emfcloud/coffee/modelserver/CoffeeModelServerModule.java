@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.emfcloud.coffee.modelserver;
 
+import org.eclipse.emfcloud.coffee.modelserver.annotations.AdapterUrl;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddAutomatedTaskCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddDecisionNodeCommandContribution;
 import org.eclipse.emfcloud.coffee.modelserver.commands.contributions.AddFlowCommandContribution;
@@ -127,6 +128,27 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
 
    @Override
    protected String getSemanticFileExtension() { return "families"; }
+
+   @Override
+   protected void configure() {
+      super.configure();
+      bind(String.class).annotatedWith(AdapterUrl.class).toInstance(getAdapterUrl()); // find out, why this binding does
+                                                                                      // not work
+   }
+
+   private String getAdapterUrl() { return "http://" + getAdapterHost() + ":" + getAdapterPort(); }
+
+   protected String getAdapterHost() {
+      String systemEnvVal = System.getenv("ADAPTER_HOST");
+
+      return systemEnvVal == null ? "localhost" : systemEnvVal;
+   }
+
+   protected String getAdapterPort() {
+      String systemEnvVal = System.getenv("ADAPTER_PORT");
+
+      return systemEnvVal == null ? "8070" : systemEnvVal;
+   }
 
    @Override
    protected String getNotationFileExtension() { return "notation"; }

@@ -45,7 +45,6 @@ import axios from 'axios';
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     protected override instanceData: FamilyRegister | undefined;
     private delayedRefresh = false;
-    private restClient = axios.create({ baseURL: 'http://localhost:8081/api/v2/' });
 
     constructor(
         @inject(FamiliesMasterTreeWidget) override readonly treeWidget: FamiliesMasterTreeWidget,
@@ -145,8 +144,18 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     }
 
     override save(): void {
-        this.modelServerClient.save(this.utils.getModelID());
-        this.restClient.get('save-me', { params: { modeluri: this.utils.getModelID().toString() } });
+        this.modelServerClient.save(this.utils.getModelID()).then(() =>
+            axios
+                .get('http://localhost:8081/api/v2/save-me', {
+                    params: { modeluri: this.utils.getModelID().toString() }
+                })
+                .then(data => {
+                    console.log('successfully saved', data);
+                })
+                .catch(error => {
+                    console.log('saving error', error);
+                })
+        );
     }
 
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {

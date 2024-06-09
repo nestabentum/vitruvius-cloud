@@ -1,6 +1,6 @@
 services:
   vitruvius-cloud:
-    image: nestabentum/vitruvius-cloud:latest
+    build: .
     ports:
       - "3000:3000"
       - "8000:8000"
@@ -9,15 +9,19 @@ services:
       - ADAPTER_HOST=vitruvius-cloud-vitruvius-adapter-1
       - ADAPTER_PORT=8070
   vitruvius-server-launch:
-    image: nestabentum/vitruvius-cloud-server-launch:latest
+    build:
+      dockerfile: C:\Users\nbe_adm\eclipse-modeling\VitruviusCloudServerLaunch\Dockerfile
+      context: C:\Users\nbe_adm\eclipse-modeling\VitruviusCloudServerLaunch
     ports:
       - "8069:8069"
-      # - "8002:8002" only for image with debug tag
+      - "8002:8002"
   vitruvius-adapter:
-    image: nestabentum/vitruvius-cloud-adapter:latest
+    build:
+      dockerfile: C:\Users\nbe_adm\eclipse-modeling\VitruviusCloudAdapter\Dockerfile
+      context: C:\Users\nbe_adm\eclipse-modeling\VitruviusCloudAdapter
     ports:
       - "8070:8070"
-      # - "8001:8001" only for image with debug tag
+      - "8001:8001"
     environment:
       - VITRUV_ADAPTER_HOST=vitruvius-cloud-vitruvius-adapter-1
       - VITRUV_SERVER_HOST=vitruvius-cloud-vitruvius-server-launch-1
