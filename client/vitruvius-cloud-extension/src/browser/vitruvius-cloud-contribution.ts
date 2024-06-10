@@ -20,7 +20,7 @@ export const VitruviusCloudCommand: Command = {
 };
 export const FetchViewTypesCommand: Command = {
     id: 'VitruviusCloud.FetchViewTypes',
-    label: 'Fetch View Types'
+    label: 'Fetch View'
 };
 @injectable()
 export class VitruviusCloudCommandContribution implements CommandContribution {

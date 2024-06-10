@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<persons:PersonRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:persons="edu.kit.ipd.sdq.metamodels.persons">
+  <persons xsi:type="persons:Male" fullName="Chris Herbertus"/>
+  <persons xsi:type="persons:Female" fullName="Christine Herbertus"/>
+  <persons xsi:type="persons:Male" fullName="Juergen Herbertus"/>
+  <persons xsi:type="persons:Female" fullName="Linda Herbertus"/>
+  <persons xsi:type="persons:Male" fullName="Johann Herbertus"/>
+  <persons xsi:type="persons:Male" fullName="Ruediger Herbertus"/>
+  <persons xsi:type="persons:Male" fullName="leck mich doch Herbertus"/>
+</persons:PersonRegister>

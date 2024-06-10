@@ -28,7 +28,7 @@ or use the provided yarn script:
 
     yarn docker:run
 
-Next, open a browser pointing to <http://localhost:3000/#/coffee-editor/client/workspace/SuperBrewer3000> in your host.
+Next, open a browser pointing to <http://localhost:3000/#/coffee-editor/client/workspace/VitruviusCloudStudy> in your host.
 You should see a Theia application with an example project being loaded.
 Refer to the `Getting Started` widget in the right area of the application for more details on how to use the example project.
 
@@ -127,7 +127,7 @@ Run the built coffee-editor:
 
 Open <http://localhost:3000> in the browser.
 
-In Theia open the example workspace `client/workspace/SuperBrewer3000` and double click a `.coffee` file. This opens it in a tree master detail editor.
+In Theia open the example workspace `client/workspace/VitruviusCloudStudy` and double click a `.coffee` file. This opens it in a tree master detail editor.
 
 ## Publishing the coffee-editor-extension
 

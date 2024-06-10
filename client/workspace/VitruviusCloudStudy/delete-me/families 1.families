@@ -4,6 +4,7 @@
     <sons xsi:type="families:Member" firstName="Chris"/>
     <sons xsi:type="families:Member" firstName="Johann"/>
     <sons xsi:type="families:Member" firstName="Ruediger"/>
+    <sons xsi:type="families:Member" firstName="leck mich doch"/>
     <daughters xsi:type="families:Member" id="s" firstName="Christine"/>
     <father xsi:type="families:Member" id="hii" firstName="Juergen"/>
     <mother xsi:type="families:Member" firstName="Linda"/>

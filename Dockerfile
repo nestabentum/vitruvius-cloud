@@ -85,7 +85,7 @@ RUN sed -i 's/<\/head>/<link rel="icon" href="favicon.ico" \/><\/head>/g' client
 # USER theia
 
 # # Set up git repo in workspace for comparison
-# WORKDIR /coffee-editor/client/workspace/SuperBrewer3000
+# WORKDIR /coffee-editor/client/workspace/VitruviusCloudStudy
 # RUN git config --global user.name "Test User" && \
 #     git config --global user.email "test@example.com" && \
 #     git init && \
@@ -95,9 +95,9 @@ RUN sed -i 's/<\/head>/<link rel="icon" href="favicon.ico" \/><\/head>/g' client
 # WORKDIR /coffee-editor/client/browser-app/
 # EXPOSE 3000
 # ENTRYPOINT [ "node", "/coffee-editor/client/browser-app/src-gen/backend/main.js" ]
-# CMD [ "/coffee-editor/client/workspace/SuperBrewer3000", "--hostname=0.0.0.0","--port=3000","--plugins=local-dir:/coffee-editor/client/browser-app/plugins"]
+# CMD [ "/coffee-editor/client/workspace/VitruviusCloudStudy", "--hostname=0.0.0.0","--port=3000","--plugins=local-dir:/coffee-editor/client/browser-app/plugins"]
 
 WORKDIR /coffee-editor/
 EXPOSE 3000
 ENTRYPOINT [ "node", "/coffee-editor/client/browser-app/src-gen/backend/main.js" ]
-CMD [ "/coffee-editor/client/workspace/SuperBrewer3000", "--hostname=0.0.0.0","--port=3000","--plugins=local-dir:/coffee-editor/client/browser-app/plugins"]
+CMD [ "/coffee-editor/client/workspace/VitruviusCloudStudy", "--hostname=0.0.0.0","--port=3000","--plugins=local-dir:/coffee-editor/client/browser-app/plugins"]

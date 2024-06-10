@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<persons:PersonRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:persons="edu.kit.ipd.sdq.metamodels.persons">
+<persons:PersonRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:persons="edu.kit.ipd.sdq.metamodels.persons" id="h&#xe4;">
   <persons xsi:type="persons:Male" fullName="Chris Herbertus"/>
   <persons xsi:type="persons:Female" fullName="Daria Herbertus"/>
   <persons xsi:type="persons:Male" fullName="Anton Herbertus"/>

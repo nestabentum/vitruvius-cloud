@@ -16,7 +16,7 @@
         "--WF_LSP=5017",
         "--app-project-path=${workspaceRoot}/browser-app",
         "--plugins=local-dir:${workspaceRoot}/browser-app/plugins",
-        "--root-dir=${workspaceRoot}/workspace/SuperBrewer3000"
+        "--root-dir=${workspaceRoot}/workspace/VitruviusCloudStudy"
       ],
       "env": {
         "NODE_ENV": "development",
@@ -51,7 +51,7 @@
         "--WF_ANALYZER=5083",
         "--app-project-path=${workspaceRoot}/browser-app",
         "--plugins=local-dir:${workspaceRoot}/browser-app/plugins",
-        "--root-dir=${workspaceRoot}/workspace/SuperBrewer3000",
+        "--root-dir=${workspaceRoot}/workspace/VitruviusCloudStudy",
         "--debug"
       ],
       "env": {
