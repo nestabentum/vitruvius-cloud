@@ -24,10 +24,12 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RollbackException;
+import org.eclipse.emfcloud.coffee.modelserver.CustomJsonSchemaConverter;
 import org.eclipse.emfcloud.coffee.modelserver.annotations.AdapterUrl;
 import org.eclipse.emfcloud.coffee.modelserver.vitruvius.ChangeRecorderCache;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.common.Routing;
+import org.eclipse.emfcloud.modelserver.emf.common.JsonResponse;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelResourceManager;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelServerEditingDomain;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelURIConverter;
@@ -35,6 +37,7 @@ import org.eclipse.emfcloud.modelserver.emf.common.ModelURIConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.inject.Inject;
 
+import edu.kit.ipd.sdq.metamodels.persons.PersonsPackage;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import tools.vitruv.change.composite.description.TransactionalChange;
@@ -52,7 +55,7 @@ public class VitruvRouting implements Routing {
    private final static String viewUriKey = "uri";
    private final JsonMapper objectMapper;
    private final ModelResourceManager modelResourceManager;
-
+   private final CustomJsonSchemaConverter jsonSchemaConverter;
    @AdapterUrl
    private String adapterUrl;
 
@@ -60,13 +63,14 @@ public class VitruvRouting implements Routing {
    @SuppressWarnings("checkstyle:ParameterNumber")
    public VitruvRouting(final Javalin javalin,
       final ChangeRecorderCache changeRecorderCache, final ModelURIConverter uriConverter,
-      final ModelResourceManager modelResourceManager) {
+      final ModelResourceManager modelResourceManager, final CustomJsonSchemaConverter jsonSchemaConverter) {
       this.changeRecorderCache = changeRecorderCache;
       this.javalin = javalin;
       this.uriConverter = uriConverter;
       this.httpClient = HttpClient.newHttpClient();
       this.objectMapper = new JsonMapper(Path.of("/cloud-vsum"));
       this.modelResourceManager = modelResourceManager;
+      this.jsonSchemaConverter = jsonSchemaConverter;
    }
 
    @Override
@@ -75,6 +79,7 @@ public class VitruvRouting implements Routing {
       javalin.routes(() -> path("api/v2", () -> {
          get("save-me", this::saveVitruvView);
          get("register-view", this::registerView);
+         get("custom-typeschema", this::getTypeSchema);
       }));
 
    }
@@ -83,6 +88,14 @@ public class VitruvRouting implements Routing {
       System.out.println("REGISTERING VIEW");
       System.out.println("MODELURI " + ctxt.queryParamMap().get("modeluri").get(0));
       uriConverter.withResolvedModelURI(ctxt, uri -> registerView(uri, ctxt));
+
+   }
+
+   private void getTypeSchema(final Context ctxt) {
+      System.out.println("GETTING TYPESCHEMA");
+      // System.out.println("MODELURI " + ctxt.queryParamMap().get("metamodel").get(0));
+      var typeSchemaNode = jsonSchemaConverter.createJsonSchemaFromEPackage(PersonsPackage.eINSTANCE);
+      ctxt.json(JsonResponse.success(typeSchemaNode));
 
    }
 

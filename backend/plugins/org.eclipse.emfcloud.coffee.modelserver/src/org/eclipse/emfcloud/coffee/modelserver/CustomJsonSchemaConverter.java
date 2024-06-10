@@ -37,7 +37,7 @@ public class CustomJsonSchemaConverter extends DefaultJsonSchemaConverter {
    }
 
    @Override
-   protected JsonNode createJsonSchemaFromEPackage(final EPackage ePackage) {
+   public JsonNode createJsonSchemaFromEPackage(final EPackage ePackage) {
       final ObjectNode schemaNode = Json.object();
 
       final ObjectNode definitionsNode = Json.object();

@@ -70,13 +70,15 @@ export class OpenWorkflowDiagramCommandHandler implements CommandHandler {
     }
 
     protected getNotationUriString(uriString: string): string {
-        const coffeeFileExtension = '.coffee';
+        const personsFileExtension = '.persons';
         const notationFileExtension = '.notation';
-        if (uriString.endsWith(coffeeFileExtension)) {
-            return uriString.replace(coffeeFileExtension, notationFileExtension);
+        if (uriString.endsWith(personsFileExtension)) {
+            return uriString.replace(personsFileExtension, notationFileExtension);
         } else if (uriString.endsWith(notationFileExtension)) {
             return uriString;
         }
-        throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${coffeeFileExtension} or ${notationFileExtension}!`);
+        throw Error(
+            `Unexpected uriString: ${uriString}! Expected uriString ending in ${personsFileExtension} or ${notationFileExtension}!`
+        );
     }
 }

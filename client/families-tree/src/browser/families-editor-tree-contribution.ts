@@ -34,7 +34,7 @@ export class FamiliesTreeEditorContribution extends BaseTreeEditorContribution {
     readonly label = BaseTreeEditorWidget.WIDGET_LABEL;
 
     canHandle(uri: URI): number {
-        if (uri.path.ext === '.families') {
+        if (uri.path.ext === '.persons') {
             return 1000;
         }
         return 0;

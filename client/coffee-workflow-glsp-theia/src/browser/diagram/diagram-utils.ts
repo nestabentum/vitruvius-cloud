@@ -10,16 +10,16 @@
  */
 import URI from '@theia/core/lib/common/uri';
 
-const coffeeFileExtension = '.families'; // TODO families
+const personsileExtension = '.persons'; // TODO families
 const notationFileExtension = '.notation'; // TODO families-notation
 
 export function getCoffeeUriString(uriString: string): string {
     if (uriString.endsWith(notationFileExtension)) {
-        return uriString.replace(notationFileExtension, coffeeFileExtension);
-    } else if (uriString.endsWith(coffeeFileExtension)) {
+        return uriString.replace(notationFileExtension, personsileExtension);
+    } else if (uriString.endsWith(personsileExtension)) {
         return uriString;
     }
-    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${coffeeFileExtension} or ${notationFileExtension}!`);
+    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${personsileExtension} or ${notationFileExtension}!`);
 }
 
 export function getCoffeeUri(uri: URI): URI {
@@ -29,12 +29,12 @@ export function getCoffeeUri(uri: URI): URI {
 }
 
 export function getNotationUriString(uriString: string): string {
-    if (uriString.endsWith(coffeeFileExtension)) {
-        return uriString.replace(coffeeFileExtension, notationFileExtension);
+    if (uriString.endsWith(personsileExtension)) {
+        return uriString.replace(personsileExtension, notationFileExtension);
     } else if (uriString.endsWith(notationFileExtension)) {
         return uriString;
     }
-    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${coffeeFileExtension} or ${notationFileExtension}!`);
+    throw Error(`Unexpected uriString: ${uriString}! Expected uriString ending in ${personsileExtension} or ${notationFileExtension}!`);
 }
 
 export function getNotationUri(uri: URI): URI {

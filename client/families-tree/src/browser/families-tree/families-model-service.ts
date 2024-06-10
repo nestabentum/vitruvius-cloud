@@ -16,12 +16,13 @@ import { inject, injectable } from 'inversify';
 import URI from '@theia/core/lib/common/uri';
 import { FamiliesModel } from './families-model';
 import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
+import axios from 'axios';
 
 @injectable()
 export class FamiliesModelService implements TreeEditor.ModelService {
     private typeSchema: {
         definitions: { [property: string]: JsonSchema7 };
-    } ; // use ts pick
+    }; // use ts pick
     constructor(
         @inject(ILogger) private readonly logger: ILogger,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2
@@ -29,12 +30,23 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         this.loadTypeSchema();
     }
     loadTypeSchema(): void {
-        this.modelServerClient
-            .getTypeSchema('families.families') // TODO find out why util component cannot be injected here and agnostisize
-            .then(data => {
-                this.typeSchema = JSON.parse(data);
+        // this.modelServerClient
+        //     .getTypeSchema('families.families') // TODO find out why util component cannot be injected here and agnostisize
+        //     .then(data => {
+        //         this.typeSchema = JSON.parse(data);
+        //     })
+        //     .catch((error: any) => {
+        //         this.logger.error(error);
+        // });
+
+        axios
+            .get('http://localhost:8081/api/v2/custom-typeschema')
+            .then(response => {
+                this.typeSchema = response.data.data;
             })
-            .catch((error: any) => this.logger.error(error));
+            .catch((error: any) => {
+                this.logger.error(error);
+            });
         return;
     }
     getDataForNode(node: TreeEditor.Node): void {

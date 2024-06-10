@@ -24,7 +24,7 @@ export class FamiliesLabelProviderContribution implements LabelProviderContribut
             toCheck = UriSelection.getUri(uri);
         }
         if (toCheck instanceof URI) {
-            if (toCheck.path.ext === '.families') {
+            if (toCheck.path.ext === '.persons') {
                 return 1000;
             }
         }
