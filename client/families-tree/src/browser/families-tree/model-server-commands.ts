@@ -42,3 +42,18 @@ export namespace AddFatherContribution {
         return new ModelServerCommand(TYPE, { firstName, viewSerial: viewInfo.id, uri: viewInfo.resourceURI });
     }
 }
+
+export namespace AddFemaleContribution {
+    export const TYPE = 'addFemaleContribution';
+
+    export function create(): ModelServerCommand {
+        return new ModelServerCommand(TYPE);
+    }
+}
+export namespace AddMaleContribution {
+    export const TYPE = 'addMaleContribution';
+
+    export function create(): ModelServerCommand {
+        return new ModelServerCommand(TYPE);
+    }
+}

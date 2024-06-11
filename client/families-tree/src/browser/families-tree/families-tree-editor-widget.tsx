@@ -35,8 +35,8 @@ import { inject, injectable } from 'inversify';
 import { isEqual } from 'lodash';
 import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 
-import { FamilyRegister, Identifiable, JsonPrimitiveType } from './families-model';
-import { AddFatherContribution } from './model-server-commands';
+import { FamilyRegister, Female, Identifiable, JsonPrimitiveType, Male } from './families-model';
+import { AddFemaleContribution, AddMaleContribution } from './model-server-commands';
 import { Utils } from '../utils';
 import axios from 'axios';
 
@@ -185,9 +185,10 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         // } else
 
 
-        if (property === 'father') {
-        const viewSerial = await this.getViewInfo();
-            patchOrCommand = AddFatherContribution.create('Father', viewSerial);
+        if (type === Female.$type) {
+            patchOrCommand = AddFemaleContribution.create();
+        } else if (type === Male.$type) {
+            patchOrCommand = AddMaleContribution.create();
         } else {
             patchOrCommand = {
                 op: 'add',

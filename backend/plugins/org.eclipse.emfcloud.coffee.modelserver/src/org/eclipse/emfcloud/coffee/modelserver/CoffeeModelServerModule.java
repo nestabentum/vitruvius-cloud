@@ -26,6 +26,8 @@ import org.eclipse.emfcloud.coffee.modelserver.vitruvius.ChangeRecorderCache;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddDaughterCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFamilyCommandContribution;
 import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFatherCommandContribution;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddFemaleContribution;
+import org.eclipse.emfcloud.family.modelserver.commands.contributions.AddMaleContribution;
 import org.eclipse.emfcloud.modelserver.common.Routing;
 import org.eclipse.emfcloud.modelserver.common.utils.MapBinding;
 import org.eclipse.emfcloud.modelserver.common.utils.MultiBinding;
@@ -110,7 +112,8 @@ public class CoffeeModelServerModule extends EMSNotationModelServerModule {
       binding.put(AddFamilyCommandContribution.TYPE, AddFamilyCommandContribution.class);
       binding.put(AddFatherCommandContribution.TYPE, AddFatherCommandContribution.class);
       binding.put(AddDaughterCommandContribution.TYPE, AddDaughterCommandContribution.class);
-
+      binding.put(AddMaleContribution.TYPE, AddMaleContribution.class);
+      binding.put(AddFemaleContribution.TYPE, AddFemaleContribution.class);
       // Nodes - TODO delete theses coffee editor remains
       binding.put(AddManualTaskCommandContribution.TYPE, AddManualTaskCommandContribution.class);
       binding.put(AddAutomatedTaskCommandContribution.TYPE, AddAutomatedTaskCommandContribution.class);

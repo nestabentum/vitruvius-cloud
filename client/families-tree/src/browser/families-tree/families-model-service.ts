@@ -14,7 +14,7 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
 import URI from '@theia/core/lib/common/uri';
-import { FamiliesModel, PersonsModel } from './families-model';
+import {  PersonsModel } from './families-model';
 import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
 import axios from 'axios';
 

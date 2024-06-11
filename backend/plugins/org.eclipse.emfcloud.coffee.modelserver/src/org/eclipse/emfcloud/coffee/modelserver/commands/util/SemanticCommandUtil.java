@@ -29,6 +29,7 @@ import org.eclipse.emfcloud.modelserver.edit.command.SetCommandContribution;
 import org.eclipse.emfcloud.modelserver.edit.util.CommandUtil;
 
 import edu.kit.ipd.sdq.metamodels.families.FamilyRegister;
+import edu.kit.ipd.sdq.metamodels.persons.PersonRegister;
 
 public final class SemanticCommandUtil {
 
@@ -44,6 +45,8 @@ public final class SemanticCommandUtil {
 
    public static String getFamilyFileExtension() { return "families"; }
 
+   public static String getPersonFileExtension() { return "persons"; }
+
    public static FamilyRegister getFamilyModel(final URI modelUri, final EditingDomain domain) {
       Resource semanticResource = domain.getResourceSet()
          .getResource(modelUri.trimFileExtension().appendFileExtension(getFamilyFileExtension()), false);
@@ -52,6 +55,17 @@ public final class SemanticCommandUtil {
          return null;
       }
       FamilyRegister familyRegister = (FamilyRegister) semanticRoot;
+      return familyRegister;
+   }
+
+   public static PersonRegister getPersonsModel(final URI modelUri, final EditingDomain domain) {
+      Resource semanticResource = domain.getResourceSet()
+         .getResource(modelUri.trimFileExtension().appendFileExtension(getPersonFileExtension()), false);
+      EObject semanticRoot = semanticResource.getContents().get(0);
+      if (!(semanticRoot instanceof PersonRegister)) {
+         return null;
+      }
+      PersonRegister familyRegister = (PersonRegister) semanticRoot;
       return familyRegister;
    }
 
