@@ -11,7 +11,7 @@
 import { TreeEditor } from '@eclipse-emfcloud/theia-tree-editor';
 import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
-import { FamiliesModel } from './families-model';
+import { PersonsModel } from './families-model';
 
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 import { FamiliesTreeLabelProvider } from './families-tree-label-provider-contribution';
@@ -84,7 +84,7 @@ export class FamiliesTreeNodeFactory implements TreeEditor.NodeFactory {
     }
 
     hasCreatableChildren(node: TreeEditor.Node): boolean {
-        return node ? FamiliesModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
+        return node ? PersonsModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
     }
 
     protected emptyNode(): Pick<

@@ -34,6 +34,7 @@ export namespace Identifiable {
     }
 }
 const $familiesTypeBase = 'edu.kit.ipd.sdq.metamodels.families#//';
+const $personTypeBase = 'edu.kit.ipd.sdq.metamodels.persons#//';
 
 export interface Family extends Identifiable {
     daughters?: Son[];
@@ -64,13 +65,37 @@ export namespace Family {
 export interface FamilyRegister extends Identifiable {
     families?: Family[];
 }
+export interface Male extends Identifiable {
+    fullName?: string;
+}
+export interface Female extends Identifiable {
+    fullName?: string;
+}
 export namespace FamilyRegister {
     export const $type = `${$familiesTypeBase}FamilyRegister`;
     export function is(object: unknown): object is FamilyRegister {
         return Identifiable.is(object) && $type === object.$type;
     }
 }
+export namespace PersonRegister {
+    export const $type = `${$personTypeBase}PersonRegister`;
 
+}
+export namespace Male {
+    export const $type = `${$personTypeBase}Male`;
+
+    export function is(object: unknown): object is Male {
+        return Identifiable.is(object) && (isString(object, 'fullName') )  && object.$type === $type;
+    }
+
+}
+export namespace Female {
+    export const $type = `${$personTypeBase}Female`;
+    export function is(object: unknown): object is Female {
+        return Identifiable.is(object) && (isString(object, 'fullName') )  && object.$type === $type;
+    }
+
+}
 export namespace FamiliesModel {
     export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
         [FamilyRegister.$type, [{ property: 'families', children: [Family.$type] }]],
@@ -81,6 +106,20 @@ export namespace FamiliesModel {
                 { property: 'sons', children: [Member.$type] },
                 { property: 'father', children: [Member.$type] },
                 { property: 'mother', children: [Member.$type] }
+            ]
+        ]
+    ]);
+}
+
+export namespace PersonsModel {
+    export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
+        [
+            PersonRegister.$type,
+            [
+                {
+                    property: 'persons',
+                    children: [Male.$type, Female.$type]
+                }
             ]
         ]
     ]);

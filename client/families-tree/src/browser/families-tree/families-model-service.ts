@@ -14,7 +14,7 @@ import { ILogger } from '@theia/core';
 import { inject, injectable } from 'inversify';
 
 import URI from '@theia/core/lib/common/uri';
-import { FamiliesModel } from './families-model';
+import { FamiliesModel, PersonsModel } from './families-model';
 import { TheiaModelServerClientV2 } from '@eclipse-emfcloud/modelserver-theia';
 import axios from 'axios';
 
@@ -30,15 +30,6 @@ export class FamiliesModelService implements TreeEditor.ModelService {
         this.loadTypeSchema();
     }
     loadTypeSchema(): void {
-        // this.modelServerClient
-        //     .getTypeSchema('families.families') // TODO find out why util component cannot be injected here and agnostisize
-        //     .then(data => {
-        //         this.typeSchema = JSON.parse(data);
-        //     })
-        //     .catch((error: any) => {
-        //         this.logger.error(error);
-        // });
-
         axios
             .get('http://localhost:8081/api/v2/custom-typeschema')
             .then(response => {
@@ -95,7 +86,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
 
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
-        return FamiliesModel.childrenMapping;
+        return PersonsModel.childrenMapping;
     }
 
     getNameForType(type: string): string {

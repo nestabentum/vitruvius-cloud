@@ -13,11 +13,14 @@ import { codicon, LabelProviderContribution } from '@theia/core/lib/browser';
 import URI from '@theia/core/lib/common/uri';
 import { injectable } from 'inversify';
 
-import { Family, FamilyRegister, Member } from './families-model';
+import { Family, FamilyRegister, Female, Male, Member, PersonRegister } from './families-model';
 import { FamiliesTreeEditorConstants } from './families-tree-editor-widget';
 
 const ICON_CLASSES: Map<string, string> = new Map([
     [FamilyRegister.$type, 'folder-opened'],
+    [PersonRegister.$type, 'folder-opened'],
+    [Male.$type, 'person'],
+    [Female.$type, 'person'],
     [Family.$type, 'account'],
     [Member.$type, 'person']
 ]);
@@ -50,8 +53,11 @@ export class FamiliesTreeLabelProvider implements LabelProviderContribution {
 
     public getName(element: object): string | undefined {
         const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
-
-        if (Family.is(data)) {
+        if (Male.is(data)) {
+            return 'Male ' + data.fullName;
+        } else if (Female.is(data)) {
+            return 'Female ' + data.fullName;
+        } else if (Family.is(data)) {
             return 'Family ' + data.lastName;
         } else if (Member.is(data)) {
             return 'Member ' + data.firstName;

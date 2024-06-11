@@ -261,7 +261,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
                 return {
                     op: diffPatch.op,
                     path: this.getOperationPath(this.getOwnerIdByPath(diffPatch.path, changedObject, oldObject, diffPatch.op), feature),
-                    value: this.getAddValue(diffPatch.value, feature)
+                    value: diffPatch.value
                 };
             }
             case 'remove': {
@@ -306,12 +306,12 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         pathSegments.forEach(segment => {
             if (!Number.isNaN(Number(segment))) {
                 parentObject = parentObject[Number(segment)] as Identifiable;
-                if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
+                if (AnyObject.is(parentObject) && isString(parentObject, '$id')) {
                     id = parentObject.$id as string;
                 }
             } else if (typeof segment === 'string') {
                 parentObject = parentObject[segment] as Identifiable;
-                if (AnyObject.is(parentObject) && isString(parentObject, 'id')) {
+                if (AnyObject.is(parentObject) && isString(parentObject, '$id')) {
                     id = parentObject.$id as string;
                 }
             }
