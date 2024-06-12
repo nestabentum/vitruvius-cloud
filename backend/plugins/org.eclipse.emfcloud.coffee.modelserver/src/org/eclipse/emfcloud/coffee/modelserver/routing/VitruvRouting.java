@@ -13,7 +13,6 @@ package org.eclipse.emfcloud.coffee.modelserver.routing;
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
 
-import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
@@ -34,7 +33,6 @@ import org.eclipse.emfcloud.modelserver.emf.common.ModelResourceManager;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelServerEditingDomain;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelURIConverter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.inject.Inject;
 
 import edu.kit.ipd.sdq.metamodels.persons.PersonsPackage;
@@ -158,23 +156,16 @@ public class VitruvRouting implements Routing {
             .method("PATCH", BodyPublishers.ofString(serializedChanges)).build();
          var response = httpClient.send(sendChanges, BodyHandlers.ofString());
          System.out.println(response);
-      } catch (InterruptedException e) {
+      } catch (Exception e) {
          // TODO Auto-generated catch block
-         e.printStackTrace();
-      } catch (JsonProcessingException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      } catch (IOException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
+         throw new RuntimeException(e);
       } finally {
          vitruvRecorder.beginRecording();
          if (editingDomain != null) {
             try {
                editingDomain.getActiveTransaction().commit();
             } catch (RollbackException e) {
-               // TODO Auto-generated catch block
-               e.printStackTrace();
+               throw new RuntimeException(e);
             }
          }
       }
