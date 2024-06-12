@@ -38,7 +38,6 @@ import { FamiliesMasterTreeWidget } from './families-master-tree-widget';
 import { FamilyRegister, Female, Identifiable, JsonPrimitiveType, Male } from './families-model';
 import { AddFemaleContribution, AddMaleContribution } from './model-server-commands';
 import { Utils } from '../utils';
-import axios from 'axios';
 
 @injectable()
 export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
@@ -65,7 +64,6 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
             this.updateWidgetData(incrementalUpdate)
         );
         this.loadModel();
-
         this.modelServerClient.subscribe(this.utils.getModelID());
 
         // see https://developer.mozilla.org/en-US/docs/Web/API/WindowEventHandlers/onbeforeunload
@@ -143,18 +141,20 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
     }
 
     override save(): void {
-        this.modelServerClient.save(this.utils.getModelID()).then(() =>
-            axios
-                .get('http://localhost:8081/api/v2/save-me', {
-                    params: { modeluri: this.utils.getModelID().toString() }
-                })
-                .then(data => {
-                    console.log('successfully saved', data);
-                })
-                .catch(error => {
-                    console.log('saving error', error);
-                })
-        );
+        this.modelServerClient.save(this.utils.getModelID());
+
+        // .then(() =>
+        //     axios
+        //         .get('http://localhost:8081/api/v2/save-me', {
+        //             params: { modeluri: this.utils.getModelID().toString() }
+        //         })
+        //         .then(data => {
+        //             console.log('successfully saved', data);
+        //         })
+        //         .catch(error => {
+        //             console.log('saving error', error);
+        //         })
+        // );
     }
 
     protected async deleteNode(node: Readonly<TreeEditor.Node>): Promise<void> {
@@ -172,15 +172,9 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-    
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         console.log('adding a node', node, type, property);
         let patchOrCommand: PatchOrCommand;
-        // if (type === Family.$type) {
-        //     patchOrCommand = AddFamilyContribution.create(this.getViewSerial());
-        // } else
-
-
         if (type === Female.$type) {
             patchOrCommand = AddFemaleContribution.create();
         } else if (type === Male.$type) {

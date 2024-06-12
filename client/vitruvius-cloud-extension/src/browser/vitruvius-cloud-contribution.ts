@@ -35,7 +35,6 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
         registry.registerCommand(FetchViewTypesCommand, {
             execute: async () => {
                 let items: ViewTypes = [];
-
                 await getViewTypes()
                     .then(data => {
                         items = data.data;
@@ -52,6 +51,7 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                 viewTypePicker.onDidChangeSelection(async selection => {
                     await getView(selection[0].label, this.logger).then(result => {
                         this.viewSaver.saveView(result);
+                        viewTypePicker.hide();
                     });
                 });
                 viewTypePicker.items = quickPickItems;

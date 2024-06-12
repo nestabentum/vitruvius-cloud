@@ -81,6 +81,7 @@ export namespace PersonRegister {
     export const $type = `${$personTypeBase}PersonRegister`;
 
 }
+
 export namespace Male {
     export const $type = `${$personTypeBase}Male`;
 
