@@ -219,6 +219,9 @@ public class WorkflowGModelFactory extends EMSNotationGModelFactory {
       var finalNode = builder.build();
       finalNode.getChildren().add(header);
       finalNode.getCssClasses().add("task");
+      finalNode.getCssClasses().add("family");
+      finalNode.setLayout(GConstants.Layout.HBOX);
+      finalNode.getLayoutOptions().put("paddingRight", 10);
       return finalNode;
    }
 
