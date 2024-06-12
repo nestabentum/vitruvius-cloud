@@ -26,7 +26,7 @@ import {
     NavigatableTreeEditorWidget,
     TreeEditor
 } from '@eclipse-emfcloud/theia-tree-editor';
-import { LocalStorageService, Title, Widget } from '@theia/core/lib/browser';
+import { Title, Widget } from '@theia/core/lib/browser';
 import { ILogger } from '@theia/core/lib/common';
 import URI from '@theia/core/lib/common/uri';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
@@ -54,8 +54,6 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
         @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2,
         @inject(Utils) private readonly utils: Utils,
-        @inject(LocalStorageService)
-        private readonly localStorageSrevice: LocalStorageService
     ) {
         super(treeWidget, formWidget, workspaceService, logger, FamiliesTreeEditorConstants.WIDGET_ID, options);
 
@@ -174,9 +172,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         this.modelServerClient.edit(this.utils.getModelID(), patchOrCommand);
     }
 
-    private getViewInfo = async (): Promise<{ id: string; resourceURI: string }> =>
-        await this.localStorageSrevice.getData(this.options.uri.toString(), { id: '', resourceURI: '' })?? {id: '', resourceURI: ''};
-
+    
     protected async addNode({ node, type, property }: AddCommandProperty): Promise<void> {
         console.log('adding a node', node, type, property);
         let patchOrCommand: PatchOrCommand;

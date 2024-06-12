@@ -20,13 +20,9 @@ export class ViewSaver {
         protected readonly logger: ILogger,
         @inject(WorkspaceService)
         protected readonly workspaceService: WorkspaceService,
-        @inject(LocalStorageService)
-        private readonly localStorageSrevice: LocalStorageService
     ) {}
     saveView = async (view: { fileEnding: string; view: string; id: string; resourceURI: string }) => {
-        console.log('view', view);
         const contentBuffer = BinaryBuffer.fromString(view.view);
-        console.log(this.localStorageSrevice);
         const fileURI = this.workspaceService.getWorkspaceRootUri(undefined);
         if (fileURI) {
             const stat = await this.fileService.resolve(fileURI!);
@@ -42,7 +38,6 @@ export class ViewSaver {
                     .createFile(finalURI, contentBuffer)
                     .then(_ => this.openerService.getOpener(finalURI))
                     .then(openHandler => {
-                        this.localStorageSrevice.setData(finalURI.toString(), { id: view.id, resourceURI: view.resourceURI });
                         openHandler.open(finalURI);
                     });
                 const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0;
