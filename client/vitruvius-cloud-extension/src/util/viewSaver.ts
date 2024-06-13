@@ -32,52 +32,60 @@ export class ViewSaver {
 
             const fileName = preliminaryFileUri.path.base;
             if (fileName) {
-                const finalURI = stat.resource.resolve(fileName);
-                this.fileService
-                    .createFile(finalURI, contentBuffer, { overwrite: true })
-                    .then(_ => {
-                        return this.openerService.getOpener(finalURI);
-                    })
-                    .then(openHandler => {
-                        if (view.fileEnding !== 'families') {
-                            openHandler.open(finalURI, { mode: 'reveal' });
-                        }
-                    });
-
-                const targetNotationUri = URI.fromComponents({
-                    path: workspaceRootUri.path.toString() + '/families.notation',
-                    authority: workspaceRootUri.authority,
-                    fragment: workspaceRootUri.fragment,
-                    query: workspaceRootUri.query,
-                    scheme: workspaceRootUri.scheme
-                });
-                this.fileService.exists(targetNotationUri).then(exists => {
-                    if (exists) {
-                        this.openerService.getOpener(targetNotationUri).then(opener => opener.open(targetNotationUri));
-                        return;
-                    }
-                    if (view.fileEnding === 'families') {
-                        const notationURI = URI.fromComponents({
-                            authority: workspaceRootUri.authority,
-                            scheme: workspaceRootUri.scheme,
-                            fragment: workspaceRootUri.fragment,
-                            path: workspaceRootUri.path.toString() + '/../../families.notation', // TODO make this customizable
-                            query: workspaceRootUri.query
+                if (view.fileEnding === 'persons') {
+                    const finalURI = stat.resource.resolve(fileName);
+                    this.fileService
+                        .createFile(finalURI, contentBuffer, { overwrite: true })
+                        .then(_ => {
+                            return this.openerService.getOpener(finalURI);
+                        })
+                        .then(openHandler => {
+                            if (view.fileEnding !== 'families') {
+                                openHandler.open(finalURI, { mode: 'reveal' });
+                            }
                         });
-                        this.fileService
-                            .readFile(notationURI)
-                            .then(contents => {
+                } else if (view.fileEnding === 'families') {
+                    const finalURI = stat.resource.resolve(fileName);
+                    this.fileService.createFile(finalURI, contentBuffer, { overwrite: true }).then(_ => {
+                        const targetNotationUri = URI.fromComponents({
+                            path: workspaceRootUri.path.toString() + '/families.notation',
+                            authority: workspaceRootUri.authority,
+                            fragment: workspaceRootUri.fragment,
+                            query: workspaceRootUri.query,
+                            scheme: workspaceRootUri.scheme
+                        });
+                        this.fileService.exists(targetNotationUri).then(exists => {
+                            if (exists) {
+                                this.openerService.getOpener(targetNotationUri).then(opener => opener.open(targetNotationUri));
+                                return;
+                            }
+                            if (view.fileEnding === 'families') {
+                                const notationURI = URI.fromComponents({
+                                    authority: workspaceRootUri.authority,
+                                    scheme: workspaceRootUri.scheme,
+                                    fragment: workspaceRootUri.fragment,
+                                    path: workspaceRootUri.path.toString() + '/../../families.notation', // TODO make this customizable
+                                    query: workspaceRootUri.query
+                                });
                                 this.fileService
-                                    .createFile(targetNotationUri, contents.value)
-                                    .then(_ =>
-                                        this.openerService.getOpener(targetNotationUri).then(opener => opener.open(targetNotationUri))
-                                    );
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            });
-                    }
-                });
+                                    .readFile(notationURI)
+                                    .then(contents => {
+                                        this.fileService
+                                            .createFile(targetNotationUri, contents.value)
+                                            .then(_ =>
+                                                this.openerService
+                                                    .getOpener(targetNotationUri)
+                                                    .then(opener => opener.open(targetNotationUri))
+                                            );
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                    });
+                            }
+                        });
+                    });
+                }
+
                 // const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0;
                 // const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1);
                 // axios

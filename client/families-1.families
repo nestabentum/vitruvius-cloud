@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<families:FamilyRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="0">
+  <families id="1" lastName="Herbertus">
+    <sons id="5" firstName="Chris"/>
+    <daughters id="4" firstName="Daria"/>
+    <daughters id="6" firstName="Johanna"/>
+    <father id="2" firstName="Anton"/>
+    <mother id="3" firstName="Berta"/>
+  </families>
+</families:FamilyRegister>
