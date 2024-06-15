@@ -1,6 +1,6 @@
 import { injectable, inject } from '@theia/core/shared/inversify';
-import { Command, CommandContribution, CommandRegistry, ILogger, QuickInputService, QuickPickItem, URI } from '@theia/core/lib/common';
-import { ViewTypes, getView, getViewTypes } from '../api/api';
+import { Command, CommandContribution, CommandRegistry, ILogger, QuickInputService, QuickPickItem } from '@theia/core/lib/common';
+import { getView } from '../api/api';
 import { ViewSaver } from '../util/viewSaver';
 import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { WorkspaceService } from '@theia/workspace/lib/browser';
@@ -8,11 +8,7 @@ import { OpenerService } from '@theia/core/lib/browser';
 
 export const FetchViewTypesCommand: Command = {
     id: 'VitruviusCloud.FetchViewTypes',
-    label: 'Fetch View'
-};
-const counts: { [key: string]: number } = {
-    families: 0,
-    persons: 0
+    label: 'Vitruvius: Fetch View'
 };
 @injectable()
 export class VitruviusCloudCommandContribution implements CommandContribution {
@@ -31,15 +27,7 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand(FetchViewTypesCommand, {
             execute: async () => {
-                let items: ViewTypes = [];
-                await getViewTypes()
-                    .then(data => {
-                        items = data.data;
-                    })
-                    .catch(error => {
-                        this.logger.error(error);
-                    });
-
+                let items = ['families', 'persons'];
                 const quickPickItems: QuickPickItem[] = items.map(item => {
                     return { label: item };
                 });
@@ -47,51 +35,14 @@ export class VitruviusCloudCommandContribution implements CommandContribution {
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
                 viewTypePicker.onDidChangeSelection(async selection => {
                     const viewType = selection[0].label as 'families' | 'persons';
-                    if (counts[viewType] == 0) {
-                        await getView(viewType, this.logger).then(result => {
-                            this.viewSaver.saveView(result);
-                            viewTypePicker.hide();
-                        });
-                    } else {
-                        this.copy(viewType);
-                    }
-                    counts[viewType]++;
+                    await getView(viewType, this.logger).then(result => {
+                        this.viewSaver.saveView(result);
+                        viewTypePicker.hide();
+                    });
                 });
                 viewTypePicker.items = quickPickItems;
                 viewTypePicker.show();
             }
-        });
-    }
-
-    copy(type: 'families' | 'persons') {
-        const workspaceRootUri = this.workspaceService.getWorkspaceRootUri(undefined);
-        if (!workspaceRootUri) {
-            return;
-        }
-        const targetUri = URI.fromComponents({
-            path: workspaceRootUri.path.toString() + '/' + type + '.' + type,
-            authority: workspaceRootUri.authority,
-            fragment: workspaceRootUri.fragment,
-            query: workspaceRootUri.query,
-            scheme: workspaceRootUri.scheme
-        });
-
-        const notationURI = URI.fromComponents({
-            authority: workspaceRootUri.authority,
-            scheme: workspaceRootUri.scheme,
-            fragment: workspaceRootUri.fragment,
-            path: workspaceRootUri.path.toString() + '/../../' + type + '-' + counts[type] + '.' + type,
-            query: workspaceRootUri.query
-        });
-        this.fileService.readFile(notationURI).then(contents => {
-            this.fileService.createFile(targetUri, contents.value, { overwrite: true }).then(_ =>
-                this.openerService
-                    .getOpener(targetUri)
-                    .then(opener => opener.open(targetUri))
-                    .catch(error => {
-                        console.log(error);
-                    })
-            );
         });
     }
 }

@@ -52,7 +52,7 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
         @inject(NavigatableTreeEditorOptions) protected override readonly options: NavigatableTreeEditorOptions,
         @inject(TheiaModelServerClientV2) protected readonly modelServerClient: TheiaModelServerClientV2,
         @inject(ModelServerSubscriptionServiceV2) protected readonly subscriptionService: ModelServerSubscriptionServiceV2,
-        @inject(Utils) private readonly utils: Utils,
+        @inject(Utils) private readonly utils: Utils
     ) {
         super(treeWidget, formWidget, workspaceService, logger, FamiliesTreeEditorConstants.WIDGET_ID, options);
 
@@ -307,27 +307,10 @@ export class FamiliesTreeEditorWidget extends NavigatableTreeEditorWidget {
                 }
             }
         });
-        // FIXME special case remove ram
-        // if (id === '' && pathSegments[0] === 'ram' && ControlUnit.is(oldData) && oldData.ram) {
-        //     if (operation === 'remove') {
-        //         id = oldData.ram[0].$id;
-        //     } else {
-        //         id = oldData.$id;
-        //     }
-        // }
         return id;
     }
 
     protected getAddValue(value: any, feature: string): JsonPrimitiveType {
-        // if (feature === 'ram') {
-        //     return { $type: RAM.$type, id: UUID.uuid4() };
-        // } else if (feature === 'processor') {
-        //     return { $type: Processor.$type, id: UUID.uuid4(), ...value };
-        // } else if (feature === 'dimension') {
-        //     return { $type: Dimension.$type, id: UUID.uuid4(), ...value };
-        // } else if (feature === 'display') {
-        //     return { $type: Display.$type, id: UUID.uuid4(), ...value };
-        // }
         return value;
     }
 

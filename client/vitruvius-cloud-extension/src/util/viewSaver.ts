@@ -85,19 +85,6 @@ export class ViewSaver {
                         });
                     });
                 }
-
-                // const workspaceUriLength = this.workspaceService.getWorkspaceRootUri(finalURI)?.toString().length ?? 0;
-                // const uriEncodedFileName = finalURI.toString().substring(workspaceUriLength + 1);
-                // axios
-                //     .get('http://localhost:8081/api/v2/register-view', {
-                //         params: { modeluri: uriEncodedFileName, originalResourceURI: view.resourceURI, viewURI: view.id }
-                //     })
-                //     .then(data => {
-                //         console.log('registration-success', data);
-                //     })
-                //     .catch(error => {
-                //         console.log('registration-error', error);
-                //     });
             }
         }
     };
