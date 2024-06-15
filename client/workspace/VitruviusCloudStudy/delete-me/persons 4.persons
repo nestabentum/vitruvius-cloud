@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="ASCII"?>
-<persons:PersonRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:persons="edu.kit.ipd.sdq.metamodels.persons">
-  <persons xsi:type="persons:Male" id="123" fullName="Chris Herbertus"/>
-  <persons xsi:type="persons:Female" id="345" fullName="Berta Herbertus"/>
-  <persons xsi:type="persons:Male" id="132" fullName="Father Herbertus"/>
-</persons:PersonRegister>

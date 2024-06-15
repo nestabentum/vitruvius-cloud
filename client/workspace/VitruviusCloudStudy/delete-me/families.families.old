@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<families:FamilyRegister xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:families="edu.kit.ipd.sdq.metamodels.families" id="123">
-  <families lastName="Bentum">
-    <sons firstName="Nesta"/>
-    <daughters firstName="Naamah"/>
-    <daughters firstName="Sarafina"/>
-  </families>
-</families:FamilyRegister>
