@@ -16,8 +16,8 @@
 import { ILogger } from '@theia/core';
 import axios, { AxiosResponse } from 'axios';
 
-const vitruvServerUrl = 'http://localhost:8069/vsum/';
-const vitruvAdapterUrl = 'http://localhost:8070/vsum/';
+const vitruvServerUrl = 'https://vitruvius-adapter.vdl-ws.sdq.kastel.kit.edu:8069/vsum/';
+const vitruvAdapterUrl = 'https://vitruvius-adapter.vdl-ws.sdq.kastel.kit.edu/vsum/';
 
 export function getViewTypes(): Promise<AxiosResponse<ViewTypes>> {
     return axios.get<ViewTypes>(`${vitruvServerUrl}view/types`);

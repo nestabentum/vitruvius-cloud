@@ -31,7 +31,7 @@ export class FamiliesModelService implements TreeEditor.ModelService {
     }
     loadTypeSchema(): void {
         axios
-            .get('http://localhost:8081/api/v2/custom-typeschema')
+            .get('https://vitruvius-cloud-backend.vdl-ws.sdq.kastel.kit.edu/api/v2/custom-typeschema')
             .then(response => {
                 this.typeSchema = response.data.data;
             })
