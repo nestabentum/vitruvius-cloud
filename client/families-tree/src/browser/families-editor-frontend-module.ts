@@ -56,7 +56,6 @@ export default new ContainerModule((bind, _unbind, isBound, rebind) => {
     }
 
     // Bind Theia IDE contributions
-    console.log('registering families tree editor');
     bind(LabelProviderContribution).to(FamiliesLabelProviderContribution);
     bind(OpenHandler).to(FamiliesTreeEditorContribution);
     bind(MenuContribution).to(FamiliesTreeEditorContribution);

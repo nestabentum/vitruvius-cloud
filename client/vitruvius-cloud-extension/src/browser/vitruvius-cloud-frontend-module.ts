@@ -10,7 +10,6 @@ import { CommitViewCommandContribution, ProgressCount } from './commit-view-comm
 
 export default new ContainerModule(bind => {
     // add your contribution bindings here
-    console.log('registering vitruvius-cloud extension');
     bind(CommandContribution).to(VitruviusCloudCommandContribution);
     bind(CommandContribution).to(UpdateViewCommandContribution)
     bind(CommandContribution).to(CommitViewCommandContribution)

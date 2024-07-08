@@ -17,13 +17,11 @@ export class ProgressCount {
     viewProgressCount: { [key: string]: number };
 
     getProgress(viewType: 'families' | 'persons') {
-        console.log('FETCHING PROGRESS', this.viewProgressCount);
         return this.viewProgressCount[viewType];
     }
 
     increaseProgress(viewType: 'families' | 'persons') {    
         this.viewProgressCount[viewType]++;
-        console.log('INCREASED PROGRESS', this.viewProgressCount);
     
     }
 }
@@ -45,7 +43,6 @@ export class CommitViewCommandContribution implements CommandContribution {
                 viewTypePicker.onDidHide(() => viewTypePicker.dispose());
                 viewTypePicker.onDidChangeSelection(async selection => {
                     this.progress.increaseProgress(selection[0].label as 'families' | 'persons');
-                    console.log('INCREASED COUNT ', this.progress.getProgress(selection[0].label as 'families' | 'persons'));
                     viewTypePicker.hide();
                 });
                 viewTypePicker.items = quickPickItems;
