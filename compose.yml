@@ -1,7 +1,7 @@
 services:
   vitruvius-cloud:
-    # build: .
-    image: "nestabentum/vitruvius-cloud:latest"
+    build: .
+    # image: "nestabentum/vitruvius-cloud:study"
     ports:
       - "3000:3000"
       - "8000:8000"

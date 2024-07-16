@@ -32,6 +32,8 @@ export class CommitViewCommandContribution implements CommandContribution {
         @inject(ProgressCount) private readonly progress: ProgressCount
     ) {}
 
+// TODO change so that this calls adapter-url/save-me for the currently open modeluri
+
     registerCommands(registry: CommandRegistry): void {
         registry.registerCommand(CommitViewCommand, {
             execute: async () => {
